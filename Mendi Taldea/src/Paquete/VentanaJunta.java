@@ -13,4 +13,5 @@ public class VentanaJunta {
     private JTextField textField7;
     private JTextField textField8;
     private JButton button1;
+    private JTextField textField9;
 }
