@@ -6,7 +6,10 @@ import java.util.List;
 
 public class VentanaPrincipal {
 
-    List<Socio> socios = new ArrayList<>();
+    public static final List<Socio> socios = new ArrayList<>();
+
+    //
+    //hola
 
     private JPanel panel;
     private JLabel JLtitulo;

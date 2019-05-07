@@ -12,4 +12,6 @@ public class Cargo {
     //relaciones
     private final List<Socio> socios = new ArrayList<>();
 
+
+
 }

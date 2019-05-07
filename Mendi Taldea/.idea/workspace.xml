@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eedd1015-7d37-4f8a-b28e-99e5e732486a" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/src/Paquete/VentanaJunta.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/Paquete/VentanaJunta.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Paquete/VentanaJunta.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Paquete/VentanaJunta.java" afterDir="false" />
+>>>>>>> master
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -19,23 +24,63 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/Paquete/Socio.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="748">
               <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+=======
+        <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaPrincipal.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1260#1261#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Paquete/Cargo.java">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.java">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="322">
+              <caret line="27" column="45" lean-forward="true" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.form">
+          <provider selected="true" editor-type-id="ui-designer" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/Socio.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="404">
+              <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="51" />
+>>>>>>> master
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/Junta.java">
+          <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="204">
               <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
+=======
+            <state relative-caret-position="384">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+>>>>>>> master
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -44,19 +89,37 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+<<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/Paquete/Login.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="34">
               <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
+=======
+        <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaJunta.java">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaJunta.form">
+          <provider selected="true" editor-type-id="ui-designer" />
+>>>>>>> master
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Paquete/Cuota.java">
+        <entry file="file://$PROJECT_DIR$/src/Paquete/Cargo.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="34">
               <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+=======
+            <state relative-caret-position="336">
+              <caret line="14" selection-start-line="14" selection-end-line="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+>>>>>>> master
             </state>
           </provider>
         </entry>
@@ -104,11 +167,18 @@
       <list>
         <option value="$PROJECT_DIR$/src/Paquete/Actividad.java" />
         <option value="$PROJECT_DIR$/src/Paquete/Cuota.java" />
-        <option value="$PROJECT_DIR$/src/Paquete/Login.java" />
+        <option value="$PROJECT_DIR$/src/Paquete/VentanaSocio.java" />
+        <option value="$PROJECT_DIR$/src/Paquete/VentanaSocio.form" />
         <option value="$PROJECT_DIR$/src/Paquete/Socio.java" />
-        <option value="$PROJECT_DIR$/src/Paquete/Cargo.java" />
+        <option value="$PROJECT_DIR$/src/Paquete/Login.java" />
         <option value="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.java" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/src/Paquete/VentanaPrincipal.form" />
+=======
+        <option value="$PROJECT_DIR$/src/Paquete/Cargo.java" />
+        <option value="$PROJECT_DIR$/src/Paquete/Junta.java" />
+        <option value="$PROJECT_DIR$/src/Paquete/VentanaJunta.form" />
+>>>>>>> master
       </list>
     </option>
   </component>
@@ -141,6 +211,30 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Paquete" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< HEAD
+=======
+            <path>
+              <item name="Mendi Taldea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mendi Taldea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Paquete" type="462c0819:PsiDirectoryNode" />
+              <item name="VentanaJunta" type="e9f4de52:FormNode" />
+            </path>
+            <path>
+              <item name="Mendi Taldea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mendi Taldea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Paquete" type="462c0819:PsiDirectoryNode" />
+              <item name="VentanaPrincipal" type="e9f4de52:FormNode" />
+            </path>
+            <path>
+              <item name="Mendi Taldea" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Mendi Taldea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="Paquete" type="462c0819:PsiDirectoryNode" />
+              <item name="VentanaSocio" type="e9f4de52:FormNode" />
+            </path>
+>>>>>>> master
           </expand>
           <select />
         </subPane>
@@ -246,7 +340,7 @@
       <window_info anchor="right" id="Palette&#9;" order="7" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25302014" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1818792" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -259,8 +353,8 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.21529745" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.3286119" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -275,27 +369,40 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Paquete/Ventana_Principal.java" />
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.form">
       <provider selected="true" editor-type-id="ui-designer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Paquete/Socio.java">
+=======
+    <entry file="file://$PROJECT_DIR$/src/Paquete/Cuota.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1260#1261#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="48">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+>>>>>>> master
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/Actividad.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Paquete/Cargo.java">
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaSocio.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
+<<<<<<< HEAD
+        <state relative-caret-position="748">
+          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+=======
+        <state relative-caret-position="322">
+          <caret line="27" column="45" lean-forward="true" selection-start-line="27" selection-start-column="45" selection-end-line="27" selection-end-column="45" />
+>>>>>>> master
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -304,20 +411,62 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Paquete/Login.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+<<<<<<< HEAD
+        <state relative-caret-position="204">
+          <caret line="12" column="57" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
+=======
+        <state relative-caret-position="264">
+          <caret line="11" column="19" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Paquete/Cuota.java">
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaPrincipal.form">
+      <provider selected="true" editor-type-id="ui-designer" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaPrincipal.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="192">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+>>>>>>> master
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Paquete/Actividad.java">
+    <entry file="file://$PROJECT_DIR$/src/Paquete/Socio.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+=======
+        <state relative-caret-position="404">
+          <caret line="24" column="4" selection-start-line="24" selection-start-column="4" selection-end-line="24" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/Cargo.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="34">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+=======
+        <state relative-caret-position="336">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/Junta.java">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="34">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
@@ -334,6 +483,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaPrincipal.form">
+=======
+        <state relative-caret-position="384">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaJunta.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Paquete/VentanaJunta.form">
+>>>>>>> master
       <provider selected="true" editor-type-id="ui-designer" />
     </entry>
   </component>
