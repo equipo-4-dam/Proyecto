@@ -104,6 +104,28 @@ public class VentanaPrincipal extends JPanel{
     private JButton JBanyadirTipoCuota;
     private JPanel JPtipoCargos;
     private JPanel JPanyadirTipoCargo;
+    private JButton JBeliminarCargoPresidente;
+    private JButton JBeliminarCargoVicepresidente;
+    private JButton JBeliminarCargoSecretario;
+    private JButton JBeliminarCargoTesorero;
+    private JButton JBeliminarCargoVocal1;
+    private JButton JBeliminarCargoVocal2;
+    private JButton JBeliminarCargoVocal3;
+    private JButton JBeliminarCargoVocal4;
+    private JButton JBeliminarCargoVocal5;
+    private JLabel JLcargoPresidente;
+    private JLabel JLcargoVicepresidente;
+    private JLabel JLcargoSecretario;
+    private JLabel JLcargoTesorero;
+    private JLabel JLcargoVocal1;
+    private JLabel JLcargoVocal2;
+    private JLabel JLcargoVocal3;
+    private JLabel JLcargoVocal4;
+    private JLabel JLcargoVocal5;
+    private JLabel JLtituloNuevoCargo;
+    private JTextField JTnuevoCargo;
+    private JButton JBanyadirNuevoCargo;
+    private JLabel JLtituloCargo;
 
 
     static final List<Socio> socios = new ArrayList<>();
