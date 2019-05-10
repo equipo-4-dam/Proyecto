@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VentanaPrincipal extends JPanel{
+public class VentanaPrincipal extends JPanel {
     private JPanel panel;
     private JTabbedPane tabbedPane;
     private JTextField JTusuario;
@@ -153,10 +154,24 @@ public class VentanaPrincipal extends JPanel{
     private JPanel JPprecioGuardarActividad;
     private JComboBox JCBtipoActividad;
     private JLabel JLtipoActividad;
+    private JPanel JPsocios;
+
+    //Ventana Socios
+    private JTable JTsocios;
 
 
     static final List<Socio> socios = new ArrayList<>();
 
+    /**
+     * public void prueba() {
+     * <p>
+     * Object [] fila = new Object[2];
+     * <p>
+     * fila[0] =
+     * <p>
+     * JTsocios.add();
+     * }
+     **/
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("VentanaPrincipal");
@@ -165,6 +180,30 @@ public class VentanaPrincipal extends JPanel{
         frame.pack();
         frame.setVisible(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        //Llamada a la funcion para conectarse a la BD
+        Connection conectionBD = Conexion.Con();
+
+        if (conectionBD != null) {
+
+            try {
+                //Consulta simple
+                Statement statement = conectionBD.createStatement();
+                System.out.println("1");
+
+                ResultSet resultado = statement.executeQuery("SELECT * FROM CARGOS");
+
+                while (resultado.next()) {
+
+
+                    System.out.println("Buble");
+                    System.out.println(resultado.getString(1) + " " + resultado.getString(2));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
 
 
     }
