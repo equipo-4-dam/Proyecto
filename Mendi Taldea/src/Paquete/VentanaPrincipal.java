@@ -127,6 +127,24 @@ public class VentanaPrincipal extends JPanel{
     private JButton JBanyadirNuevoCargo;
     private JLabel JLtituloCargo;
 
+    //Ventana Tipo de Actividades
+    private JPanel JPtipoActividades;
+    private JPanel JPanyadirTipoActividad;
+    private JLabel JLsalidaMonte;
+    private JLabel JLalbergueFinde;
+    private JLabel JLreunion;
+    private JLabel JLcomida;
+    private JLabel JLotros;
+    private JButton JBeliminarSalidaMonte;
+    private JButton JBeliminarAlbergue;
+    private JButton JBeliminarReunion;
+    private JButton JBeliminarComida;
+    private JButton JBeliminarOtros;
+    private JTextField JTnuevaActividad;
+    private JButton JBanyadirNuevaActividad;
+    private JLabel JLtituloNuevaActividad;
+    private JLabel JLactividad;
+
 
     static final List<Socio> socios = new ArrayList<>();
 
