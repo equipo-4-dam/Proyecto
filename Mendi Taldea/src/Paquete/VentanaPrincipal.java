@@ -144,6 +144,15 @@ public class VentanaPrincipal extends JPanel{
     private JButton JBanyadirNuevaActividad;
     private JLabel JLtituloNuevaActividad;
     private JLabel JLactividad;
+    private JPanel JPactividades;
+    private JTable JTBactividades;
+    private JPanel JPbotonesActividades;
+    private JButton JBverActividad;
+    private JButton JBverActividad1;
+    private JPanel JPcrearActividad;
+    private JPanel JPprecioGuardarActividad;
+    private JComboBox JCBtipoActividad;
+    private JLabel JLtipoActividad;
 
 
     static final List<Socio> socios = new ArrayList<>();
