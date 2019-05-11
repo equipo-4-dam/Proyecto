@@ -147,7 +147,7 @@ public class VentanaPrincipal extends JPanel {
     DefaultTableModel modeloCargos;
 
 
-    static final List<Socio> socios = new ArrayList<>();
+   // static final List<Socio> socios = new ArrayList<>();
 
     ////////////////////////Cosas de la ventana CARGOS //////////////////////
     public VentanaPrincipal() {
