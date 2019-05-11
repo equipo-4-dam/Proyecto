@@ -1,12 +1,13 @@
 package Paquete;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class VentanaPrincipal extends JPanel {
     private JPanel panel;
@@ -105,24 +106,6 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBanyadirTipoCuota;
     private JPanel JPtipoCargos;
     private JPanel JPanyadirTipoCargo;
-    private JButton JBeliminarCargoPresidente;
-    private JButton JBeliminarCargoVicepresidente;
-    private JButton JBeliminarCargoSecretario;
-    private JButton JBeliminarCargoTesorero;
-    private JButton JBeliminarCargoVocal1;
-    private JButton JBeliminarCargoVocal2;
-    private JButton JBeliminarCargoVocal3;
-    private JButton JBeliminarCargoVocal4;
-    private JButton JBeliminarCargoVocal5;
-    private JLabel JLcargoPresidente;
-    private JLabel JLcargoVicepresidente;
-    private JLabel JLcargoSecretario;
-    private JLabel JLcargoTesorero;
-    private JLabel JLcargoVocal1;
-    private JLabel JLcargoVocal2;
-    private JLabel JLcargoVocal3;
-    private JLabel JLcargoVocal4;
-    private JLabel JLcargoVocal5;
     private JLabel JLtituloNuevoCargo;
     private JTextField JTnuevoCargo;
     private JButton JBanyadirNuevoCargo;
@@ -158,9 +141,36 @@ public class VentanaPrincipal extends JPanel {
 
     //Ventana Socios
     private JTable JTsocios;
+    private JTable JTcargos;
+
+    //modelos para las putas tablas
+    DefaultTableModel modeloCargos;
 
 
     static final List<Socio> socios = new ArrayList<>();
+
+    ////////////////////////Cosas de la ventana CARGOS //////////////////////
+    public VentanaPrincipal() {
+        JBanyadirNuevoCargo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean guardado = Sentencias.guardarCargo(new Cargo(JTnuevoCargo.getText()));
+
+                if (guardado) {
+
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
+                    List<Cargo> cargos = Sentencias.recogidaCargos();
+
+                    recargarTablaCargos(cargos, modeloCargos);
+                }
+            }
+        });
+    }
+    /////////////////////////////////////////////////////////////////
 
     /**
      * public void prueba() {
@@ -208,4 +218,41 @@ public class VentanaPrincipal extends JPanel {
 
     }
 
+    //para crear esto en el form hay que seleccionar custom create
+    private void createUIComponents() {
+
+        //Object[][] datos = new Object[][]{{"Santi","gonzalez"},{"irune","nose"}}; ejemplo
+
+        //Creamos la tabla
+        JTcargos = new JTable();
+
+        //accedemos al modelo original que es el que recibe los datos del arraylist
+        modeloCargos = (DefaultTableModel) JTcargos.getModel();
+
+        //muestra el titulo de la tabla
+        modeloCargos.setColumnIdentifiers(new Object[]{"Cargos"});
+
+
+        //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
+        List<Cargo> cargos = Sentencias.recogidaCargos();
+
+        //borra el contenido de la tabla le paso los cargos que queremos que pinte con el modelo
+        // (que es el contenido dela tabla)
+        recargarTablaCargos(cargos, modeloCargos);
+
+
+    }
+
+    private void recargarTablaCargos(List<Cargo> cargos, DefaultTableModel modelo) {
+
+        modelo.setRowCount(0);
+
+        //bucle para meter en la tabla lo que tiene la lista
+        for (Cargo cargo : cargos) {
+
+            //model.insertRow(model.getRowCount(),new Object[]{cargo.getIdCargo(),cargo.getTipo()});
+            modelo.insertRow(modelo.getRowCount(), new Object[]{cargo.getTipo()});
+
+        }
+    }
 }
