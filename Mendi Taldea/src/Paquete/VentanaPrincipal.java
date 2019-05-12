@@ -106,7 +106,6 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBanyadirTipoCuota;
     private JPanel JPtipoCargos;
     private JPanel JPanyadirTipoCargo;
-    private JLabel JLtituloNuevoCargo;
     private JTextField JTnuevoCargo;
     private JButton JBanyadirNuevoCargo;
     private JLabel JLtituloCargo;
@@ -149,39 +148,6 @@ public class VentanaPrincipal extends JPanel {
 
    // static final List<Socio> socios = new ArrayList<>();
 
-    ////////////////////////Cosas de la ventana CARGOS //////////////////////
-    public VentanaPrincipal() {
-        JBanyadirNuevoCargo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                boolean guardado = Sentencias.guardarCargo(new Cargo(JTnuevoCargo.getText()));
-
-                if (guardado) {
-
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
-
-                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
-                    List<Cargo> cargos = Sentencias.recogidaCargos();
-
-                    recargarTablaCargos(cargos, modeloCargos);
-                }
-            }
-        });
-    }
-    /////////////////////////////////////////////////////////////////
-
-    /**
-     * public void prueba() {
-     * <p>
-     * Object [] fila = new Object[2];
-     * <p>
-     * fila[0] =
-     * <p>
-     * JTsocios.add();
-     * }
-     **/
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("VentanaPrincipal");
@@ -191,34 +157,9 @@ public class VentanaPrincipal extends JPanel {
         frame.setVisible(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        //Llamada a la funcion para conectarse a la BD
-        Connection conectionBD = Conexion.Con();
-
-        if (conectionBD != null) {
-
-            try {
-                //Consulta simple
-                Statement statement = conectionBD.createStatement();
-                System.out.println("1");
-
-                ResultSet resultado = statement.executeQuery("SELECT * FROM CARGOS");
-
-                while (resultado.next()) {
-
-
-                    System.out.println("Buble");
-                    System.out.println(resultado.getString(1) + " " + resultado.getString(2));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-
     }
 
-    //para crear esto en el form hay que seleccionar custom create
+    //Tabla personalizada para crear esto en el form hay que seleccionar custom create
     private void createUIComponents() {
 
         //Object[][] datos = new Object[][]{{"Santi","gonzalez"},{"irune","nose"}}; ejemplo
@@ -243,6 +184,30 @@ public class VentanaPrincipal extends JPanel {
 
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////Cosas de la ventana CARGOS //////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    public VentanaPrincipal() {
+        JBanyadirNuevoCargo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean guardado = Sentencias.guardarCargo(new Cargo(JTnuevoCargo.getText()));
+
+                if (guardado) {
+
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
+                    List<Cargo> cargos = Sentencias.recogidaCargos();
+
+                    recargarTablaCargos(cargos, modeloCargos);
+                }
+            }
+        });
+    }
+
     private void recargarTablaCargos(List<Cargo> cargos, DefaultTableModel modelo) {
 
         modelo.setRowCount(0);
@@ -255,4 +220,8 @@ public class VentanaPrincipal extends JPanel {
 
         }
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
