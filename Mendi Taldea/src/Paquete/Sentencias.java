@@ -65,7 +65,7 @@ public class Sentencias {
         return cargos;
     }
 
-    /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+    /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
 
     public static List<TipoCuota> recogidaTipoCuotas() {
 
@@ -77,14 +77,15 @@ public class Sentencias {
 
             Statement statement = connectionBD.createStatement();
 
-            ResultSet resultado = statement.executeQuery("SELECT * FROM CUOTAS");
+            ResultSet resultado = statement.executeQuery("SELECT * FROM TIPO_CUOTAS");
 
             while (resultado.next()) {
 
                 TipoCuota tipoCuota = new TipoCuota(
                         resultado.getInt("ID_CUOTA"),
                         resultado.getInt("CANTIDAD"),
-                        resultado.getInt("EDAD_LIMITE")
+                        resultado.getInt("EDAD_LIMITE"),
+                        resultado.getString("NOMBRE")
                 );
 
                 tipoCuotas.add(tipoCuota);
@@ -102,10 +103,12 @@ public class Sentencias {
 
         try {
 
-            PreparedStatement st = conn.prepareStatement("INSERT INTO CUOTAS(CANTIDAD, EDAD_LIMITE) VALUES (?, ?");
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO TIPO_CUOTAS (CANTIDAD, EDAD_LIMITE, NOMBRE) VALUES (?, ?, ?)");
 
             st.setInt(1, tipoCuota.getCantidad());
             st.setInt(2, tipoCuota.getEdad_limite());
+            st.setString(3, tipoCuota.getNombre());
 
             int filas = st.executeUpdate();
             System.out.println("Filas afectadas: " + filas);
@@ -116,6 +119,8 @@ public class Sentencias {
             return false;
         }
     }
+
+    /////////////////////////////VENTANA TIPO_ACTIVIDAD/////////////////////////////
 
     public static boolean guardarTipoActividad(TipoActividad tipo) {
 

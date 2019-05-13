@@ -106,6 +106,7 @@ public class VentanaPrincipal extends JPanel {
     private JTable JTcargos;
     private JTable JTtipoActividad;
     private JSpinner spinner1;
+    private JPanel JPinsertarTipoCuotas;
     private JPanel JPcambiosCuotas;
 
     //Ventana Cuotas
@@ -119,13 +120,13 @@ public class VentanaPrincipal extends JPanel {
     //Ventana TipoCuotas
     private JPanel JPcambiosTipoCuotas;
     private JPanel JPtablaTipoCuotas;
+    private JScrollPane JSPtablaTipoCuotas;
     private JTable JTtipoCuotas;
-    private JScrollPane JSPtipoCuotas;
-    private JTextField JTanyadirTipoCuota;
+    private JLabel JLtituloTipoCuotas;
+    private JTextField JTanyadirNombreTipoCuota;
     private JButton JBanyadirTipoCuota;
-    private JLabel JLtipoCuota;
-    private JComboBox JCBanyadirEdad;
-    private JTextField JTanyadirCantidad;
+    private JTextField JTanyadirCantidadTipoCuota;
+    private JComboBox JCBanyadirEdadTipoCuota;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
@@ -172,7 +173,7 @@ public class VentanaPrincipal extends JPanel {
         recargarTablaCargos(cargos, modeloCargos);
 
 
-        /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
 
         JTtipoCuotas = new JTable();
 
@@ -201,7 +202,8 @@ public class VentanaPrincipal extends JPanel {
 
     ///////////////////////////VENTANA CARGOS/////////////////////////////
     ////////////////////////////////////////////
-    //BOTONES DE AÑADIR
+
+    //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
     public VentanaPrincipal() {
 
         ////////////////////////////////Boton de la ventana CARGOS //////////////////////////////////////////////////////
@@ -224,22 +226,25 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
         JBanyadirTipoCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 boolean guardado = Sentencias.guardarTipoCuota(
-                        new TipoCuota(Integer.parseInt(JTanyadirCantidad.getText()),
-                                JCBanyadirEdad.getSelectedIndex(),
-                                JTanyadirTipoCuota.getText()));
+                        new TipoCuota(Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
+                                JCBanyadirEdadTipoCuota.getSelectedIndex(),
+                                JTanyadirNombreTipoCuota.getText()));
 
-                JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                        "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                if (guardado) {
 
-                List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
-                recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
+                    List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
+
+                    recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
+                }
             }
 
         });
@@ -285,14 +290,14 @@ public class VentanaPrincipal extends JPanel {
         }
     }
 
-    private void recargarTablaTipoCuotas(List<TipoCuota> tipoCuotas, DefaultTableModel modeloTipoCuotas) {
+    private void recargarTablaTipoCuotas(List<TipoCuota> tipoCuotas, DefaultTableModel modelo) {
 
-        modeloCargos.setRowCount(0);
+        modelo.setRowCount(0);
 
         for (TipoCuota tipoCuota : tipoCuotas) {
-            modeloCargos.insertRow(
-                    modeloCargos.getRowCount(),
-                    new Object[]{tipoCuota.getCantidad(), tipoCuota.getEdad_limite()});
+            modelo.insertRow(
+                    modelo.getRowCount(),
+                    new Object[]{tipoCuota.getCantidad(), tipoCuota.getEdad_limite(), tipoCuota.getNombre()});
         }
     }
 

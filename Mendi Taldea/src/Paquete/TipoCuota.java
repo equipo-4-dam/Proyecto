@@ -8,10 +8,11 @@ public class TipoCuota {
     private int edad_limite;
     private String nombre;
 
-    public TipoCuota(int id_cuota, int cantidad, int edad_limite) {
+    public TipoCuota(int id_cuota, int cantidad, int edad_limite, String nombre) {
         this.id_cuota = id_cuota;
         this.cantidad = cantidad;
         this.edad_limite = edad_limite;
+        this.nombre = nombre;
     }
 
     public TipoCuota(int cantidad, int edad_limite, String nombre) {
@@ -30,5 +31,9 @@ public class TipoCuota {
 
     public int getEdad_limite() {
         return edad_limite;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 }
