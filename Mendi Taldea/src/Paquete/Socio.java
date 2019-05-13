@@ -19,9 +19,9 @@ public class Socio {
     private String fechaBaja;
 
     //relaciones
-    private final List<Actividad> actividades = new ArrayList<>();
+    //private final List<Actividad> actividades = new ArrayList<>();
     private final List<Cuota> cuotas = new ArrayList<>();
-    private Login login;
+    //private Login login;
     private List<Cargo> cargos = new ArrayList<>();
 
 
@@ -36,7 +36,7 @@ public class Socio {
         this.perfil = perfil;
         this.fechaAlta = fechaAlta;
 
-        this.login = new Login(nombre,this);
+        //this.login = new Login(nombre,this);
 
     }
 
