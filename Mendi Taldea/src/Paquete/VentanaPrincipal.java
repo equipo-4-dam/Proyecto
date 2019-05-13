@@ -4,8 +4,6 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,29 +18,6 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPcargos;
     private JButton button1;
     private JPanel JPinferior;
-
-    //Ventana Tipo de Cuotas
-    private JPanel JPtipoCuotas;
-    private JLabel JLcuotaInfantil;
-    private JLabel JLcuotaJuvenil;
-    private JLabel JLcuotaAdulto;
-    private JLabel JLcuotaSenior;
-    private JButton JBeliminarCuotaInfantil;
-    private JButton JBeditarCuotaInfantil;
-    private JButton JBeliminarCuotaJuvenil;
-    private JButton JBeditarCuotaJuvenil;
-    private JButton JBeliminarCuotaAdulto;
-    private JButton JBeditarCuotaAdulto;
-    private JButton JBeliminarCuotaSenior;
-    private JButton JBeditarCuotaSenior;
-    private JPanel JPanyadirTipoCuota;
-    private JLabel JLtituloNuevaCuota;
-    private JTextField JTnuevoTipoCuota;
-    private JSpinner JSPtipoCuotaEdad;
-    private JSpinner JSPtipoCuotaEdad1;
-    private JLabel JLtextoTipoCuota;
-    private JLabel JLtextoTipoCuota1;
-    private JLabel JLtextoTipoCuota2;
 
     //Ventana Junta
     private JLabel JLpresidente;
@@ -103,7 +78,6 @@ public class VentanaPrincipal extends JPanel {
     //Ventana Cargos
     private JLabel JLtituloCargos;
     private JLabel JLtituloFechaAlta;
-    private JButton JBanyadirTipoCuota;
     private JPanel JPtipoCargos;
     private JPanel JPanyadirTipoCargo;
     private JTextField JTnuevoCargo;
@@ -113,16 +87,6 @@ public class VentanaPrincipal extends JPanel {
     //Ventana Tipo de Actividades
     private JPanel JPtipoActividades;
     private JPanel JPanyadirTipoActividad;
-    private JLabel JLsalidaMonte;
-    private JLabel JLalbergueFinde;
-    private JLabel JLreunion;
-    private JLabel JLcomida;
-    private JLabel JLotros;
-    private JButton JBeliminarSalidaMonte;
-    private JButton JBeliminarAlbergue;
-    private JButton JBeliminarReunion;
-    private JButton JBeliminarComida;
-    private JButton JBeliminarOtros;
     private JTextField JTnuevaActividad;
     private JButton JBanyadirNuevaActividad;
     private JLabel JLtituloNuevaActividad;
@@ -141,12 +105,33 @@ public class VentanaPrincipal extends JPanel {
     //Ventana Socios
     private JTable JTsocios;
     private JTable JTcargos;
+    private JPanel JPcambiosCuotas;
+
+    //Ventana Cuotas
+    private JPanel JPtablaCuotas;
+    private JTable JTcuotas;
+    private JTextField JTanyadirCuotas;
+    private JButton JBanyadirCuotas;
+    private JScrollPane JSPtablaCuotas;
+    private JLabel JLanyadirCuota;
+
+    //Ventana TipoCuotas
+    private JPanel JPcambiosTipoCuotas;
+    private JPanel JPtablaTipoCuotas;
+    private JTable JTtipoCuotas;
+    private JScrollPane JSPtipoCuotas;
+    private JTextField JTanyadirTipoCuota;
+    private JButton JBanyadirTipoCuota;
+    private JLabel JLtipoCuota;
+    private JComboBox JCBanyadirEdad;
+    private JTextField JTanyadirCantidad;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
+    DefaultTableModel modeloTipoCuotas;
 
 
-   // static final List<Socio> socios = new ArrayList<>();
+    // static final List<Socio> socios = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -182,11 +167,23 @@ public class VentanaPrincipal extends JPanel {
         recargarTablaCargos(cargos, modeloCargos);
 
 
+        /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+
+        JTtipoCuotas = new JTable();
+
+        modeloTipoCuotas = (DefaultTableModel) JTtipoCuotas.getModel();
+
+        modeloTipoCuotas.setColumnIdentifiers(new Object[]{"Tipo de cuotas"});
+
+        List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
+
+        recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
+
+
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////Cosas de la ventana CARGOS //////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    ///////////////////////////VENTANA CARGOS/////////////////////////////
     public VentanaPrincipal() {
         JBanyadirNuevoCargo.addActionListener(new ActionListener() {
             @Override
@@ -206,7 +203,30 @@ public class VentanaPrincipal extends JPanel {
                 }
             }
         });
+
+        /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+        JBanyadirTipoCuota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                boolean guardado = Sentencias.guardarTipoCuota(
+                        new TipoCuota(Integer.parseInt(JTanyadirCantidad.getText()),
+                                JCBanyadirEdad.getSelectedIndex(),
+                                JTanyadirTipoCuota.getText()));
+
+                JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                        "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
+
+                recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
+            }
+
+        });
     }
+
+    ///////////////////////////////////FUNCIONES PARA RECARGAR LAS TABLAS////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void recargarTablaCargos(List<Cargo> cargos, DefaultTableModel modelo) {
 
@@ -218,6 +238,17 @@ public class VentanaPrincipal extends JPanel {
             //model.insertRow(model.getRowCount(),new Object[]{cargo.getIdCargo(),cargo.getTipo()});
             modelo.insertRow(modelo.getRowCount(), new Object[]{cargo.getTipo()});
 
+        }
+    }
+
+    private void recargarTablaTipoCuotas(List<TipoCuota> tipoCuotas, DefaultTableModel modeloTipoCuotas) {
+
+        modeloCargos.setRowCount(0);
+
+        for (TipoCuota tipoCuota : tipoCuotas) {
+            modeloCargos.insertRow(
+                    modeloCargos.getRowCount(),
+                    new Object[]{tipoCuota.getCantidad(), tipoCuota.getEdad_limite()});
         }
     }
 

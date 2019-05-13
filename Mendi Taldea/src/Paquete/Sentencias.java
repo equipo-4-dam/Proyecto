@@ -6,6 +6,8 @@ import java.util.List;
 
 public class Sentencias {
 
+    /////////////////////////////VENTANA CARGO/////////////////////////////
+
     public static boolean guardarCargo(Cargo cargo) {
 
         //me conecto a la base de datos para obeter los datos para el modelo
@@ -27,8 +29,6 @@ public class Sentencias {
             System.out.println("ERROR: " + e.getMessage());
             return false;
         }
-
-
     }
 
     public static List<Cargo> recogidaCargos() {
@@ -45,7 +45,6 @@ public class Sentencias {
 
             ResultSet resultado = statement.executeQuery("SELECT * FROM CARGOS");
 
-
             //Bucle para guardar en la lista el resultado para la tabla
             while (resultado.next()) {
 
@@ -59,7 +58,6 @@ public class Sentencias {
 
             }
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -67,4 +65,57 @@ public class Sentencias {
         return cargos;
     }
 
+    /////////////////////////////VENTANA TIPOCUOTA/////////////////////////////
+
+    public static List<TipoCuota> recogidaTipoCuotas() {
+
+        Connection connectionBD = Conexion.Con();
+
+        List<TipoCuota> tipoCuotas = new ArrayList<>();
+
+        try {
+
+            Statement statement = connectionBD.createStatement();
+
+            ResultSet resultado = statement.executeQuery("SELECT * FROM CUOTAS");
+
+            while (resultado.next()) {
+
+                TipoCuota tipoCuota = new TipoCuota(
+                        resultado.getInt("ID_CUOTA"),
+                        resultado.getInt("CANTIDAD"),
+                        resultado.getInt("EDAD_LIMITE")
+                );
+
+                tipoCuotas.add(tipoCuota);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tipoCuotas;
+    }
+
+    public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
+
+        Connection conn = Conexion.Con();
+
+        try {
+
+            PreparedStatement st = conn.prepareStatement("INSERT INTO CUOTAS(CANTIDAD, EDAD_LIMITE) VALUES (?, ?");
+
+            st.setInt(1, tipoCuota.getCantidad());
+            st.setInt(2, tipoCuota.getEdad_limite());
+
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
 }
+
