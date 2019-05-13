@@ -179,7 +179,7 @@ public class VentanaPrincipal extends JPanel {
 
         modeloTipoCuotas = (DefaultTableModel) JTtipoCuotas.getModel();
 
-        modeloTipoCuotas.setColumnIdentifiers(new Object[]{"Tipo de cuotas"});
+        modeloTipoCuotas.setColumnIdentifiers(new Object[]{"Cantidad", "Edad", "Tipo de cuotas"});
 
         List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
 
@@ -293,6 +293,7 @@ public class VentanaPrincipal extends JPanel {
     private void recargarTablaTipoCuotas(List<TipoCuota> tipoCuotas, DefaultTableModel modelo) {
 
         modelo.setRowCount(0);
+        modelo.setColumnCount(3);
 
         for (TipoCuota tipoCuota : tipoCuotas) {
             modelo.insertRow(

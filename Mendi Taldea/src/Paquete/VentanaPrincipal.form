@@ -206,7 +206,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="2bb36" class="javax.swing.JTable" binding="JTtipoCuotas">
+                      <component id="2bb36" class="javax.swing.JTable" binding="JTtipoCuotas" custom-create="true">
                         <constraints/>
                         <properties/>
                       </component>

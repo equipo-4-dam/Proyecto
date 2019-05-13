@@ -55,7 +55,6 @@ public class Sentencias {
 
                 //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
                 cargos.add(cargo);
-
             }
 
         } catch (SQLException e) {
