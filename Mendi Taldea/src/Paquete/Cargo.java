@@ -21,7 +21,7 @@ public class Cargo {
         this.tipo = tipo;
     }
 
-    public String getTipo() {
+    String getTipo() {
         return tipo;
     }
 

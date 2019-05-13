@@ -113,19 +113,8 @@ public class VentanaPrincipal extends JPanel {
     //Ventana Tipo de Actividades
     private JPanel JPtipoActividades;
     private JPanel JPanyadirTipoActividad;
-    private JLabel JLsalidaMonte;
-    private JLabel JLalbergueFinde;
-    private JLabel JLreunion;
-    private JLabel JLcomida;
-    private JLabel JLotros;
-    private JButton JBeliminarSalidaMonte;
-    private JButton JBeliminarAlbergue;
-    private JButton JBeliminarReunion;
-    private JButton JBeliminarComida;
-    private JButton JBeliminarOtros;
     private JTextField JTnuevaActividad;
     private JButton JBanyadirNuevaActividad;
-    private JLabel JLtituloNuevaActividad;
     private JLabel JLactividad;
     private JPanel JPactividades;
     private JTable JTBactividades;
@@ -141,12 +130,15 @@ public class VentanaPrincipal extends JPanel {
     //Ventana Socios
     private JTable JTsocios;
     private JTable JTcargos;
+    private JTable JTtipoActividad;
+    private JSpinner spinner1;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
+    DefaultTableModel modeloTipoActividad;
 
 
-   // static final List<Socio> socios = new ArrayList<>();
+    // static final List<Socio> socios = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -159,11 +151,14 @@ public class VentanaPrincipal extends JPanel {
 
     }
 
+    ///////////////////////////////////////////////////////
     //Tabla personalizada para crear esto en el form hay que seleccionar custom create
     private void createUIComponents() {
 
         //Object[][] datos = new Object[][]{{"Santi","gonzalez"},{"irune","nose"}}; ejemplo
 
+
+        /////////////////////////////////////////// Ventana Tipo Cargos /////////////////////////////////////////////
         //Creamos la tabla
         JTcargos = new JTable();
 
@@ -182,12 +177,24 @@ public class VentanaPrincipal extends JPanel {
         recargarTablaCargos(cargos, modeloCargos);
 
 
+        //////////////////////////////////////////// Ventana Tipo Actividad /////////////////////////////////////////
+        JTtipoActividad = new JTable();
+
+        modeloTipoActividad = (DefaultTableModel) JTtipoActividad.getModel();
+
+        modeloTipoActividad.setColumnIdentifiers(new Object[]{"Actividades Disponibles"});
+
+        List<TipoActividad> tipoActividades = Sentencias.recogidaTipoActividad();
+
+        recargarTablaTipoActividad(tipoActividades, modeloTipoActividad);
+
     }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////Cosas de la ventana CARGOS //////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////
+    //BOTONES DE AÑADIR
     public VentanaPrincipal() {
+
+        ////////////////////////////////Boton de la ventana CARGOS //////////////////////////////////////////////////////
         JBanyadirNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,8 +213,32 @@ public class VentanaPrincipal extends JPanel {
                 }
             }
         });
+
+        //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
+        JBanyadirNuevaActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTnuevaActividad.getText()));
+
+                if (guardado) {
+
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
+                    List<TipoActividad> tActividades = Sentencias.recogidaTipoActividad();
+
+                    recargarTablaTipoActividad(tActividades, modeloTipoActividad);
+                }
+
+            }
+        });
     }
 
+    //////////////////////////////////////////////////////////
+    //FUNCIONES DE RECARGAR LAS VISUALIZACIONES DE LAS TABLAS
     private void recargarTablaCargos(List<Cargo> cargos, DefaultTableModel modelo) {
 
         modelo.setRowCount(0);
@@ -221,7 +252,18 @@ public class VentanaPrincipal extends JPanel {
         }
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void recargarTablaTipoActividad(List<TipoActividad> tipoActividades, DefaultTableModel modelo) {
+
+        modelo.setRowCount(0);
+
+        //bucle para meter en la tabla lo que tiene la lista
+        for (TipoActividad tipoA : tipoActividades) {
+
+            //model.insertRow(model.getRowCount(),new Object[]{cargo.getIdCargo(),cargo.getTipo()});
+            modelo.insertRow(modelo.getRowCount(), new Object[]{tipoA.getTipo()});
+
+        }
+    }
+
 
 }
