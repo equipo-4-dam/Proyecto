@@ -32,11 +32,6 @@ public class VentanaPrincipal extends JPanel {
     private JTextField JTnuevaActividad;
     private JButton JBanyadirNuevaActividad;
     private JLabel JLactividad;
-    private JPanel JPactividades;
-    private JTable JTBactividades;
-    private JPanel JPbotonesActividades;
-    private JButton JBverActividad;
-    private JButton JBverActividad1;
 
     private JTable JTcargos;
     private JTable JTtipoActividad;
@@ -103,6 +98,8 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPinferiorMiembroJunta;
     private JPanel JPinferiorCalendario;
     private JPanel JPinferiorActividades;
+    private JButton JBproponerFechaAdmin;
+    private JPanel JPsoloAdminProponerFecha;
 
     //Ventana Junta
     private JPanel JPbuscarDatosTablaJunta;
@@ -123,8 +120,26 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBeliminarDatosCargoJunta;
     private JButton JBguardarDatosCargoJunta;
     private JPanel JPbotonesDatosCargoJunta;
-    private JButton JBproponerFechaAdmin;
-    private JPanel JPsoloAdminProponerFecha;
+
+
+    private JPanel JPorganizarActividad;
+    private JPanel JPactividadesDisponibles;
+    private JPanel JPbotonesActividadesDisponibles;
+    private JTable table1;
+    private JTextArea JTAdescripcionCrearActividad;
+    private JComboBox JCBcrearTipoActividad;
+    private JComboBox JCBfechaCrearActividad;
+    private JComboBox JCBdificultadCrearActividad;
+    private JTextField JTprecioCrearActividad;
+    private JLabel JLtituloCrearTipoActividad;
+    private JLabel JLtituloFechaCrearActividad;
+    private JLabel JLtituloDificultadCrearActividad;
+    private JLabel JLtituloPrecioCrearActividad;
+    private JButton JBguardarCrearActividad;
+    private JButton JBapuntarseActividad;
+    private JButton JBcancelarActividadCreada;
+    private JPanel JPbotonCancelarActividad;
+    private JPanel JPapuntarseActividad;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
