@@ -18,68 +18,8 @@ public class VentanaPrincipal extends JPanel {
     private JButton actualizarButton;
     private JLabel JLusuario;
     private JLabel JLpass;
-    private JPanel JPcargos;
     private JPanel JPinferior;
 
-    //Ventana Junta
-    private JLabel JLpresidente;
-    private JLabel JLvicepresidente;
-    private JLabel JLsecretario;
-    private JLabel JLtesorero;
-    private JLabel JLvocal1;
-    private JLabel JLvocal2;
-    private JLabel JLvocal3;
-    private JLabel JLvocal4;
-    private JLabel JLvocal5;
-    private JButton JBeditarPresidente;
-    private JButton JBeditarVicepresidente;
-    private JButton JBeditarSecretario;
-    private JButton JBeditarTesorero;
-    private JButton JBeditarVocal1;
-    private JButton JBeditarVocal2;
-    private JButton JBeditarVocal3;
-    private JButton JBeditarVocal4;
-    private JButton JBeditarVocal5;
-    private JButton JbeliminarPresidente;
-    private JButton JBeliminarVicepresidente;
-    private JButton JBeliminarSecretario;
-    private JButton JBeliminarTesorero;
-    private JButton JBeliminarVocal1;
-    private JButton JBeliminarVocal2;
-    private JButton JBeliminarVocal3;
-    private JButton JBeliminarVocal4;
-    private JButton JBeliminarVocal5;
-    private JButton JBguardarPresidente;
-    private JButton JBguardarVicepresidente;
-    private JButton JBguardarSecretario;
-    private JButton JBguardarTesorero;
-    private JButton JBguardarVocal1;
-    private JButton JBguardarVocal2;
-    private JButton JBguardarVocal3;
-    private JButton JBguardarVocal4;
-    private JButton JBguardarVocal5;
-    private JTextField JTpresidente;
-    private JTextField JTvicepresidente;
-    private JTextField JTsecretario;
-    private JTextField JTtesorero;
-    private JTextField JTvocal1;
-    private JTextField JTvocal2;
-    private JTextField JTvocal3;
-    private JTextField JTvocal4;
-    private JTextField JTvocal5;
-    private JTextField JTfechaAltaPresidente;
-    private JTextField JTfechaAltaVicepresidente;
-    private JTextField JTfechaAltaSecretario;
-    private JTextField JTfechaAltaTesorero;
-    private JTextField JTfechaAltaVocal1;
-    private JTextField JTfechaAltaVocal2;
-    private JTextField JTfechaAltaVocal3;
-    private JTextField JTfechaAltaVocal4;
-    private JTextField JTfechaAltaVocal5;
-
-    //Ventana Cargos
-    private JLabel JLtituloCargos;
-    private JLabel JLtituloFechaAlta;
     private JPanel JPtipoCargos;
     private JPanel JPanyadirTipoCargo;
     private JTextField JTnuevoCargo;
@@ -97,14 +37,9 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPbotonesActividades;
     private JButton JBverActividad;
     private JButton JBverActividad1;
-    private JPanel JPcrearActividad;
-    private JPanel JPprecioGuardarActividad;
-    private JComboBox JCBtipoActividad;
-    private JLabel JLtipoActividad;
 
     private JTable JTcargos;
     private JTable JTtipoActividad;
-    private JSpinner spinner1;
     private JPanel JPinsertarTipoCuotas;
     private JPanel JPcambiosCuotas;
 
@@ -158,6 +93,8 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBeditarDatosSocio;
     private JButton JBeliminarDatosSocio;
     private JButton JBguardarDatosSocio;
+
+   //Panel Inferior
     private CalendarPanel JCpanelInferiorCalendario;
     private JTable JTpanelInferiorActividades;
     private JScrollPane JSPpanelInferiorActividades;
@@ -166,6 +103,28 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPinferiorMiembroJunta;
     private JPanel JPinferiorCalendario;
     private JPanel JPinferiorActividades;
+
+    //Ventana Junta
+    private JPanel JPbuscarDatosTablaJunta;
+    private JPanel JPdatosJunta;
+    private JPanel JPmostrarCargosJunta;
+    private JTable JTmostrarCargosJunta;
+    private JScrollPane JSPmostrarCargosJunta;
+    private JTable JTmostrarDatosJunta;
+    private JScrollPane JSPbuscarDatosTablaJunta;
+    private JComboBox JCBseleccionarCargoJunta;
+    private DatePicker DPfechaAltaCargoJunta;
+    private DatePicker DPfechaBajaCargoJunta;
+    private JLabel JLtituloElegirCargoJunta;
+    private JLabel JLtituloFechaAltaCargoJunta;
+    private JLabel JLtituloFechaBajaCargoJunta;
+    private JButton JBlimpiarDatosCargoJunta;
+    private JButton JbactualizarDatosCargoJunta;
+    private JButton JBeliminarDatosCargoJunta;
+    private JButton JBguardarDatosCargoJunta;
+    private JPanel JPbotonesDatosCargoJunta;
+    private JButton JBproponerFechaAdmin;
+    private JPanel JPsoloAdminProponerFecha;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
