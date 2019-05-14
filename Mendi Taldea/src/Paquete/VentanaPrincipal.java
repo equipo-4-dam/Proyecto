@@ -1,5 +1,8 @@
 package Paquete;
 
+import com.github.lgooddatepicker.components.CalendarPanel;
+import com.github.lgooddatepicker.components.DatePicker;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -16,7 +19,6 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLusuario;
     private JLabel JLpass;
     private JPanel JPcargos;
-    private JButton button1;
     private JPanel JPinferior;
 
     //Ventana Junta
@@ -99,10 +101,7 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPprecioGuardarActividad;
     private JComboBox JCBtipoActividad;
     private JLabel JLtipoActividad;
-    private JPanel JPsocios;
 
-    //Ventana Socios
-    private JTable JTsocios;
     private JTable JTcargos;
     private JTable JTtipoActividad;
     private JSpinner spinner1;
@@ -127,6 +126,46 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBanyadirTipoCuota;
     private JTextField JTanyadirCantidadTipoCuota;
     private JComboBox JCBanyadirEdadTipoCuota;
+    private JLabel JLtituloCantidadTipoCuota;
+    private JLabel JLtituloTipoCuota;
+
+
+    //Ventana Socios
+    private JPanel JPvisualizarSocios;
+    private JPanel JPtablaSocios;
+    private JTable JTsocios;
+    private JScrollPane JSPtablaSocios;
+    private JPanel JPnombreApellidosSocios;
+    private JPanel JPotrosDatosSocios;
+    private JPanel JPbotonCambiosSocios;
+    private JTextField JTnombreSocio;
+    private JTextField JTapellidoSocio;
+    private JLabel JLtituloNombreSocios;
+    private JLabel JLtituloApellidoSocios;
+    private JTextField JTdniSocios;
+    private JLabel JLtituloDniSocios;
+    private JLabel JTtituloFechaNacimientoSocios;
+    private JTextField JTdniSocio;
+    private JLabel JLtituloTelefonoSocio;
+    private JTextField JTemailSocio;
+    private JLabel JLtituloEmailSocio;
+    private JButton JBlimpiarDatosSocio;
+    private DatePicker DPfechaNacimientoSocio;
+    private JLabel JLtituloFechaAltaSocio;
+    private JLabel JLtituloFechaBajaSocio;
+    private DatePicker DPfechaAltaSocio;
+    private DatePicker DTfechaBajaSocio;
+    private JButton JBeditarDatosSocio;
+    private JButton JBeliminarDatosSocio;
+    private JButton JBguardarDatosSocio;
+    private CalendarPanel JCpanelInferiorCalendario;
+    private JTable JTpanelInferiorActividades;
+    private JScrollPane JSPpanelInferiorActividades;
+    private JTable JTpanelInferiorMiembrosJunta;
+    private JScrollPane JSPpanelInferiorMiembrosJunta;
+    private JPanel JPinferiorMiembroJunta;
+    private JPanel JPinferiorCalendario;
+    private JPanel JPinferiorActividades;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
