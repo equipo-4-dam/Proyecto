@@ -909,7 +909,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="7d104" class="javax.swing.JTable" binding="JTsocios">
+                      <component id="7d104" class="javax.swing.JTable" binding="JTsocios" custom-create="true">
                         <constraints/>
                         <properties/>
                       </component>
