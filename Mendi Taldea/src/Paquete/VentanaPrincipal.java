@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -146,8 +147,8 @@ public class VentanaPrincipal extends JPanel {
     DefaultTableModel modeloTipoCuotas;
     DefaultTableModel modeloTipoActividad;
 
-
-    // static final List<Socio> socios = new ArrayList<>();
+    //Listas
+    public static List<Socio> socios = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -209,6 +210,12 @@ public class VentanaPrincipal extends JPanel {
         List<TipoActividad> tipoActividades = Sentencias.recogidaTipoActividad();
 
         recargarTablaTipoActividad(tipoActividades, modeloTipoActividad);
+
+
+        JTsocios = new JTable();
+
+        JTsocios.setModel(new SocioModel());
+
 
     }
 
@@ -280,6 +287,14 @@ public class VentanaPrincipal extends JPanel {
 
                     recargarTablaTipoActividad(tActividades, modeloTipoActividad);
                 }
+
+            }
+        });
+
+        //////////////////////////Boton de la ventana Socios ///////////////////////////////////////////////
+        JBguardarDatosSocio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
             }
         });

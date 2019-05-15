@@ -1,6 +1,7 @@
 package Paquete;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -173,13 +174,15 @@ public class Sentencias {
 
             }
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return actividades;
     }
+
+    /////////////////////////////VENTANA Socios/////////////////////////////
+
 
 
 }
