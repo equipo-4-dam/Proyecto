@@ -24,14 +24,12 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPanyadirTipoCargo;
     private JTextField JTnuevoCargo;
     private JButton JBanyadirNuevoCargo;
-    private JLabel JLtituloCargo;
 
     //Ventana Tipo de Actividades
     private JPanel JPtipoActividades;
     private JPanel JPanyadirTipoActividad;
     private JTextField JTnuevaActividad;
     private JButton JBanyadirNuevaActividad;
-    private JLabel JLactividad;
 
     private JTable JTcargos;
     private JTable JTtipoActividad;
@@ -53,11 +51,14 @@ public class VentanaPrincipal extends JPanel {
     private JTable JTtipoCuotas;
     private JLabel JLtituloTipoCuotas;
     private JTextField JTanyadirNombreTipoCuota;
-    private JButton JBanyadirTipoCuota;
+    private JButton JBlimpiarDatosTipoCuota;
     private JTextField JTanyadirCantidadTipoCuota;
     private JComboBox JCBanyadirEdadTipoCuota;
     private JLabel JLtituloCantidadTipoCuota;
     private JLabel JLtituloTipoCuota;
+    private JButton JBeditarDatosTipoCuota;
+    private JButton JBeliminarDatosTipoCuota;
+    private JButton JBguardarDatosTipoCuota;
 
 
     //Ventana Socios
@@ -121,7 +122,7 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBguardarDatosCargoJunta;
     private JPanel JPbotonesDatosCargoJunta;
 
-
+    //Ventana Actividades
     private JPanel JPorganizarActividad;
     private JPanel JPactividadesDisponibles;
     private JPanel JPbotonesActividadesDisponibles;
@@ -135,11 +136,50 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaCrearActividad;
     private JLabel JLtituloDificultadCrearActividad;
     private JLabel JLtituloPrecioCrearActividad;
-    private JButton JBguardarCrearActividad;
     private JButton JBapuntarseActividad;
     private JButton JBcancelarActividadCreada;
     private JPanel JPbotonCancelarActividad;
     private JPanel JPapuntarseActividad;
+
+    //Ventana Cuotas
+    private JPanel JPbotonesEstadoCuotas;
+    private JPanel JPestadoCuotas;
+    private JTable JTestadoCuotas;
+    private JScrollPane JSPestadoCuotas;
+    private JButton JBlimpiarDatosCuota;
+    private JButton JBeditarDatosCuota;
+    private JButton JBeliminarDatosCuota;
+    private JButton JBguardarDatosCuota;
+    private JTextField JTnombreCuota;
+    private JTextField JTapellidoCuota;
+    private JTextField JTtipoCuotaCuotas;
+    private JLabel JLtituloNombreCuota;
+    private JLabel JLtituloApellidoCuota;
+    private JLabel JLtituloTipoCuotaCuotas;
+    private JCheckBox JCBpagadoCuota;
+    private JLabel JLtituloPagadoCuotas;
+
+    //Ventana Cargos
+    private JButton JBlimpiarCargo;
+    private JButton JBeditarCargo;
+    private JButton JBeliminarCargo;
+    private JButton JBguardarNuevoCargo;
+    private JTextField JTanyadirTipoCargo;
+    private JLabel JLtituloCargo;
+
+
+    private JButton JBlimpiarDatosOrganizarActividad;
+    private JButton JBeditarDatosOrganizarActividad;
+    private JButton JBeliminarDatosOrganiarActividad;
+    private JButton JBguardarDatosOrganizarActividad;
+    private JButton JBlimpiarTipoActividad;
+    private JButton JBeditarTipoActividad;
+    private JButton JBeliminarTipoActividad;
+    private JButton JBguardarTipoActividad;
+    private JPanel JPanyadirTipoActividad1;
+    private JPanel JPbotonesTipoActividad;
+    private JTextField JTanyadirTipoActividad;
+    private JLabel JLtituloAnyadirTipoActividad;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
@@ -217,10 +257,11 @@ public class VentanaPrincipal extends JPanel {
     ////////////////////////////////////////////
 
     //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
+
     public VentanaPrincipal() {
 
         ////////////////////////////////Boton de la ventana CARGOS //////////////////////////////////////////////////////
-        JBanyadirNuevoCargo.addActionListener(new ActionListener() {
+        JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -240,7 +281,7 @@ public class VentanaPrincipal extends JPanel {
         });
 
         /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-        JBanyadirTipoCuota.addActionListener(new ActionListener() {
+        JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -263,7 +304,7 @@ public class VentanaPrincipal extends JPanel {
         });
 
         //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
-        JBanyadirNuevaActividad.addActionListener(new ActionListener() {
+        JBguardarTipoActividad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
