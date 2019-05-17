@@ -1,8 +1,5 @@
 package Paquete;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cargo {
 
     //atributos
@@ -10,7 +7,7 @@ public class Cargo {
     private String tipo;
 
     //relaciones
-    //private final List<Socio> socios = new ArrayList<>();
+
 
     public Cargo(int idCargo, String tipo) {
         this.idCargo = idCargo;

@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +56,7 @@ public class VentanaPrincipal extends JPanel {
     private JTextField JTanyadirNombreTipoCuota;
     private JButton JBlimpiarDatosTipoCuota;
     private JTextField JTanyadirCantidadTipoCuota;
-    private JComboBox JCBanyadirEdadTipoCuota;
+    private JComboBox JSPEdadTipoCuota;
     private JLabel JLtituloCantidadTipoCuota;
     private JLabel JLtituloTipoCuota;
     private JButton JBeditarDatosTipoCuota;
@@ -77,7 +79,7 @@ public class VentanaPrincipal extends JPanel {
     private JTextField JTdniSocios;
     private JLabel JLtituloDniSocios;
     private JLabel JTtituloFechaNacimientoSocios;
-    private JTextField JTdniSocio;
+    private JTextField JTtelefonoSocio;
     private JLabel JLtituloTelefonoSocio;
     private JTextField JTemailSocio;
     private JLabel JLtituloEmailSocio;
@@ -86,12 +88,12 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaAltaSocio;
     private JLabel JLtituloFechaBajaSocio;
     private DatePicker DPfechaAltaSocio;
-    private DatePicker DTfechaBajaSocio;
+    private DatePicker DPfechaBajaSocio;
     private JButton JBeditarDatosSocio;
     private JButton JBeliminarDatosSocio;
     private JButton JBguardarDatosSocio;
 
-   //Panel Inferior
+    //Panel Inferior
     private CalendarPanel JCpanelInferiorCalendario;
     private JTable JTpanelInferiorActividades;
     private JScrollPane JSPpanelInferiorActividades;
@@ -151,12 +153,6 @@ public class VentanaPrincipal extends JPanel {
     private JButton JBeditarDatosCuota;
     private JButton JBeliminarDatosCuota;
     private JButton JBguardarDatosCuota;
-    private JTextField JTnombreCuota;
-    private JTextField JTapellidoCuota;
-    private JTextField JTtipoCuotaCuotas;
-    private JLabel JLtituloNombreCuota;
-    private JLabel JLtituloApellidoCuota;
-    private JLabel JLtituloTipoCuotaCuotas;
     private JCheckBox JCBpagadoCuota;
     private JLabel JLtituloPagadoCuotas;
 
@@ -181,6 +177,9 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPbotonesTipoActividad;
     private JTextField JTanyadirTipoActividad;
     private JLabel JLtituloAnyadirTipoActividad;
+    private JSpinner spinner1;
+    private JLabel JLtituloFechaPagoCuota;
+    private DatePicker JDPfechaPagadoCuota;
 
     //modelos para las putas tablas
     DefaultTableModel modeloCargos;
@@ -189,6 +188,10 @@ public class VentanaPrincipal extends JPanel {
 
     //Listas
     public static List<Socio> socios = new ArrayList<>();
+    public static List<Cargo> cargos = new ArrayList<>();
+    public static List<Cuota> cuotas = new ArrayList<>();
+    public static List<TipoActividad> tipoActividades = new ArrayList<>();
+    public static List<TipoCuota> tipoCuotas = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -201,114 +204,88 @@ public class VentanaPrincipal extends JPanel {
 
     }
 
-    ///////////////////////////////////////////////////////
+    /////////////////////////////////////CUSTOM CREATE/////////////////////////////////////////////////
+
     //Tabla personalizada para crear esto en el form hay que seleccionar custom create
     private void createUIComponents() {
 
-        //Object[][] datos = new Object[][]{{"Santi","gonzalez"},{"irune","nose"}}; ejemplo
+        //Se modela un spinner para marcar la edad mínima al insertar un nuevo Tipo de Cuota
+        SpinnerModel sm = new SpinnerNumberModel(4, 4, 60, 1);
+        spinner1 = new JSpinner(sm);
 
+        /*
+        Define una tabla, y para ella el modelo personalizado para cada pestaña
+         */
 
-        /////////////////////////////////////////// Ventana Tipo Cargos /////////////////////////////////////////////
-        //Creamos la tabla
-        JTcargos = new JTable();
-
-        //accedemos al modelo original que es el que recibe los datos del arraylist
-        modeloCargos = (DefaultTableModel) JTcargos.getModel();
-
-        //muestra el titulo de la tabla
-        modeloCargos.setColumnIdentifiers(new Object[]{"Cargos"});
-
-
-        //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
-        List<Cargo> cargos = Sentencias.recogidaCargos();
-
-        //borra el contenido de la tabla le paso los cargos que queremos que pinte con el modelo
-        // (que es el contenido dela tabla)
-        recargarTablaCargos(cargos, modeloCargos);
-
-
-        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-
-        JTtipoCuotas = new JTable();
-
-        modeloTipoCuotas = (DefaultTableModel) JTtipoCuotas.getModel();
-
-        modeloTipoCuotas.setColumnIdentifiers(new Object[]{"Cantidad", "Edad", "Tipo de cuotas"});
-
-        List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
-
-        recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
-
-
-        //////////////////////////////////////////// Ventana Tipo Actividad /////////////////////////////////////////
-        JTtipoActividad = new JTable();
-
-        modeloTipoActividad = (DefaultTableModel) JTtipoActividad.getModel();
-
-        modeloTipoActividad.setColumnIdentifiers(new Object[]{"Actividades Disponibles"});
-
-        List<TipoActividad> tipoActividades = Sentencias.recogidaTipoActividad();
-
-        recargarTablaTipoActividad(tipoActividades, modeloTipoActividad);
-
-
+        //////VENTANA SOCIO///////
         JTsocios = new JTable();
+        JTsocios.setModel((new SocioModel()));
 
-        JTsocios.setModel(new SocioModel());
+        //////VENTANA TIPO_ACTIVIDAD///////
+        JTtipoActividad = new JTable();
+        JTtipoActividad.setModel(new TipoActividadModel());
 
+        ///////VENTANA TIPO_CUOTA///////
+        JTtipoCuotas = new JTable();
+        JTtipoCuotas.setModel(new TipoCuotaModel());
+
+        ///////VENTANA CARGO///////
+        JTcargos = new JTable();
+        JTcargos.setModel(new CargoModel());
+
+        ///////VENTANA CUOTA///////
+        JTcuotas = new JTable();
+        JTcuotas.setModel(new CuotaModel());
 
     }
 
-
-    ///////////////////////////VENTANA CARGOS/////////////////////////////
-    ////////////////////////////////////////////
-
     //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
-//
+
     public VentanaPrincipal() {
 
-        ////////////////////////////////Boton de la ventana CARGOS //////////////////////////////////////////////////////
+                            //////////////////VENTANA CARGO////////////////////////
         JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                boolean guardado = Sentencias.guardarCargo(new Cargo(JTnuevoCargo.getText()));
+                boolean guardado = Sentencias.guardarCargo(new Cargo(JTanyadirTipoCargo.getText()));
 
                 if (guardado) {
 
                     JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
                             "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
-                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
-                    List<Cargo> cargos = Sentencias.recogidaCargos();
-
-                    recargarTablaCargos(cargos, modeloCargos);
+                    JTcargos.setModel(new CargoModel());
                 }
             }
         });
 
-        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-        JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
+                /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
+        /*JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //mirar------> al al cambiar el constructor con fecha_nac
                 boolean guardado = Sentencias.guardarTipoCuota(
                         new TipoCuota(Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
-                                JCBanyadirEdadTipoCuota.getSelectedIndex(),
+                                Integer.parseInt(spinner1.getValue().toString()),
                                 JTanyadirNombreTipoCuota.getText()));
+
+                //todo:poner try/catch para el parseInt y no poder meter letras
 
                 if (guardado) {
 
                     JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
                             "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
-                    List<TipoCuota> tipoCuotas = Sentencias.recogidaTipoCuotas();
-
-                    recargarTablaTipoCuotas(tipoCuotas, modeloTipoCuotas);
+                    JTtipoCuotas.setModel(new TipoCuotaModel());
                 }
             }
 
         });
+
+         */
+
 
         //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
         JBguardarTipoActividad.addActionListener(new ActionListener() {
@@ -316,19 +293,14 @@ public class VentanaPrincipal extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
 
-                boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTnuevaActividad.getText()));
+                boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
 
                 if (guardado) {
-
                     JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
                             "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
-                    //obtenemos la lista de cargos de la base de datos gracias a la funcion recogida Cargos
-                    List<TipoActividad> tActividades = Sentencias.recogidaTipoActividad();
-
-                    recargarTablaTipoActividad(tActividades, modeloTipoActividad);
+                    JTtipoActividad.setModel(new TipoActividadModel());
                 }
-
             }
         });
 
@@ -337,54 +309,73 @@ public class VentanaPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+                int resp = 2;
+                //todo: es necesario poner un if para comprobar los datos de los TX y no de problemas com null
+                boolean guardado = Sentencias.guardarSocio(new Socio(
+                        JTnombreSocio.getText(),
+                        JTapellidoSocio.getText(),
+                        DPfechaNacimientoSocio.getDate(),
+                        JTdniSocios.getText(),
+                        Integer.parseInt(JTtelefonoSocio.getText()),
+                        JTemailSocio.getText(),
+                        resp,
+                        DPfechaAltaSocio.getDate(),
+                        DPfechaBajaSocio.getDate()
+
+                        //todo:enviarle new cuota al constructor de socio y de rebote en constructor de cuotas
+                        //todo:tiene que crear un objeto de tipo tipo_cuota
+
+
+                        //new Cuota(socios.size(),this)
+                ));
+
+                if (guardado) {
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    JTsocios.setModel(new SocioModel());
+
+                }
             }
         });
+
+        JBguardarDatosCuota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+               // boolean guardado = Sentencias.guardarCuota(new Cuota
+                        //)
+
+
+
+            }
+        });
+
+        /*
+        JCBpagadoCuota.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if(JCBpagadoCuota.isSelected()){
+                    JDPfechaPagadoCuota.isEnabled();
+
+                } else {
+
+                }
+
+            }
+        });
+        */
+
+
+
     }
-
-    ///////////////////////////////////FUNCIONES PARA RECARGAR LAS TABLAS////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////
-    //FUNCIONES DE RECARGAR LAS VISUALIZACIONES DE LAS TABLAS
-    private void recargarTablaCargos(List<Cargo> cargos, DefaultTableModel modelo) {
-
-        modelo.setRowCount(0);
-
-        //bucle para meter en la tabla lo que tiene la lista
-        for (Cargo cargo : cargos) {
-
-            //model.insertRow(model.getRowCount(),new Object[]{cargo.getIdCargo(),cargo.getTipo()});
-            modelo.insertRow(modelo.getRowCount(), new Object[]{cargo.getTipo()});
-
-        }
-    }
-
-    private void recargarTablaTipoCuotas(List<TipoCuota> tipoCuotas, DefaultTableModel modelo) {
-
-        modelo.setRowCount(0);
-        modelo.setColumnCount(3);
-
-        for (TipoCuota tipoCuota : tipoCuotas) {
-            modelo.insertRow(
-                    modelo.getRowCount(),
-                    new Object[]{tipoCuota.getCantidad(), tipoCuota.getEdad_limite(), tipoCuota.getNombre()});
-        }
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private void recargarTablaTipoActividad(List<TipoActividad> tipoActividades, DefaultTableModel modelo) {
-
-        modelo.setRowCount(0);
-
-        //bucle para meter en la tabla lo que tiene la lista
-        for (TipoActividad tipoA : tipoActividades) {
-
-            //model.insertRow(model.getRowCount(),new Object[]{cargo.getIdCargo(),cargo.getTipo()});
-            modelo.insertRow(modelo.getRowCount(), new Object[]{tipoA.getTipo()});
-
-        }
-    }
-
-
 }
+
+
+
+
+
+

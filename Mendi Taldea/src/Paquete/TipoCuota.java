@@ -1,5 +1,9 @@
 package Paquete;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TipoCuota {
 
     //Atributos
@@ -8,6 +12,12 @@ public class TipoCuota {
     private int edad_limite;
     private String nombre;
 
+    //Relaciones
+   // private static final List<Cuota> cuotas = new ArrayList<>();
+    private List<Socio> socios = new ArrayList<>();
+
+
+    //Constructores
     public TipoCuota(int id_cuota, int cantidad, int edad_limite, String nombre) {
         this.id_cuota = id_cuota;
         this.cantidad = cantidad;
@@ -15,11 +25,13 @@ public class TipoCuota {
         this.nombre = nombre;
     }
 
-    public TipoCuota(int cantidad, int edad_limite, String nombre) {
+    public TipoCuota(int cantidad, int edad_limite, String nombre, LocalDate fecha_nac) {
         this.cantidad = cantidad;
         this.edad_limite = edad_limite;
         this.nombre = nombre;
     }
+
+
 
     public int getId_cuota() {
         return id_cuota;
@@ -35,5 +47,9 @@ public class TipoCuota {
 
     public String getNombre() {
         return nombre;
+    }
+
+    public List<Socio> getSocios() {
+        return socios;
     }
 }

@@ -1,8 +1,13 @@
 package Paquete;
 
 import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Socio {
+
+    //todo:el responsable no es tipo entero, sino un objeto de tipo Socio
 
     //atributos
     private int id_socio;
@@ -17,8 +22,13 @@ public class Socio {
     private LocalDate fechaAlta;
     private LocalDate fechaBaja;
 
+    //Relaciones
+    private TipoCuota tipoCuota;
+    private List<Cuota> cuotas = new ArrayList<>();
+
     //constructores
-    public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email, int responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja) {
+    public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
+                 int responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja) {
         this.id_socio = id_socio;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -32,8 +42,8 @@ public class Socio {
         this.fechaBaja = fechaBaja;
     }
 
-    public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email, int responsable, String perfil, LocalDate fechaAlta) {
-        this.id_socio = id_socio;
+    public Socio(String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
+                 int responsable, LocalDate fechaAlta, LocalDate fechaBaja) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fecha = fecha;
@@ -41,8 +51,31 @@ public class Socio {
         this.telefono = telefono;
         this.email = email;
         this.responsable = responsable;
-        this.perfil = perfil;
         this.fechaAlta = fechaAlta;
+        this.fechaBaja = fechaBaja;
+
+        tipoCuota = obtenerCuota(Period.between(fecha, LocalDate.now()).getYears());
+        System.out.println("A pagar" + this.tipoCuota.getCantidad());
+
+        tipoCuota.getSocios().add(this);
+
+        cuotas.add(new Cuota(this));
+    }
+
+
+    public TipoCuota obtenerCuota(int edad) {
+
+        System.out.println(edad);
+        int controlEdad = -1;
+
+        for (int i = 0; i < VentanaPrincipal.tipoCuotas.size() && controlEdad == -1; i++) {
+            if (VentanaPrincipal.tipoCuotas.get(i).getEdad_limite() > edad) {
+                controlEdad = i;
+            }
+        }
+
+        return controlEdad == -1? null: VentanaPrincipal.tipoCuotas.get(controlEdad);
+
     }
 
     //Getters y Setters
@@ -132,5 +165,13 @@ public class Socio {
 
     public void setFechaBaja(LocalDate fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    public TipoCuota getTipoCuota() {
+        return tipoCuota;
+    }
+
+    public List<Cuota> getCuotas() {
+        return cuotas;
     }
 }

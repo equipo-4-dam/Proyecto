@@ -2,6 +2,7 @@ package Paquete;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Sentencias {
     public static boolean guardarCargo(Cargo cargo) {
 
         //me conecto a la base de datos para obeter los datos para el modelo
-        Connection conn = Conexion.Con();
+        Connection conn = Conexion.conecta();
 
         try {
 
@@ -31,11 +32,11 @@ public class Sentencias {
             return false;
         }
     }
-
+/*
     public static List<Cargo> recogidaCargos() {
 
         //me conecto a la base de datos para obeter los datos para el modelo
-        Connection conectionBD = Conexion.Con();
+        Connection conectionBD = Conexion.conecta();
 
         //creo un arraylist para pasar los datos del resulset al arraylist
         List<Cargo> cargos = new ArrayList<>();
@@ -64,42 +65,14 @@ public class Sentencias {
 
         return cargos;
     }
+    */
 
-    /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
 
-    public static List<TipoCuota> recogidaTipoCuotas() {
 
-        Connection connectionBD = Conexion.Con();
-
-        List<TipoCuota> tipoCuotas = new ArrayList<>();
-
-        try {
-
-            Statement statement = connectionBD.createStatement();
-
-            ResultSet resultado = statement.executeQuery("SELECT * FROM TIPO_CUOTAS");
-
-            while (resultado.next()) {
-
-                TipoCuota tipoCuota = new TipoCuota(
-                        resultado.getInt("ID_CUOTA"),
-                        resultado.getInt("CANTIDAD"),
-                        resultado.getInt("EDAD_LIMITE"),
-                        resultado.getString("NOMBRE")
-                );
-
-                tipoCuotas.add(tipoCuota);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return tipoCuotas;
-    }
 
     public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
 
-        Connection conn = Conexion.Con();
+        Connection conn = Conexion.conecta();
 
         try {
 
@@ -124,7 +97,7 @@ public class Sentencias {
 
     public static boolean guardarTipoActividad(TipoActividad tipo) {
 
-        Connection conn = Conexion.Con();
+        Connection conn = Conexion.conecta();
 
         try {
 
@@ -146,44 +119,92 @@ public class Sentencias {
 
     }
 
-    public static List<TipoActividad> recogidaTipoActividad() {
+    /////////////////////////////VENTANA Socios/////////////////////////////
+    public static boolean guardarSocio(Socio socio) {
 
-        //me conecto a la base de datos para obeter los datos para el modelo
-        Connection conectionBD = Conexion.Con();
+        //todo: poner comrpobacion de edad y asignar un responsable. Poner en otro panel boton de eliminar al usuario
 
-        //creo un arraylist para pasar los datos del resulset al arraylist
-        List<TipoActividad> actividades = new ArrayList<>();
+        Connection conn = Conexion.conecta();
 
         try {
-            //Consulta simple
-            Statement statement = conectionBD.createStatement();
 
-            ResultSet resultado = statement.executeQuery("SELECT * FROM TIPO_ACTIVIDADES");
+            PreparedStatement st = conn.prepareStatement("INSERT INTO SOCIOS(NOMBRE, APELLIDOS, FECHA_NAC, DNI, " +
+                    "TELEFONO, EMAIL, RESPONSABLE, FECHA_ALTA, FECHA_BAJA) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            //prepara la insert
+            st.setString(1, socio.getNombre());
+            st.setString(2, socio.getApellidos());
+            st.setObject(3,socio.getFecha());
+            st.setString(4, socio.getDni());
+            st.setInt(5, socio.getTelefono());
+            st.setString(6, socio.getEmail());
+            st.setInt(7, socio.getResponsable());
+            st.setObject(8, socio.getFechaAlta());
+            st.setObject(9, socio.getFechaBaja());
 
 
-            //Bucle para guardar en la lista el resultado para la tabla
-            while (resultado.next()) {
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
 
-                TipoActividad actividad = new TipoActividad(
-                        resultado.getInt("ID_TIPO"),
-                        resultado.getString("TIPO")
-                );
+            PreparedStatement st1 = conn.prepareStatement("INSERT INTO CUOTAS(ID_SOCIO, ID_CUOTA," +
+                    "FECHA_PAGO, FECHA_VENCIMIENTO, PAGADO) VALUES(?, ?, ?, ?, ?)");
 
-                //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
-                actividades.add(actividad);
+            //TODO: hacer una funcion para obtener la ultima id del socio que se ha insertado
+            st1.setInt(1, 1);
+            st1.setInt(2, 22);
+            st1.setObject(3, LocalDate.parse("1980-01-10"));
+            st1.setObject(4, LocalDate.parse("1980-02-15"));
+            st1.setInt(5, 0);
 
-            }
+            filas = st1.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+            return true;
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
         }
-
-        return actividades;
     }
 
-    /////////////////////////////VENTANA Socios/////////////////////////////
+
+    //TODO:update
+    public static boolean guardarCuota(Cuota cuota) {
+
+        //todo: poner comrpobacion de edad y asignar un responsable. Poner en otro panel boton de eliminar al usuario
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            PreparedStatement st = conn.prepareStatement("INSERT INTO CUOTAS(ID_SOCIO, ID_CUOTA, FECHA_PAGO, PAGADO) " +
+            "VALUES (?, ?, ?, ?)");
+
+            //prepara la insert
+            //todo: cuando el socio se carga de la tabla tenemos el id, pero cuando le das a guardar no hay id
+            st.setInt(1, cuota.getId_socio());
+            st.setInt(2,cuota.getId_cuota());
+            st.setObject(3,cuota.getFecha_pago());
+            st.setInt(4, cuota.isPagado());
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
+
 
 
 
 }
+
+
 
