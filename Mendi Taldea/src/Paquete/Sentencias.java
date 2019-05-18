@@ -68,8 +68,6 @@ public class Sentencias {
     */
 
 
-
-
     public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
 
         Connection conn = Conexion.conecta();
@@ -128,37 +126,37 @@ public class Sentencias {
 
         try {
 
-            PreparedStatement st = conn.prepareStatement("INSERT INTO SOCIOS(NOMBRE, APELLIDOS, FECHA_NAC, DNI, " +
-                    "TELEFONO, EMAIL, RESPONSABLE, FECHA_ALTA, FECHA_BAJA) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            String sql = "INSERT INTO SOCIOS(NOMBRE, APELLIDOS, FECHA_NAC, DNI, " +
+                    "TELEFONO, EMAIL, FECHA_ALTA, FECHA_BAJA";
+
+            if (socio.getResponsable() != null)
+                sql += ", RESPONSABLE) ";
+            else
+                sql += ")";
+
+            if (socio.getResponsable() != null)
+                sql += "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            else
+                sql += "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+            PreparedStatement st = conn.prepareStatement(sql);
 
             //prepara la insert
             st.setString(1, socio.getNombre());
             st.setString(2, socio.getApellidos());
-            st.setObject(3,socio.getFecha());
+            st.setObject(3, socio.getFecha());
             st.setString(4, socio.getDni());
             st.setInt(5, socio.getTelefono());
             st.setString(6, socio.getEmail());
-            st.setInt(7, socio.getResponsable());
-            st.setObject(8, socio.getFechaAlta());
-            st.setObject(9, socio.getFechaBaja());
+            st.setObject(7, socio.getFechaAlta());
+            st.setObject(8, socio.getFechaBaja());
 
+            if (socio.getResponsable() != null)
+                st.setInt(9, socio.getResponsable().getId_socio());
 
             //aqui se inserta la fila
             int filas = st.executeUpdate();
-            System.out.println("Filas afectadas: " + filas);
-
-            PreparedStatement st1 = conn.prepareStatement("INSERT INTO CUOTAS(ID_SOCIO, ID_CUOTA," +
-                    "FECHA_PAGO, FECHA_VENCIMIENTO, PAGADO) VALUES(?, ?, ?, ?, ?)");
-
-            //TODO: hacer una funcion para obtener la ultima id del socio que se ha insertado
-            st1.setInt(1, 1);
-            st1.setInt(2, 22);
-            st1.setObject(3, LocalDate.parse("1980-01-10"));
-            st1.setObject(4, LocalDate.parse("1980-02-15"));
-            st1.setInt(5, 0);
-
-            filas = st1.executeUpdate();
             System.out.println("Filas afectadas: " + filas);
 
             return true;
@@ -170,8 +168,9 @@ public class Sentencias {
     }
 
 
+    //////////////////////////////////////MARCAR CUOTA COMO PAGADA////////////////////////////////////////
     //TODO:update
-    public static boolean guardarCuota(Cuota cuota) {
+    public static boolean guardarCuota(Socio socio) {
 
         //todo: poner comrpobacion de edad y asignar un responsable. Poner en otro panel boton de eliminar al usuario
 
@@ -180,14 +179,14 @@ public class Sentencias {
         try {
 
             PreparedStatement st = conn.prepareStatement("INSERT INTO CUOTAS(ID_SOCIO, ID_CUOTA, FECHA_PAGO, PAGADO) " +
-            "VALUES (?, ?, ?, ?)");
+                    "VALUES (?, ?, ?, ?)");
 
             //prepara la insert
             //todo: cuando el socio se carga de la tabla tenemos el id, pero cuando le das a guardar no hay id
-            st.setInt(1, cuota.getId_socio());
+            /*st.setInt(1, cuota.getId_socio());
             st.setInt(2,cuota.getId_cuota());
             st.setObject(3,cuota.getFecha_pago());
-            st.setInt(4, cuota.isPagado());
+            st.setInt(4, cuota.isPagado());*/
 
             //aqui se inserta la fila
             int filas = st.executeUpdate();
@@ -199,9 +198,6 @@ public class Sentencias {
             return false;
         }
     }
-
-
-
 
 
 }

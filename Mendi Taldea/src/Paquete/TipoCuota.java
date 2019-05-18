@@ -25,7 +25,7 @@ public class TipoCuota {
         this.nombre = nombre;
     }
 
-    public TipoCuota(int cantidad, int edad_limite, String nombre, LocalDate fecha_nac) {
+    public TipoCuota(int cantidad, int edad_limite, String nombre) {
         this.cantidad = cantidad;
         this.edad_limite = edad_limite;
         this.nombre = nombre;

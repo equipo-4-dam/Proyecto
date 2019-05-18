@@ -13,13 +13,13 @@ public class CuotaModel extends AbstractTableModel {
             "Estado cuota"};
 
 
-    public CuotaModel(){
-        VentanaPrincipal.cuotas = CuotaDB.recogidaCuotas();
+    public CuotaModel() {
+
     }
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.cuotas.size();
+        return VentanaPrincipal.socios.size();
     }
 
     @Override
@@ -42,9 +42,9 @@ public class CuotaModel extends AbstractTableModel {
             case 3:
                 return s.getTipoCuota().getCantidad();
             case 4:
-                return s.getCuotas().get(s.getCuotas().size() - 1).getFecha_pago();
+                return s.getFechaPago();
             case 5:
-                return s.getCuotas().get(s.getCuotas().size() - 1).isPagado() == 0 ? "NO PAGADO" : "PAGADO";
+                return s.isPagado() ? "PAGADO" : "NO PAGADO";
         }
 
         return null;
