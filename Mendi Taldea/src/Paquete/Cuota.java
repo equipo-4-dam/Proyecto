@@ -38,6 +38,14 @@ public class Cuota {
         this.id_cuota = 1;
     }
 
+    public Cuota(int id_socio, int id_cuota, LocalDate fecha_pago, LocalDate fecha_vencimiento, int pagado) {
+        this.id_socio = id_socio;
+        this.id_cuota = id_cuota;
+        this.fecha_pago = fecha_pago;
+        this.fecha_vencimiento = fecha_vencimiento;
+        this.pagado = pagado;
+    }
+
     //Getters & Setters
     public int getId_socio() {
         return id_socio;

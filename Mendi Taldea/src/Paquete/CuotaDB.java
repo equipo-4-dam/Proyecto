@@ -32,7 +32,9 @@ public class CuotaDB {
                         resultado.getInt("ID_SOCIO"),
                         resultado.getInt("ID_CUOTA"),
                         LocalDate.parse(resultado.getString("FECHA_PAGO").substring(0,10)),
+                        //LocalDate.parse(resultado.getString("FECHA_VENCIMIENTO").substring(0,10)),
                         resultado.getInt("PAGADO")
+
                 );
 
                 //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla

@@ -214,7 +214,7 @@ public class VentanaPrincipal extends JPanel {
         spinner1 = new JSpinner(sm);
 
         /*
-        Define una tabla, y para ella el modelo personalizado para cada pestaña
+        Define una tabla, y para ella el modelo personalizado para cada tabla
          */
 
         //////VENTANA SOCIO///////
@@ -234,8 +234,8 @@ public class VentanaPrincipal extends JPanel {
         JTcargos.setModel(new CargoModel());
 
         ///////VENTANA CUOTA///////
-        JTcuotas = new JTable();
-        JTcuotas.setModel(new CuotaModel());
+        JTestadoCuotas = new JTable();
+        JTestadoCuotas.setModel(new CuotaModel());
 
     }
 
@@ -243,7 +243,7 @@ public class VentanaPrincipal extends JPanel {
 
     public VentanaPrincipal() {
 
-                            //////////////////VENTANA CARGO////////////////////////
+        //////////////////VENTANA CARGO////////////////////////
         JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -260,7 +260,7 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-                /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
+        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
         /*JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -304,7 +304,7 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        //////////////////////////Boton de la ventana Socios ///////////////////////////////////////////////
+        ///////////////////VENTANA SOCIO///////////////////////
         JBguardarDatosSocio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,9 +325,6 @@ public class VentanaPrincipal extends JPanel {
 
                         //todo:enviarle new cuota al constructor de socio y de rebote en constructor de cuotas
                         //todo:tiene que crear un objeto de tipo tipo_cuota
-
-
-                        //new Cuota(socios.size(),this)
                 ));
 
                 if (guardado) {
@@ -339,15 +336,15 @@ public class VentanaPrincipal extends JPanel {
                 }
             }
         });
-
+        //////////////////VENTANA CUOTA////////////////////////
         JBguardarDatosCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               // boolean guardado = Sentencias.guardarCuota(new Cuota
-                        //)
+                // boolean guardado = Sentencias.guardarCuota(new Cuota
+                //)
 
-
+                JTestadoCuotas.setModel(new CuotaModel());
 
             }
         });
@@ -368,7 +365,6 @@ public class VentanaPrincipal extends JPanel {
             }
         });
         */
-
 
 
     }
