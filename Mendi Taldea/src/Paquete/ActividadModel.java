@@ -15,12 +15,12 @@ public class ActividadModel extends AbstractTableModel {
     public ActividadModel() {
 
         //cargamos datos
-        VentanaPrincipal.actividades = ActividadDB.recogidaActividad();
+        VentanaPrincipal.setActividades(ActividadDB.recogidaActividad());
     }
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.actividades.size();
+        return VentanaPrincipal.getActividades().size();
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ActividadModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Actividad actividad = VentanaPrincipal.actividades.get(rowIndex);
+        Actividad actividad = VentanaPrincipal.getActividades().get(rowIndex);
 
         switch (columnIndex){
             case 0:

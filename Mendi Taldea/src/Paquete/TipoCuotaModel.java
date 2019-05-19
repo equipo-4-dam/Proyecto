@@ -11,12 +11,12 @@ public class TipoCuotaModel extends AbstractTableModel {
 
     public TipoCuotaModel(){
 
-        VentanaPrincipal.tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
+        VentanaPrincipal.setTipoCuotas(TipoCuotaDB.recogidaTipoCuota());
     }
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.tipoCuotas.size();
+        return VentanaPrincipal.getTipoCuotas().size();
     }
 
     @Override
@@ -27,7 +27,7 @@ public class TipoCuotaModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        TipoCuota tc = VentanaPrincipal.tipoCuotas.get(rowIndex);
+        TipoCuota tc = VentanaPrincipal.getTipoCuotas().get(rowIndex);
 
         switch (columnIndex){
             case 0:

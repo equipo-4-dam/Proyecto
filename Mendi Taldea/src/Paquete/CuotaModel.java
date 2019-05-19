@@ -19,7 +19,7 @@ public class CuotaModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.socios.size();
+        return VentanaPrincipal.getSocios().size();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class CuotaModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Socio s = VentanaPrincipal.socios.get(rowIndex);
+        Socio s = VentanaPrincipal.getSocios().get(rowIndex);
 
         switch (columnIndex) {
             case 0:

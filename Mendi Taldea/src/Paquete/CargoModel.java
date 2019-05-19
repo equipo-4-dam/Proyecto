@@ -9,13 +9,13 @@ public class CargoModel extends AbstractTableModel {
 
     public CargoModel() {
         //cargamos datos
-        VentanaPrincipal.cargos = CargoDB.recogidaCargos();
+        VentanaPrincipal.setCargos(CargoDB.recogidaCargos());
     }
 
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.cargos.size();
+        return VentanaPrincipal.getCargos().size();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class CargoModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Cargo c = VentanaPrincipal.cargos.get(rowIndex);
+        Cargo c = VentanaPrincipal.getCargos().get(rowIndex);
 
         switch (columnIndex) {
             case 0:

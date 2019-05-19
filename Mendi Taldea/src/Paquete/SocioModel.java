@@ -18,12 +18,12 @@ public class SocioModel extends AbstractTableModel {
     public SocioModel() {
 
         //cargamos datos
-        VentanaPrincipal.socios = SocioDB.recogidaSocios();
+        VentanaPrincipal.setSocios(SocioDB.recogidaSocios());
     }
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.socios.size();
+        return VentanaPrincipal.getSocios().size();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class SocioModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        Socio s = VentanaPrincipal.socios.get(rowIndex);
+        Socio s = VentanaPrincipal.getSocios().get(rowIndex);
 
         switch (columnIndex) {
 

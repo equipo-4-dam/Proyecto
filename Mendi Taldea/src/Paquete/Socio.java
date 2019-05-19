@@ -78,13 +78,13 @@ public class Socio {
 
         int controlEdad = -1;
 
-        for (int i = 0; i < VentanaPrincipal.tipoCuotas.size() && controlEdad == -1; i++) {
-            if (VentanaPrincipal.tipoCuotas.get(i).getEdad_limite() > edad) {
+        for (int i = 0; i < VentanaPrincipal.getTipoCuotas().size() && controlEdad == -1; i++) {
+            if (VentanaPrincipal.getTipoCuotas().get(i).getEdad_limite() > edad) {
                 controlEdad = i;
             }
         }
 
-        return controlEdad == -1? null: VentanaPrincipal.tipoCuotas.get(controlEdad);
+        return controlEdad == -1? null: VentanaPrincipal.getTipoCuotas().get(controlEdad);
 
     }
 

@@ -223,6 +223,107 @@ public class Sentencias {
     }
 
 
+    public static boolean editarSocio(Socio socio) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            String sql = "UPDATE SOCIOS SET NOMBRE = ?, APELLIDOS = ?, FECHA_NAC = ?, DNI = ?, " +
+                    "TELEFONO = ?, EMAIL = ?, FECHA_ALTA = ?, FECHA_BAJA = ?";
+
+            if (socio.getResponsable() != null)
+                sql += ", RESPONSABLE = ? ";
+
+            sql += "WHERE ID_SOCIO = ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            //prepara la insert
+            st.setString(1, socio.getNombre());
+            st.setString(2, socio.getApellidos());
+            st.setObject(3, socio.getFecha());
+            st.setString(4, socio.getDni());
+            st.setInt(5, socio.getTelefono());
+            st.setString(6, socio.getEmail());
+            st.setObject(7, socio.getFechaAlta());
+            st.setObject(8, socio.getFechaBaja());
+
+            if (socio.getResponsable() != null) {
+                st.setInt(9, socio.getResponsable().getId_socio());
+                st.setInt(10, socio.getId_socio());
+
+            } else
+                st.setInt(9, socio.getId_socio());
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+
+    }
+
+    ////////////////////////borrraar/////////////////7
+    public static boolean borrarSocio(int id_socio) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            String sql = "DELETE FROM SOCIOS WHERE ID_SOCIO = ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            //prepara la insert
+            st.setInt(1, id_socio);
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static int hacerLogin(Login login) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            String sql = "SELECT ID_SOCIO FROM LOGIN WHERE USUARIO = ? AND PASS = ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            //prepara la insert
+            st.setString(1, login.getUsuario());
+            st.setString(2, login.getPass());
+
+            //aqui se inserta la fila
+            ResultSet resultado = st.executeQuery();
+
+            if (resultado.next())
+                return resultado.getInt("ID_SOCIO");
+            else
+                return -2;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return -1;
+        }
+    }
 }
 
 

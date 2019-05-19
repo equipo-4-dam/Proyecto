@@ -181,17 +181,19 @@ public class VentanaPrincipal extends JPanel {
     private JSpinner spinner1;
     private JLabel JLtituloFechaPagoCuota;
     private DatePicker JDPfechaPagadoCuota;
+    private JPanel JPmodificarLogin;
 
     //Listas
-    public static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
-    public static List<Socio> socios = SocioDB.recogidaSocios();
-    public static List<Cargo> cargos = new ArrayList<>();
-    public static List<TipoActividad> tipoActividades = new ArrayList<>();
-    public static List<Actividad> actividades = new ArrayList<>();
+    private static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
+    private static List<Socio> socios = SocioDB.recogidaSocios();
+    private static List<Cargo> cargos = new ArrayList<>();
+    private static List<TipoActividad> tipoActividades = new ArrayList<>();
+    private static List<Actividad> actividades = new ArrayList<>();
 
+    //obejtos temporales editar
+    private int idSocio = -1;
 
-
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
 
         JFrame frame = new JFrame("VentanaPrincipal");
         frame.setContentPane(new VentanaPrincipal().panel);
@@ -200,14 +202,13 @@ public class VentanaPrincipal extends JPanel {
         frame.setVisible(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-    }
+    }*/
 
     /////////////////////////////////////CUSTOM CREATE/////////////////////////////////////////////////
     //     Tabla personalizada para crear esto en el form hay que seleccionar custom create         ///
     ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     *
      * Se redefinen las tablas y para ellas se cargarán sus modelos personalizados que se cargaran
      * en la VentanaPrincipal en la seccion de seleccion de pestañas
      */
@@ -220,7 +221,6 @@ public class VentanaPrincipal extends JPanel {
         tabbedPane = new JTabbedPane();
 
         //Define una tabla, y para ella el modelo personalizado para cada tabla
-        //el modelo se
 
         ////// Se redefinen las tablas///////
         JTtipoCuotas = new JTable();
@@ -238,14 +238,74 @@ public class VentanaPrincipal extends JPanel {
         ///////VENTANA ACTIVIDAD///////
         JTactividadesOrganizadas = new JTable();
         JTactividadesOrganizadas.setModel(new ActividadModel());
+
+
     }
 
+    //Getters y Setters
+    public static List<TipoCuota> getTipoCuotas() {
+        return tipoCuotas;
+    }
+
+    public static void setTipoCuotas(List<TipoCuota> tipoCuotas) {
+        VentanaPrincipal.tipoCuotas = tipoCuotas;
+    }
+
+    public static List<Socio> getSocios() {
+        return socios;
+    }
+
+    public static void setSocios(List<Socio> socios) {
+        VentanaPrincipal.socios = socios;
+    }
+
+    public static List<Cargo> getCargos() {
+        return cargos;
+    }
+
+    public static void setCargos(List<Cargo> cargos) {
+        VentanaPrincipal.cargos = cargos;
+    }
+
+    public static List<TipoActividad> getTipoActividades() {
+        return tipoActividades;
+    }
+
+    public static void setTipoActividades(List<TipoActividad> tipoActividades) {
+        VentanaPrincipal.tipoActividades = tipoActividades;
+    }
+
+    public static List<Actividad> getActividades() {
+        return actividades;
+    }
+
+    public static void setActividades(List<Actividad> actividades) {
+        VentanaPrincipal.actividades = actividades;
+    }
+
+    public int getIdSocio() {
+        return idSocio;
+    }
+
+    public void setIdSocio(int idSocio) {
+        this.idSocio = idSocio;
+    }
+
+    public JPanel getPanel() {
+        return panel;
+    }
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public JPanel getJPmodificarLogin() {
+        return JPmodificarLogin;
+    }
 
     /**
-     *
      * Se utiliza para escribir el codigo que ejecutan los elementos con los que interactuan
      * los usuarios y administradores
-     *
      */
     public VentanaPrincipal() {
 
@@ -291,36 +351,33 @@ public class VentanaPrincipal extends JPanel {
 
         //////////Boton que guarda el nuevo Tipo de actividad en BD////////////////
         JBguardarTipoActividad.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (JTanyadirTipoActividad.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Es necesario rellenar los campos",
-                        "Error", JOptionPane.WARNING_MESSAGE);
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
-            } else if (e.getSource() == JTanyadirTipoActividad) {
+                //VALIDACIONES
+                String tipoActividad = JTanyadirTipoActividad.getText();
 
-                try{
-                    String tipoActividad = JTanyadirTipoActividad.getText();
+                //todo revisar estas validaciones
+                if (!tipoActividad.matches("[A-Za-z]+"))
+                    JOptionPane.showMessageDialog(null, "Error");
 
-                    if (!tipoActividad.matches("[A-Za-z]+")) {
-                        //throw new Exception();
-                        JTanyadirTipoActividad.setText("");
-                        JOptionPane.showMessageDialog(JTanyadirTipoActividad, "Introduce texto válido!");
-                    } else {
-                        boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
+                if (JTanyadirTipoActividad.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Es necesario rellenar los campos",
+                            "Error", JOptionPane.WARNING_MESSAGE);
 
-                        if (guardado) {
-                            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                                    "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
 
-                            JTtipoActividad.setModel(new TipoActividadModel());
-                        }
+                    if (guardado) {
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                                "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                        JTtipoActividad.setModel(new TipoActividadModel());
                     }
-                }  catch (Exception e1) {
-                    JTanyadirTipoActividad.setText("");
-                    JOptionPane.showMessageDialog(JTanyadirTipoActividad, "Introduce texto válido!");
+                }
+
             }
-        }}});
+        });
 
         //////////////Boton que guarda el nuevo socio en BD///////////////////////
         JBguardarDatosSocio.addActionListener(new ActionListener() {
@@ -358,8 +415,11 @@ public class VentanaPrincipal extends JPanel {
 
                 if (!menor || socioResponsable != null) {
 
-                    //todo: es necesario poner un if para comprobar los datos de los TX y no de problemas com null
-                    boolean guardado = Sentencias.guardarSocio(new Socio(
+                    //todo: hacer validaciones
+
+                    boolean guardado;
+
+                    Socio socio = new Socio(
                             JTnombreSocio.getText(),
                             JTapellidoSocio.getText(),
                             DPfechaNacimientoSocio.getDate(),
@@ -368,14 +428,26 @@ public class VentanaPrincipal extends JPanel {
                             JTemailSocio.getText(),
                             socioResponsable,
                             DPfechaAltaSocio.getDate(),
-                            DPfechaBajaSocio.getDate()
-                    ));
+                            DPfechaBajaSocio.getDate());
+
+                    if (idSocio != -1) {
+
+                        socio.setId_socio(idSocio);
+                        guardado = Sentencias.editarSocio(socio);
+
+                    } else {
+
+                        guardado = Sentencias.guardarSocio(socio);
+
+                    }
+
 
                     if (guardado) {
                         JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
                                 "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
                         JTsocios.setModel(new SocioModel());
+
                     }
                 }
             }
@@ -395,6 +467,93 @@ public class VentanaPrincipal extends JPanel {
 
             }
         });
+
+        /////////////Boton que Actualiza socios en BD//////////////////
+        JBeditarDatosSocio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+
+                int filaSeleccionada = JTsocios.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla socios para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+
+
+                } else {
+
+                    Socio socioSeleccionado = socios.get(filaSeleccionada);
+
+                    JTnombreSocio.setText(socioSeleccionado.getNombre());
+                    JTapellidoSocio.setText(socioSeleccionado.getApellidos());
+                    JTdniSocios.setText(socioSeleccionado.getDni());
+                    DPfechaNacimientoSocio.setDate(socioSeleccionado.getFecha());
+                    JTtelefonoSocio.setText(String.valueOf(socioSeleccionado.getTelefono()));
+                    JTemailSocio.setText(socioSeleccionado.getEmail());
+                    DPfechaAltaSocio.setDate(socioSeleccionado.getFechaAlta());
+                    DPfechaBajaSocio.setDate(socioSeleccionado.getFechaBaja());
+
+                    idSocio = socioSeleccionado.getId_socio();
+                }
+
+            }
+
+
+        });
+
+        /////////////Boton que Elimina socios en BD//////////////////
+        JBeliminarDatosSocio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTsocios.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla socios para poder eliminarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+
+
+                } else {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                            "Socio Elegido: " + VentanaPrincipal.socios.get(filaSeleccionada).getNombre() +
+                                    " " + VentanaPrincipal.socios.get(filaSeleccionada).getApellidos() + " " +
+                                    " ¿está completamente seguro de borrarlo?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == 0) {
+
+
+                        boolean eliminado = Sentencias.borrarSocio(socios.get(filaSeleccionada).getId_socio());
+
+                        if (eliminado) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha eliminado el Socio correctamente",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                            socios.get(filaSeleccionada).getTipoCuota().getSocios().remove(socios.get(filaSeleccionada));
+
+                            socios.remove(filaSeleccionada);
+
+                            JTsocios.setModel(new SocioModel());
+
+                        }
+
+                    }
+
+                }
+
+            }
+        });
+
 
         /*
         JCBpagadoCuota.addActionListener(new ActionListener() {
@@ -421,6 +580,7 @@ public class VentanaPrincipal extends JPanel {
                 switch (tabbedPane.getSelectedIndex()) {
                     case 0:
                         //pestaña principal
+
                         break;
                     case 1:
                         //modificar login
@@ -457,6 +617,7 @@ public class VentanaPrincipal extends JPanel {
                 }
             }
         });
+
     }
 }
 

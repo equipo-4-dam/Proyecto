@@ -9,13 +9,13 @@ public class TipoActividadModel extends AbstractTableModel {
 
     public TipoActividadModel() {
 
-        VentanaPrincipal.tipoActividades = TipoActividadDB.recogidaTipoActividad();
+        VentanaPrincipal.setTipoActividades(TipoActividadDB.recogidaTipoActividad());
     }
 
 
     @Override
     public int getRowCount() {
-        return VentanaPrincipal.tipoActividades.size();
+        return VentanaPrincipal.getTipoActividades().size();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class TipoActividadModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
 
-        TipoActividad tp = VentanaPrincipal.tipoActividades.get(rowIndex);
+        TipoActividad tp = VentanaPrincipal.getTipoActividades().get(rowIndex);
 
         switch (columnIndex) {
             case 0:
