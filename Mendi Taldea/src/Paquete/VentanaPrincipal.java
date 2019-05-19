@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPorganizarActividad;
     private JPanel JPactividadesDisponibles;
     private JPanel JPbotonesActividadesDisponibles;
-    private JTable table1;
+    private JTable JTactividadesOrganizadas;
     private JTextArea JTAdescripcionCrearActividad;
     private JComboBox JCBcrearTipoActividad;
     private JComboBox JCBfechaCrearActividad;
@@ -192,6 +193,7 @@ public class VentanaPrincipal extends JPanel {
     public static List<Cuota> cuotas = new ArrayList<>();
     public static List<TipoActividad> tipoActividades = new ArrayList<>();
     public static List<TipoCuota> tipoCuotas = new ArrayList<>();
+    public static List<Actividad> actividades = new ArrayList<>();
 
     public static void main(String[] args) {
 
@@ -237,6 +239,9 @@ public class VentanaPrincipal extends JPanel {
         JTestadoCuotas = new JTable();
         JTestadoCuotas.setModel(new CuotaModel());
 
+        ///////VENTANA ACTIVIDAD///////
+        JTactividadesOrganizadas = new JTable();
+        JTactividadesOrganizadas.setModel(new ActividadModel());
     }
 
     //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
@@ -289,20 +294,36 @@ public class VentanaPrincipal extends JPanel {
 
         //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
         JBguardarTipoActividad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (JTanyadirTipoActividad.getText().equals("")) {
+                JOptionPane.showMessageDialog(null, "Es necesario rellenar los campos",
+                        "Error", JOptionPane.WARNING_MESSAGE);
 
+            } else if (e.getSource() == JTanyadirTipoActividad) {
 
-                boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
+                try{
+                    String tipoActividad = JTanyadirTipoActividad.getText();
 
-                if (guardado) {
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    if (!tipoActividad.matches("[A-Za-z]+")) {
+                        //throw new Exception();
+                        JTanyadirTipoActividad.setText("");
+                        JOptionPane.showMessageDialog(JTanyadirTipoActividad, "Introduce texto válido!");
+                    } else {
+                        boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
 
-                    JTtipoActividad.setModel(new TipoActividadModel());
-                }
+                        if (guardado) {
+                            JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                                    "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                            JTtipoActividad.setModel(new TipoActividadModel());
+                        }
+                    }
+                }  catch (Exception e1) {
+                    JTanyadirTipoActividad.setText("");
+                    JOptionPane.showMessageDialog(JTanyadirTipoActividad, "Introduce texto válido!");
             }
-        });
+        }}});
 
         ///////////////////VENTANA SOCIO///////////////////////
         JBguardarDatosSocio.addActionListener(new ActionListener() {
@@ -366,7 +387,38 @@ public class VentanaPrincipal extends JPanel {
         });
         */
 
+        //////////////////VENTANA ACTIVIDAD////////////////////////
+/*
+        JBguardarDatosOrganizarActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
 
+
+                boolean guardado = Sentencias.guardarActividad(new Actividad(
+
+
+                        JTAdescripcionCrearActividad.getText(),
+                        JCBfechaCrearActividad.getItemCount(),
+                        JCBdificultadCrearActividad.getItemCount(),
+                        JTprecioCrearActividad.getText(),
+                        JCBcrearTipoActividad.getItemCount()
+
+                        ));
+
+
+
+                if () {
+                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                    JTactividadesOrganizadas.setModel(new ActividadModel());
+                }
+            }
+
+
+        });
+
+ */
     }
 }
 

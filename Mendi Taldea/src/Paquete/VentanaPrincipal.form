@@ -1045,9 +1045,11 @@
                         <properties/>
                         <border type="none"/>
                         <children>
-                          <component id="95f87" class="javax.swing.JTable" binding="table1" default-binding="true">
+                          <component id="95f87" class="javax.swing.JTable" binding="JTactividadesOrganizadas" custom-create="true">
                             <constraints/>
-                            <properties/>
+                            <properties>
+                              <autoCreateRowSorter value="false"/>
+                            </properties>
                           </component>
                         </children>
                       </scrollpane>

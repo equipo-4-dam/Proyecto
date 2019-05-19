@@ -4,7 +4,7 @@ public class Login {
 
     //atributos
     private String usuario;
-    private String pass="abcde1234";
+    private String pass="pass";
 
     //relaciones
     private Socio socio;

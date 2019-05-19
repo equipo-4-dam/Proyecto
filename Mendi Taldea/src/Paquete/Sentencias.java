@@ -32,43 +32,8 @@ public class Sentencias {
             return false;
         }
     }
-/*
-    public static List<Cargo> recogidaCargos() {
 
-        //me conecto a la base de datos para obeter los datos para el modelo
-        Connection conectionBD = Conexion.conecta();
-
-        //creo un arraylist para pasar los datos del resulset al arraylist
-        List<Cargo> cargos = new ArrayList<>();
-
-        try {
-            //Consulta simple
-            Statement statement = conectionBD.createStatement();
-
-            ResultSet resultado = statement.executeQuery("SELECT * FROM CARGOS");
-
-            //Bucle para guardar en la lista el resultado para la tabla
-            while (resultado.next()) {
-
-                Cargo cargo = new Cargo(
-                        resultado.getInt("ID_CARGO"),
-                        resultado.getString("TIPO")
-                );
-
-                //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
-                cargos.add(cargo);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return cargos;
-    }
-    */
-
-
-
+    /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
 
     public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
 
@@ -135,7 +100,7 @@ public class Sentencias {
             //prepara la insert
             st.setString(1, socio.getNombre());
             st.setString(2, socio.getApellidos());
-            st.setObject(3,socio.getFecha());
+            st.setObject(3, socio.getFecha());
             st.setString(4, socio.getDni());
             st.setInt(5, socio.getTelefono());
             st.setString(6, socio.getEmail());
@@ -180,13 +145,13 @@ public class Sentencias {
         try {
 
             PreparedStatement st = conn.prepareStatement("INSERT INTO CUOTAS(ID_SOCIO, ID_CUOTA, FECHA_PAGO, PAGADO) " +
-            "VALUES (?, ?, ?, ?)");
+                    "VALUES (?, ?, ?, ?)");
 
             //prepara la insert
             //todo: cuando el socio se carga de la tabla tenemos el id, pero cuando le das a guardar no hay id
             st.setInt(1, cuota.getId_socio());
-            st.setInt(2,cuota.getId_cuota());
-            st.setObject(3,cuota.getFecha_pago());
+            st.setInt(2, cuota.getId_cuota());
+            st.setObject(3, cuota.getFecha_pago());
             st.setInt(4, cuota.isPagado());
 
             //aqui se inserta la fila
@@ -200,8 +165,31 @@ public class Sentencias {
         }
     }
 
+    /////////////////////////////VENTANA ACTIVIDADES/////////////////////////////
+    public static boolean guardarActividad(Actividad actividad) {
 
+        Connection conn = Conexion.conecta();
 
+        try {
+
+            PreparedStatement st = conn.prepareStatement("INSERT INTO ACTIVIDADES(FECHA, DESCRIPCION, DIFICULTAD, " +
+                    "PRECIO) VALUES (?, ?, ?, ?)");
+
+            st.setObject(1, actividad.getFecha());
+            st.setString(2, actividad.getDescripcion());
+            st.setString(3, actividad.getDificultad());
+            st.setInt(4, actividad.getPrecio());
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
 
 
 }
