@@ -7,7 +7,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <tabbedpane id="2894f" binding="tabbedPane">
+      <tabbedpane id="2894f" binding="tabbedPane" custom-create="true">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
@@ -368,7 +368,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="186d6" class="javax.swing.JTable" binding="JTmostrarDatosJunta">
+                      <component id="186d6" class="javax.swing.JTable" binding="JTmostrarDatosJunta" custom-create="true">
                         <constraints/>
                         <properties/>
                       </component>

@@ -4,10 +4,10 @@ import com.github.lgooddatepicker.components.CalendarPanel;
 import com.github.lgooddatepicker.components.DatePicker;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -182,18 +182,14 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaPagoCuota;
     private DatePicker JDPfechaPagadoCuota;
 
-    //modelos para las putas tablas
-    DefaultTableModel modeloCargos;
-    DefaultTableModel modeloTipoCuotas;
-    DefaultTableModel modeloTipoActividad;
-
     //Listas
-    public static List<Socio> socios = new ArrayList<>();
+    public static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
+    public static List<Socio> socios = SocioDB.recogidaSocios();
     public static List<Cargo> cargos = new ArrayList<>();
-    public static List<Cuota> cuotas = new ArrayList<>();
     public static List<TipoActividad> tipoActividades = new ArrayList<>();
-    public static List<TipoCuota> tipoCuotas = new ArrayList<>();
     public static List<Actividad> actividades = new ArrayList<>();
+
+
 
     public static void main(String[] args) {
 
@@ -207,48 +203,53 @@ public class VentanaPrincipal extends JPanel {
     }
 
     /////////////////////////////////////CUSTOM CREATE/////////////////////////////////////////////////
+    //     Tabla personalizada para crear esto en el form hay que seleccionar custom create         ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //Tabla personalizada para crear esto en el form hay que seleccionar custom create
+    /**
+     *
+     * Se redefinen las tablas y para ellas se cargarán sus modelos personalizados que se cargaran
+     * en la VentanaPrincipal en la seccion de seleccion de pestañas
+     */
     private void createUIComponents() {
 
         //Se modela un spinner para marcar la edad mínima al insertar un nuevo Tipo de Cuota
         SpinnerModel sm = new SpinnerNumberModel(4, 4, 60, 1);
         spinner1 = new JSpinner(sm);
 
-        /*
-        Define una tabla, y para ella el modelo personalizado para cada tabla
-         */
+        tabbedPane = new JTabbedPane();
 
-        //////VENTANA SOCIO///////
-        JTsocios = new JTable();
-        JTsocios.setModel((new SocioModel()));
+        //Define una tabla, y para ella el modelo personalizado para cada tabla
+        //el modelo se
 
-        //////VENTANA TIPO_ACTIVIDAD///////
-        JTtipoActividad = new JTable();
-        JTtipoActividad.setModel(new TipoActividadModel());
-
-        ///////VENTANA TIPO_CUOTA///////
+        ////// Se redefinen las tablas///////
         JTtipoCuotas = new JTable();
-        JTtipoCuotas.setModel(new TipoCuotaModel());
 
-        ///////VENTANA CARGO///////
+        JTsocios = new JTable();
+
+        JTtipoActividad = new JTable();
+
+        JTmostrarDatosJunta = new JTable();
+
         JTcargos = new JTable();
-        JTcargos.setModel(new CargoModel());
 
-        ///////VENTANA CUOTA///////
         JTestadoCuotas = new JTable();
-        JTestadoCuotas.setModel(new CuotaModel());
 
         ///////VENTANA ACTIVIDAD///////
         JTactividadesOrganizadas = new JTable();
         JTactividadesOrganizadas.setModel(new ActividadModel());
     }
 
-    //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
 
+    /**
+     *
+     * Se utiliza para escribir el codigo que ejecutan los elementos con los que interactuan
+     * los usuarios y administradores
+     *
+     */
     public VentanaPrincipal() {
 
-        //////////////////VENTANA CARGO////////////////////////
+        /////////////////Boton que guarda el nuevo cargo en BD////////////////////////
         JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -265,18 +266,17 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-        /*JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
+        ///////////////Boton que guarda el nuevo Tipo de cuota en BD////////////////
+        JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
             @Override
+
+            //todo falta validar los datos
             public void actionPerformed(ActionEvent e) {
 
-                //mirar------> al al cambiar el constructor con fecha_nac
                 boolean guardado = Sentencias.guardarTipoCuota(
                         new TipoCuota(Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
                                 Integer.parseInt(spinner1.getValue().toString()),
                                 JTanyadirNombreTipoCuota.getText()));
-
-                //todo:poner try/catch para el parseInt y no poder meter letras
 
                 if (guardado) {
 
@@ -289,10 +289,7 @@ public class VentanaPrincipal extends JPanel {
 
         });
 
-         */
-
-
-        //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
+        //////////Boton que guarda el nuevo Tipo de actividad en BD////////////////
         JBguardarTipoActividad.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -325,43 +322,72 @@ public class VentanaPrincipal extends JPanel {
             }
         }}});
 
-        ///////////////////VENTANA SOCIO///////////////////////
+        //////////////Boton que guarda el nuevo socio en BD///////////////////////
         JBguardarDatosSocio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                int edad = Period.between(DPfechaNacimientoSocio.getDate(), LocalDate.now()).getYears();
+                boolean menor = edad < 18;
 
-                int resp = 2;
-                //todo: es necesario poner un if para comprobar los datos de los TX y no de problemas com null
-                boolean guardado = Sentencias.guardarSocio(new Socio(
-                        JTnombreSocio.getText(),
-                        JTapellidoSocio.getText(),
-                        DPfechaNacimientoSocio.getDate(),
-                        JTdniSocios.getText(),
-                        Integer.parseInt(JTtelefonoSocio.getText()),
-                        JTemailSocio.getText(),
-                        resp,
-                        DPfechaAltaSocio.getDate(),
-                        DPfechaBajaSocio.getDate()
+                Socio socioResponsable = null;
 
-                        //todo:enviarle new cuota al constructor de socio y de rebote en constructor de cuotas
-                        //todo:tiene que crear un objeto de tipo tipo_cuota
-                ));
+                int filaSeleccionada = JTsocios.getSelectedRow();
 
-                if (guardado) {
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                if (menor) {
 
-                    JTsocios.setModel(new SocioModel());
+                    if (filaSeleccionada < 0) {
+                        JOptionPane.showMessageDialog(null,
+                                "Este Socio es menor de edad selecciona de la lista de socios su Responsable",
+                                "Aviso",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
 
+                        int confirmacion = JOptionPane.showConfirmDialog(null,
+                                "Responsable elegido: " + VentanaPrincipal.socios.get(filaSeleccionada).getNombre() +
+                                        " " + VentanaPrincipal.socios.get(filaSeleccionada).getApellidos() + " " +
+                                        " ¿está conforme?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+
+                        if (confirmacion == 0) {
+                            socioResponsable = VentanaPrincipal.socios.get(filaSeleccionada);
+
+                        }
+                    }
+                }
+
+                if (!menor || socioResponsable != null) {
+
+                    //todo: es necesario poner un if para comprobar los datos de los TX y no de problemas com null
+                    boolean guardado = Sentencias.guardarSocio(new Socio(
+                            JTnombreSocio.getText(),
+                            JTapellidoSocio.getText(),
+                            DPfechaNacimientoSocio.getDate(),
+                            JTdniSocios.getText(),
+                            Integer.parseInt(JTtelefonoSocio.getText()),
+                            JTemailSocio.getText(),
+                            socioResponsable,
+                            DPfechaAltaSocio.getDate(),
+                            DPfechaBajaSocio.getDate()
+                    ));
+
+                    if (guardado) {
+                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
+                                "Aviso", JOptionPane.INFORMATION_MESSAGE);
+
+                        JTsocios.setModel(new SocioModel());
+                    }
                 }
             }
+
         });
-        //////////////////VENTANA CUOTA////////////////////////
+
+        /////////////Boton que Actualiza si ha pagado la cuota en BD//////////////////
         JBguardarDatosCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //todo hay que realizar el update table
                 // boolean guardado = Sentencias.guardarCuota(new Cuota
                 //)
 
@@ -387,38 +413,50 @@ public class VentanaPrincipal extends JPanel {
         });
         */
 
-        //////////////////VENTANA ACTIVIDAD////////////////////////
-/*
-        JBguardarDatosOrganizarActividad.addActionListener(new ActionListener() {
+        /////////////////Cada una de las pestañas de la parte superior//////////////////////
+        tabbedPane.addChangeListener(new ChangeListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void stateChanged(ChangeEvent e) {
 
+                switch (tabbedPane.getSelectedIndex()) {
+                    case 0:
+                        //pestaña principal
+                        break;
+                    case 1:
+                        //modificar login
+                        break;
 
-                boolean guardado = Sentencias.guardarActividad(new Actividad(
+                    case 2:
+                        JTestadoCuotas.setModel(new CuotaModel());
+                        break;
 
+                    case 3:
+                        JTtipoCuotas.setModel(new TipoCuotaModel());
+                        break;
 
-                        JTAdescripcionCrearActividad.getText(),
-                        JCBfechaCrearActividad.getItemCount(),
-                        JCBdificultadCrearActividad.getItemCount(),
-                        JTprecioCrearActividad.getText(),
-                        JCBcrearTipoActividad.getItemCount()
+                    case 4:
+                        JTmostrarDatosJunta.setModel(new SocioModel());
+                        break;
 
-                        ));
+                    case 5:
+                        JTcargos.setModel(new CargoModel());
+                        break;
 
+                    case 6:
+                        JTsocios.setModel(new SocioModel());
+                        break;
 
+                    case 7:
 
-                if () {
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        break;
 
-                    JTactividadesOrganizadas.setModel(new ActividadModel());
+                    case 8:
+                        JTtipoActividad.setModel(new TipoActividadModel());
+                        break;
+
                 }
             }
-
-
         });
-
- */
     }
 }
 

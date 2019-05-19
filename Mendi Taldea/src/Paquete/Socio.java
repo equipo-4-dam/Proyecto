@@ -17,18 +17,19 @@ public class Socio {
     private String dni;
     private int telefono;
     private String email;
-    private int responsable;
+    private Socio responsable;
     private String perfil;
     private LocalDate fechaAlta;
     private LocalDate fechaBaja;
+    private LocalDate fechaPago;
+    private boolean pagado;
 
     //Relaciones
     private TipoCuota tipoCuota;
-    private List<Cuota> cuotas = new ArrayList<>();
 
     //constructores
     public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
-                 int responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja) {
+                 Socio responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja, LocalDate fechaPago, int pagado) {
         this.id_socio = id_socio;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -40,10 +41,17 @@ public class Socio {
         this.perfil = perfil;
         this.fechaAlta = fechaAlta;
         this.fechaBaja = fechaBaja;
+        this.fechaPago = fechaPago;
+        this.pagado = pagado == 1;
+
+        this.tipoCuota = obtenerCuota(Period.between(fecha, LocalDate.now()).getYears());
+
+
     }
 
+    //Constructor para el boton guardar
     public Socio(String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
-                 int responsable, LocalDate fechaAlta, LocalDate fechaBaja) {
+                 Socio responsable, LocalDate fechaAlta, LocalDate fechaBaja) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fecha = fecha;
@@ -55,17 +63,19 @@ public class Socio {
         this.fechaBaja = fechaBaja;
 
         tipoCuota = obtenerCuota(Period.between(fecha, LocalDate.now()).getYears());
-        System.out.println("A pagar" + this.tipoCuota.getCantidad());
 
         tipoCuota.getSocios().add(this);
 
-        cuotas.add(new Cuota(this));
     }
 
+    //constructor socio solo con id
+    public Socio(int id_socio) {
+        this.id_socio = id_socio;
+    }
 
     public TipoCuota obtenerCuota(int edad) {
 
-        System.out.println(edad);
+
         int controlEdad = -1;
 
         for (int i = 0; i < VentanaPrincipal.tipoCuotas.size() && controlEdad == -1; i++) {
@@ -135,11 +145,11 @@ public class Socio {
         this.email = email;
     }
 
-    public int getResponsable() {
+    public Socio getResponsable() {
         return responsable;
     }
 
-    public void setResponsable(int responsable) {
+    public void setResponsable(Socio responsable) {
         this.responsable = responsable;
     }
 
@@ -171,7 +181,39 @@ public class Socio {
         return tipoCuota;
     }
 
-    public List<Cuota> getCuotas() {
-        return cuotas;
+    public LocalDate getFechaPago() {
+        return fechaPago;
+    }
+
+    public void setFechaPago(LocalDate fechaPago) {
+        this.fechaPago = fechaPago;
+    }
+
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
+
+    @Override
+    public String toString() {
+        return "Socio{" +
+                "id_socio=" + id_socio +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", fecha=" + fecha +
+                ", dni='" + dni + '\'' +
+                ", telefono=" + telefono +
+                ", email='" + email + '\'' +
+                ", responsable=" + responsable +
+                ", perfil='" + perfil + '\'' +
+                ", fechaAlta=" + fechaAlta +
+                ", fechaBaja=" + fechaBaja +
+                ", fechaPago=" + fechaPago +
+                ", pagado=" + pagado +
+                ", tipoCuota=" + tipoCuota +
+                '}';
     }
 }

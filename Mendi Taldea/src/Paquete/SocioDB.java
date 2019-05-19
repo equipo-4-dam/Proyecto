@@ -22,24 +22,39 @@ public class SocioDB {
             //Consulta simple
             Statement statement = conectionBD.createStatement();
 
-            ResultSet resultado = statement.executeQuery("SELECT * FROM SOCIOS");
+            String sql = "SELECT S.ID_SOCIO, S.NOMBRE, S.APELLIDOS, S.FECHA_NAC, S.DNI, S.TELEFONO, S.EMAIL, " +
+                    "S.RESPONSABLE, S.PERFIL, S.FECHA_ALTA, S.FECHA_BAJA, C.FECHA_PAGO, C.PAGADO " +
+                    "FROM SOCIOS S LEFT JOIN CUOTAS C ON S.ID_SOCIO = C.ID_SOCIO";
+            ResultSet resultado = statement.executeQuery(sql);
 
 
             //Bucle para guardar en la lista el resultado para la tabla
             while (resultado.next()) {
 
+                LocalDate fechaBaja = null;
+                LocalDate fechaPago = null;
+
+                if (resultado.getString("FECHA_BAJA") != null)
+                    fechaBaja = LocalDate.parse(resultado.getString("FECHA_BAJA").substring(0, 10));
+
+                if (resultado.getString("FECHA_PAGO") != null)
+                    fechaPago = LocalDate.parse(resultado.getString("FECHA_PAGO").substring(0, 10));
+
                 Socio socio = new Socio(
                         resultado.getInt("ID_SOCIO"),
                         resultado.getString("NOMBRE"),
                         resultado.getString("APELLIDOS"),
-                        LocalDate.parse(resultado.getString("FECHA_NAC").substring(0,10)),
+                        LocalDate.parse(resultado.getString("FECHA_NAC").substring(0, 10)),
                         resultado.getString("DNI"),
                         resultado.getInt("TELEFONO"),
                         resultado.getString("EMAIL"),
-                        resultado.getInt("RESPONSABLE"),
+                        new Socio(resultado.getInt("RESPONSABLE")),
                         resultado.getString("PERFIL"),
-                        LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0,10)),
-                        LocalDate.parse(resultado.getString("FECHA_BAJA").substring(0,10))
+                        LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10)),
+                        fechaBaja,
+                        fechaPago,
+                        resultado.getInt("PAGADO")
+
                 );
 
                 //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
