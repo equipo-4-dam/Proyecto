@@ -34,7 +34,7 @@ public class Sentencias {
     }
 
     /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-
+/*
         //creo un arraylist para pasar los datos del resulset al arraylist
         List<Cargo> cargos = new ArrayList<>();
 
@@ -167,7 +167,7 @@ public class Sentencias {
 
     //////////////////////////////////////MARCAR CUOTA COMO PAGADA////////////////////////////////////////
     //TODO:update
-    public static boolean guardarCuota(Socio socio) {
+  /*  public static boolean guardarCuota(Socio socio) {
 
         //todo: poner comrpobacion de edad y asignar un responsable. Poner en otro panel boton de eliminar al usuario
 
@@ -194,7 +194,7 @@ public class Sentencias {
             System.out.println("ERROR: " + e.getMessage());
             return false;
         }
-    }
+    }*/
 
     /////////////////////////////VENTANA ACTIVIDADES/////////////////////////////
     public static boolean guardarActividad(Actividad actividad) {
