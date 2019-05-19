@@ -182,11 +182,6 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaPagoCuota;
     private DatePicker JDPfechaPagadoCuota;
 
-    //modelos para las putas tablas
-    DefaultTableModel modeloCargos;
-    DefaultTableModel modeloTipoCuotas;
-    DefaultTableModel modeloTipoActividad;
-
     //Listas
     public static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
     public static List<Socio> socios = SocioDB.recogidaSocios();
@@ -207,8 +202,14 @@ public class VentanaPrincipal extends JPanel {
     }
 
     /////////////////////////////////////CUSTOM CREATE/////////////////////////////////////////////////
+    //     Tabla personalizada para crear esto en el form hay que seleccionar custom create         ///
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //Tabla personalizada para crear esto en el form hay que seleccionar custom create
+    /**
+     *
+     * Se redefinen las tablas y para ellas se cargarán sus modelos personalizados que se cargaran
+     * en la VentanaPrincipal en la seccion de seleccion de pestañas
+     */
     private void createUIComponents() {
 
         //Se modela un spinner para marcar la edad mínima al insertar un nuevo Tipo de Cuota
@@ -217,36 +218,34 @@ public class VentanaPrincipal extends JPanel {
 
         tabbedPane = new JTabbedPane();
 
-        /*
-        Define una tabla, y para ella el modelo personalizado para cada tabla
-         */
+        //Define una tabla, y para ella el modelo personalizado para cada tabla
+        //el modelo se
 
-        ///////VENTANA TIPO_CUOTA///////
+        ////// Se redefinen las tablas///////
         JTtipoCuotas = new JTable();
 
-        //////VENTANA SOCIO///////
         JTsocios = new JTable();
 
-        //////VENTANA TIPO_ACTIVIDAD///////
         JTtipoActividad = new JTable();
 
-        //////// VENTANA JUNTA ////////////
         JTmostrarDatosJunta = new JTable();
 
-        ///////VENTANA CARGO///////
         JTcargos = new JTable();
 
-
-        ///////VENTANA CUOTA///////
         JTestadoCuotas = new JTable();
 
     }
 
-    //////////////////////////////////////////////////////BOTONES DE AÑADIR/////////////////////////////////////////////
 
+    /**
+     *
+     * Se utiliza para escribir el codigo que ejecutan los elementos con los que interactuan
+     * los usuarios y administradores
+     *
+     */
     public VentanaPrincipal() {
 
-        //////////////////VENTANA CARGO////////////////////////
+        /////////////////Boton que guarda el nuevo cargo en BD////////////////////////
         JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -263,18 +262,17 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
+        ///////////////Boton que guarda el nuevo Tipo de cuota en BD////////////////
         JBguardarDatosTipoCuota.addActionListener(new ActionListener() {
             @Override
+
+            //todo falta validar los datos
             public void actionPerformed(ActionEvent e) {
 
-                //mirar------> al al cambiar el constructor con fecha_nac
                 boolean guardado = Sentencias.guardarTipoCuota(
                         new TipoCuota(Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
                                 Integer.parseInt(spinner1.getValue().toString()),
                                 JTanyadirNombreTipoCuota.getText()));
-
-                //todo:poner try/catch para el parseInt y no poder meter letras
 
                 if (guardado) {
 
@@ -287,8 +285,7 @@ public class VentanaPrincipal extends JPanel {
 
         });
 
-
-        //////////////////////////Boton de la ventana Tipo Actividad ///////////////////////////////////////////////
+        //////////Boton que guarda el nuevo Tipo de actividad en BD////////////////
         JBguardarTipoActividad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -305,11 +302,10 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        ///////////////////VENTANA SOCIO///////////////////////
+        //////////////Boton que guarda el nuevo socio en BD///////////////////////
         JBguardarDatosSocio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 int edad = Period.between(DPfechaNacimientoSocio.getDate(), LocalDate.now()).getYears();
                 boolean menor = edad < 18;
@@ -353,9 +349,6 @@ public class VentanaPrincipal extends JPanel {
                             socioResponsable,
                             DPfechaAltaSocio.getDate(),
                             DPfechaBajaSocio.getDate()
-
-                            //todo:enviarle new cuota al constructor de socio y de rebote en constructor de cuotas
-                            //todo:tiene que crear un objeto de tipo tipo_cuota
                     ));
 
                     if (guardado) {
@@ -363,18 +356,18 @@ public class VentanaPrincipal extends JPanel {
                                 "Aviso", JOptionPane.INFORMATION_MESSAGE);
 
                         JTsocios.setModel(new SocioModel());
-
                     }
                 }
             }
 
-
         });
-        //////////////////VENTANA CUOTA////////////////////////
+
+        /////////////Boton que Actualiza si ha pagado la cuota en BD//////////////////
         JBguardarDatosCuota.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                //todo hay que realizar el update table
                 // boolean guardado = Sentencias.guardarCuota(new Cuota
                 //)
 
@@ -400,7 +393,7 @@ public class VentanaPrincipal extends JPanel {
         });
         */
 
-
+        /////////////////Cada una de las pestañas de la parte superior//////////////////////
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
