@@ -31,6 +31,10 @@ public class Socio {
     private Cargo tipoCargo;
 
     //constructores
+    public Socio() {
+    }
+
+    //constructor de ventana
     public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
                  Socio responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja, LocalDate fechaPago,
                  int pagado) {

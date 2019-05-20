@@ -588,6 +588,7 @@ public class VentanaPrincipal extends JPanel {
                     }
 
  */
+                    JTmostrarCargosJunta.setModel(new JuntaModel());
                 }
 
             }

@@ -1216,7 +1216,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="b1588" class="javax.swing.JTable" binding="JTpanelInferiorMiembrosJunta">
+                  <component id="b1588" class="javax.swing.JTable" binding="JTpanelInferiorMiembrosJunta" custom-create="true">
                     <constraints/>
                     <properties/>
                   </component>

@@ -5,7 +5,7 @@ import javax.swing.table.AbstractTableModel;
 public class JuntaModel extends AbstractTableModel {
 
     private String[] columnas = {
-
+            "Cargo",
             "Nombre",
             "Apellido",
             "DNI",
@@ -35,17 +35,17 @@ public class JuntaModel extends AbstractTableModel {
         Socio s = VentanaPrincipal.getMiembrosJunta().get(rowIndex);
 
         switch (columnIndex) {
-           // case 0:
-             //   return s.getTipoCargo().getTipo();
             case 0:
-                return s.getNombre();
+                return s.getTipoCargo().getTipo();
             case 1:
-                return s.getApellidos();
+                return s.getNombre();
             case 2:
-                return s.getDni();
+                return s.getApellidos();
             case 3:
-                return s.getFechaAlta();
+                return s.getDni();
             case 4:
+                return s.getFechaAlta();
+            case 5:
                 return s.getFechaInicioNombramiento();
         }
         return null;
