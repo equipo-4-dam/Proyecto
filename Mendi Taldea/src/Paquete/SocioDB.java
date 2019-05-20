@@ -28,8 +28,9 @@ public class SocioDB {
             //Bucle para guardar en la lista el resultado para la tabla
             while (resultado.next()) {
 
-               LocalDate fechaBaja = null;
-               LocalDate fechaPago = null;
+                LocalDate fechaBaja = null;
+                LocalDate fechaPago = null;
+
 
                 if (resultado.getString("FECHA_BAJA") != null)
                     fechaBaja = LocalDate.parse(resultado.getString("FECHA_BAJA").substring(0, 10));
@@ -64,6 +65,78 @@ public class SocioDB {
 
         return socios;
     }
+
+    public static  List<Socio> recogidaSociosVentanaJunta() {
+        List<Socio> socios = new ArrayList<>();
+
+        //me conecto a la base de datos para obeter los datos para el modelo
+        Connection conectionBD = Conexion.conecta();
+
+        try {
+            //Consulta simple
+            Statement statement = conectionBD.createStatement();
+
+            String sql = "SELECT * FROM NOMBRAMIENTOS";
+
+            ResultSet resultado = statement.executeQuery(sql);
+
+            //Bucle para guardar en la lista el resultado para la tabla
+            while (resultado.next()) {
+
+                LocalDate fechaInicioNombramiento = null;
+                LocalDate fechaFinNombramiento = null;
+
+                if (resultado.getString("FECHA_INI") != null)
+                    fechaInicioNombramiento = LocalDate.parse(resultado.getString("FECHA_INI").substring(0, 10));
+
+                if (resultado.getString("FECHA_FIN") != null)
+                    fechaFinNombramiento = LocalDate.parse(resultado.getString("FECHA_FIN").substring(0, 10));
+
+               /* Socio socio = new Socio(
+                        resultado.getInt("ID_SOCIO"),
+                        resultado.getString("NOMBRE"),
+                        resultado.getString("APELLIDOS"),
+                        LocalDate.parse(resultado.getString("FECHA_NAC").substring(0, 10)),
+                        resultado.getString("DNI"),
+                        resultado.getInt("TELEFONO"),
+                        resultado.getString("EMAIL"),
+                        new Socio(resultado.getInt("RESPONSABLE")),
+                        resultado.getString("PERFIL"),
+                        LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10)),
+                        fechaBaja,
+                        fechaPago,
+                        resultado.getInt("PAGADO"),
+                        fechaInicioNombramiento,
+                        fechaFinNombramiento
+                );
+
+                */
+
+/*
+                for (int i = 0; i < VentanaPrincipal.getSocios().size(); i++) {
+                    System.out.format("%d %d\n", resultado.getInt("ID_SOCIO"), i);
+                    if (VentanaPrincipal.getSocios().get(i).getId_socio() == resultado.getInt("ID_SOCIO") && resultado.getDate("FECHA_FIN") == null) {
+
+                        //VentanaPrincipal.getSocios().get(i).setTipoCargo(VentanaPrincipal.getCargos()
+                             //   .get((resultado.getInt("ID_CARGO")) - 1));
+                        VentanaPrincipal.getSocios().get(i).setFechaInicioNombramiento(LocalDate.parse(resultado.getString("FECHA_INI").substring(0,10)));
+                    }
+
+ */
+
+                }
+
+                return socios;
+
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return socios;
+    }
+
+
+
 
     public static boolean guardarSocio(Socio socio) {
 
@@ -113,6 +186,7 @@ public class SocioDB {
             return false;
         }
     }
+
 
     public static boolean editarSocio(Socio socio) {
 

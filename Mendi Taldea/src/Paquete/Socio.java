@@ -23,13 +23,17 @@ public class Socio {
     private LocalDate fechaBaja;
     private LocalDate fechaPago;
     private boolean pagado;
+    private LocalDate fechaInicioNombramiento;
+    private LocalDate fechaFinNombramiento;
 
     //Relaciones
     private TipoCuota tipoCuota;
+    private Cargo tipoCargo;
 
     //constructores
     public Socio(int id_socio, String nombre, String apellidos, LocalDate fecha, String dni, int telefono, String email,
-                 Socio responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja, LocalDate fechaPago, int pagado) {
+                 Socio responsable, String perfil, LocalDate fechaAlta, LocalDate fechaBaja, LocalDate fechaPago,
+                 int pagado) {
         this.id_socio = id_socio;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -82,7 +86,7 @@ public class Socio {
             }
         }
 
-        return controlEdad == -1? null: VentanaPrincipal.getTipoCuotas().get(controlEdad);
+        return controlEdad == -1 ? null : VentanaPrincipal.getTipoCuotas().get(controlEdad);
 
     }
 
@@ -193,6 +197,31 @@ public class Socio {
 
     public void setPagado(boolean pagado) {
         this.pagado = pagado;
+    }
+
+
+    public LocalDate getFechaInicioNombramiento() {
+        return fechaInicioNombramiento;
+    }
+
+    public void setFechaInicioNombramiento(LocalDate fechaInicioNombramiento) {
+        this.fechaInicioNombramiento = fechaInicioNombramiento;
+    }
+
+    public LocalDate getFechaFinNombramiento() {
+        return fechaFinNombramiento;
+    }
+
+    public void setFechaFinNombramiento(LocalDate fechaFinNombramiento) {
+        this.fechaFinNombramiento = fechaFinNombramiento;
+    }
+
+    public Cargo getTipoCargo() {
+        return tipoCargo;
+    }
+
+    public void setTipoCargo(Cargo tipoCargo) {
+        this.tipoCargo = tipoCargo;
     }
 
     @Override

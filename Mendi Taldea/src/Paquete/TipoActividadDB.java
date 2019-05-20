@@ -71,7 +71,7 @@ public class TipoActividadDB {
 
         try {
 
-            String sql = "UPDATE TIPO_ACTIVIDAD SET TIPO = ?";
+            String sql = "UPDATE TIPO_ACTIVIDADES SET TIPO = ?";
 
             sql += "WHERE ID_TIPO = ?";
 

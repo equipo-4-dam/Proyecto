@@ -465,7 +465,7 @@
                     <properties/>
                     <border type="none"/>
                     <children>
-                      <component id="b57d9" class="javax.swing.JTable" binding="JTmostrarCargosJunta">
+                      <component id="b57d9" class="javax.swing.JTable" binding="JTmostrarCargosJunta" custom-create="true">
                         <constraints/>
                         <properties/>
                       </component>
