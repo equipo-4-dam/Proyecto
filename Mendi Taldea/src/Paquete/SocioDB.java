@@ -66,7 +66,7 @@ public class SocioDB {
         return socios;
     }
 
-    public static  List<Socio> recogidaSociosVentanaJunta() {
+    public static List<Socio> recogidaSociosVentanaJunta() {
         List<Socio> socios = new ArrayList<>();
 
         //me conecto a la base de datos para obeter los datos para el modelo
@@ -76,7 +76,9 @@ public class SocioDB {
             //Consulta simple
             Statement statement = conectionBD.createStatement();
 
-            String sql = "SELECT * FROM NOMBRAMIENTOS";
+            String sql = "SELECT P.TIPO, S.NOMBRE, S.APELLIDOS, S.DNI, S.TELEFONO, S.FECHA_ALTA,N.FECHA_INI \n" +
+                    "FROM SOCIOS S RIGHT JOIN NOMBRAMIENTOS N ON N.ID_SOCIO = S.ID_SOCIO\n" +
+                    "LEFT JOIN CARGOS P ON P.ID_CARGO = N.ID_CARGO";
 
             ResultSet resultado = statement.executeQuery(sql);
 
@@ -84,15 +86,26 @@ public class SocioDB {
             while (resultado.next()) {
 
                 LocalDate fechaInicioNombramiento = null;
-                LocalDate fechaFinNombramiento = null;
+                LocalDate fechaAlta = null;
 
                 if (resultado.getString("FECHA_INI") != null)
                     fechaInicioNombramiento = LocalDate.parse(resultado.getString("FECHA_INI").substring(0, 10));
 
-                if (resultado.getString("FECHA_FIN") != null)
-                    fechaFinNombramiento = LocalDate.parse(resultado.getString("FECHA_FIN").substring(0, 10));
+                if (resultado.getString("FECHA_ALTA") != null)
+                    fechaAlta = LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10));
 
-               /* Socio socio = new Socio(
+                Socio socio = new Socio();
+
+                socio.setTipoCargo(new Cargo(resultado.getString("TIPO")));
+                socio.setNombre(resultado.getString("NOMBRE"));
+                socio.setApellidos(resultado.getString("APELLIDOS"));
+                socio.setDni(resultado.getString("DNI"));
+                socio.setTelefono(resultado.getInt("TELEFONO"));
+                socio.setFechaAlta(fechaAlta);
+                socio.setFechaInicioNombramiento(fechaInicioNombramiento);
+
+
+              /*  Socio socio = new Socio(
                         resultado.getInt("ID_SOCIO"),
                         resultado.getString("NOMBRE"),
                         resultado.getString("APELLIDOS"),
@@ -108,34 +121,18 @@ public class SocioDB {
                         resultado.getInt("PAGADO"),
                         fechaInicioNombramiento,
                         fechaFinNombramiento
-                );
+                );*/
 
-                */
+              socios.add(socio);
+            }
 
-/*
-                for (int i = 0; i < VentanaPrincipal.getSocios().size(); i++) {
-                    System.out.format("%d %d\n", resultado.getInt("ID_SOCIO"), i);
-                    if (VentanaPrincipal.getSocios().get(i).getId_socio() == resultado.getInt("ID_SOCIO") && resultado.getDate("FECHA_FIN") == null) {
+            return socios;
 
-                        //VentanaPrincipal.getSocios().get(i).setTipoCargo(VentanaPrincipal.getCargos()
-                             //   .get((resultado.getInt("ID_CARGO")) - 1));
-                        VentanaPrincipal.getSocios().get(i).setFechaInicioNombramiento(LocalDate.parse(resultado.getString("FECHA_INI").substring(0,10)));
-                    }
-
- */
-
-                }
-
-                return socios;
-
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return socios;
     }
-
-
 
 
     public static boolean guardarSocio(Socio socio) {

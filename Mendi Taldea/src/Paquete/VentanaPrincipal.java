@@ -240,6 +240,10 @@ public class VentanaPrincipal extends JPanel {
 
         JTmostrarCargosJunta = new JTable();
 
+        JTpanelInferiorMiembrosJunta = new JTable();
+
+        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
     }
 
     //Getters y Setters
@@ -585,6 +589,7 @@ public class VentanaPrincipal extends JPanel {
                     }
 
  */
+                    JTmostrarCargosJunta.setModel(new JuntaModel());
                 }
 
             }
