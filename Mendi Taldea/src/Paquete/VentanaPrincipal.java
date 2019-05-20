@@ -6,7 +6,6 @@ import com.github.lgooddatepicker.components.DatePicker;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.table.DefaultTableModel;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -150,12 +149,8 @@ public class VentanaPrincipal extends JPanel {
     private JPanel JPestadoCuotas;
     private JTable JTestadoCuotas;
     private JScrollPane JSPestadoCuotas;
-    private JButton JBlimpiarDatosCuota;
-    private JButton JBeditarDatosCuota;
     private JButton JBeliminarDatosCuota;
     private JButton JBguardarDatosCuota;
-    private JCheckBox JCBpagadoCuota;
-    private JLabel JLtituloPagadoCuotas;
 
     //Ventana Cargos
     private JButton JBlimpiarCargo;
@@ -192,8 +187,12 @@ public class VentanaPrincipal extends JPanel {
 
     //obejtos temporales editar
     private int idSocio = -1;
+    private int idTipoCuota = -1;
+    private int idTipoActividad = -1;
+    private int idCargo = -1;
 
-    /*public static void main(String[] args) {
+
+    public static void main(String[] args) {
 
         JFrame frame = new JFrame("VentanaPrincipal");
         frame.setContentPane(new VentanaPrincipal().panel);
@@ -202,7 +201,7 @@ public class VentanaPrincipal extends JPanel {
         frame.setVisible(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-    }*/
+    }
 
     /////////////////////////////////////CUSTOM CREATE/////////////////////////////////////////////////
     //     Tabla personalizada para crear esto en el form hay que seleccionar custom create         ///
@@ -235,10 +234,7 @@ public class VentanaPrincipal extends JPanel {
 
         JTestadoCuotas = new JTable();
 
-        ///////VENTANA ACTIVIDAD///////
         JTactividadesOrganizadas = new JTable();
-        JTactividadesOrganizadas.setModel(new ActividadModel());
-
 
     }
 
@@ -309,19 +305,43 @@ public class VentanaPrincipal extends JPanel {
      */
     public VentanaPrincipal() {
 
+        ///////////////////////////////BOTONES DE GUARDAR/////////////////////////////////////
+
         /////////////////Boton que guarda el nuevo cargo en BD////////////////////////
         JBguardarNuevoCargo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                boolean guardado = Sentencias.guardarCargo(new Cargo(JTanyadirTipoCargo.getText()));
+                if (JTanyadirTipoCargo.getText().equals("")) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Es necesario rellenar los campos",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
 
-                if (guardado) {
+                } else {
+                    boolean guardado;
 
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    Cargo cargo = new Cargo(
+                            JTanyadirTipoCargo.getText());
 
-                    JTcargos.setModel(new CargoModel());
+                    if (idCargo != -1) {
+                        cargo.setIdCargo(idCargo);
+                        guardado = CargoDB.editarCargo(cargo);
+                    } else {
+                        guardado = CargoDB.guardarCargo(cargo);
+                    }
+
+                    if (guardado) {
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Se ha guardado correctamente",
+                                "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        JTcargos.setModel(new CargoModel());
+                    }
                 }
             }
         });
@@ -333,20 +353,39 @@ public class VentanaPrincipal extends JPanel {
             //todo falta validar los datos
             public void actionPerformed(ActionEvent e) {
 
-                boolean guardado = Sentencias.guardarTipoCuota(
-                        new TipoCuota(Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
-                                Integer.parseInt(spinner1.getValue().toString()),
-                                JTanyadirNombreTipoCuota.getText()));
+                if (JTanyadirCantidadTipoCuota.getText().equals("") || JTanyadirNombreTipoCuota.getText().equals("")) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Es necesario rellenar los campos",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
 
-                if (guardado) {
+                } else {
+                    boolean guardado;
 
-                    JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    TipoCuota tipoCuota = new TipoCuota(
+                            Integer.parseInt(JTanyadirCantidadTipoCuota.getText()),
+                            Integer.parseInt(spinner1.getValue().toString()),
+                            JTanyadirNombreTipoCuota.getText());
 
-                    JTtipoCuotas.setModel(new TipoCuotaModel());
+                    if (idTipoCuota != -1) {
+
+                        tipoCuota.setId_cuota(idTipoCuota);
+                        guardado = TipoCuotaDB.editarTipoCuota(tipoCuota);
+                    } else {
+                        guardado = TipoCuotaDB.guardarTipoCuota(tipoCuota);
+                    }
+
+                    if (guardado) {
+                        JOptionPane.showMessageDialog(null,
+                                "Se ha guardado correctamente",
+                                "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        JTtipoCuotas.setModel(new TipoCuotaModel());
+                    }
                 }
             }
-
         });
 
         //////////Boton que guarda el nuevo Tipo de actividad en BD////////////////
@@ -355,27 +394,43 @@ public class VentanaPrincipal extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 //VALIDACIONES
-                String tipoActividad = JTanyadirTipoActividad.getText();
+               /* String tipoActividad = JTanyadirTipoActividad.getText();
 
                 //todo revisar estas validaciones
                 if (!tipoActividad.matches("[A-Za-z]+"))
                     JOptionPane.showMessageDialog(null, "Error");
-
+                */
                 if (JTanyadirTipoActividad.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Es necesario rellenar los campos",
-                            "Error", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Es necesario rellenar los campos",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
 
                 } else {
-                    boolean guardado = Sentencias.guardarTipoActividad(new TipoActividad(JTanyadirTipoActividad.getText()));
+
+                    boolean guardado;
+
+                    TipoActividad tipoActividad = new TipoActividad(JTanyadirTipoActividad.getText());
+
+                    if (idTipoActividad != -1) {
+
+                        tipoActividad.setId_tipo(idTipoActividad);
+                        guardado = TipoActividadDB.editarTipoActividad(tipoActividad);
+                    } else {
+                        guardado = TipoActividadDB.guardarTipoActividad(tipoActividad);
+                    }
 
                     if (guardado) {
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                                "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Se ha guardado correctamente",
+                                "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
 
                         JTtipoActividad.setModel(new TipoActividadModel());
                     }
                 }
-
             }
         });
 
@@ -394,64 +449,70 @@ public class VentanaPrincipal extends JPanel {
                 if (menor) {
 
                     if (filaSeleccionada < 0) {
-                        JOptionPane.showMessageDialog(null,
+                        JOptionPane.showMessageDialog(
+                                null,
                                 "Este Socio es menor de edad selecciona de la lista de socios su Responsable",
                                 "Aviso",
                                 JOptionPane.WARNING_MESSAGE);
                     } else {
-
-                        int confirmacion = JOptionPane.showConfirmDialog(null,
+                        int confirmacion = JOptionPane.showConfirmDialog(
+                                null,
                                 "Responsable elegido: " + VentanaPrincipal.socios.get(filaSeleccionada).getNombre() +
                                         " " + VentanaPrincipal.socios.get(filaSeleccionada).getApellidos() + " " +
-                                        " ¿está conforme?", "AVISO", JOptionPane.YES_NO_OPTION);
-
+                                        " ¿está conforme?",
+                                "AVISO",
+                                JOptionPane.YES_NO_OPTION);
 
                         if (confirmacion == 0) {
                             socioResponsable = VentanaPrincipal.socios.get(filaSeleccionada);
-
                         }
                     }
                 }
 
                 if (!menor || socioResponsable != null) {
 
-                    //todo: hacer validaciones
-
-                    boolean guardado;
-
-                    Socio socio = new Socio(
-                            JTnombreSocio.getText(),
-                            JTapellidoSocio.getText(),
-                            DPfechaNacimientoSocio.getDate(),
-                            JTdniSocios.getText(),
-                            Integer.parseInt(JTtelefonoSocio.getText()),
-                            JTemailSocio.getText(),
-                            socioResponsable,
-                            DPfechaAltaSocio.getDate(),
-                            DPfechaBajaSocio.getDate());
-
-                    if (idSocio != -1) {
-
-                        socio.setId_socio(idSocio);
-                        guardado = Sentencias.editarSocio(socio);
-
+                    if (JTnombreSocio.getText().equals("") || JTapellidoSocio.getText().equals("") ||
+                            JTdniSocios.getText().equals("") || JTtelefonoSocio.getText().equals("") ||
+                            JTemailSocio.getText().equals("")) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Es necesario rellenar los campos",
+                                "Error",
+                                JOptionPane.WARNING_MESSAGE);
                     } else {
 
-                        guardado = Sentencias.guardarSocio(socio);
+                        boolean guardado;
 
-                    }
+                        Socio socio = new Socio(
+                                JTnombreSocio.getText(),
+                                JTapellidoSocio.getText(),
+                                DPfechaNacimientoSocio.getDate(),
+                                JTdniSocios.getText(),
+                                Integer.parseInt(JTtelefonoSocio.getText()),
+                                JTemailSocio.getText(),
+                                socioResponsable,
+                                DPfechaAltaSocio.getDate(),
+                                DPfechaBajaSocio.getDate());
 
+                        if (idSocio != -1) {
 
-                    if (guardado) {
-                        JOptionPane.showMessageDialog(null, "Se ha guardado correctamente",
-                                "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                            socio.setId_socio(idSocio);
+                            guardado = SocioDB.editarSocio(socio);
+                        } else {
+                            guardado = SocioDB.guardarSocio(socio);
+                        }
 
-                        JTsocios.setModel(new SocioModel());
+                        if (guardado) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha guardado correctamente",
+                                    "Aviso",
+                                    JOptionPane.INFORMATION_MESSAGE);
 
+                            JTsocios.setModel(new SocioModel());
+                        }
                     }
                 }
             }
-
         });
 
         /////////////Boton que Actualiza si ha pagado la cuota en BD//////////////////
@@ -459,30 +520,39 @@ public class VentanaPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //todo hay que realizar el update table
-                // boolean guardado = Sentencias.guardarCuota(new Cuota
-                //)
+                if (JTanyadirTipoActividad.getText().equals("")) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Es necesario rellenar los campos",
+                            "Error",
+                            JOptionPane.WARNING_MESSAGE);
 
-                JTestadoCuotas.setModel(new CuotaModel());
+                } else {
+                    //todo hay que realizar el update table
+                    // boolean guardado = Sentencias.guardarCuota(new Cuota
+                    //)
 
+                    JTestadoCuotas.setModel(new CuotaModel());
+                }
             }
         });
+
+        /////////////////////////////////BOTONES DE EDITAR//////////////////////////////////
 
         /////////////Boton que Actualiza socios en BD//////////////////
         JBeditarDatosSocio.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-
                 int filaSeleccionada = JTsocios.getSelectedRow();
 
                 if (filaSeleccionada < 0) {
 
-                    JOptionPane.showMessageDialog(null,
-                            "Debes seleccionar una fila de la tabla socios para poder editarla",
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
                             "Aviso",
                             JOptionPane.WARNING_MESSAGE);
-
 
                 } else {
 
@@ -499,11 +569,74 @@ public class VentanaPrincipal extends JPanel {
 
                     idSocio = socioSeleccionado.getId_socio();
                 }
-
             }
-
-
         });
+
+        /////////////Boton que Actualiza tipo de cuota en BD//////////////////
+        JBeditarDatosTipoCuota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = JTtipoCuotas.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    TipoCuota tipoCuotaSeleccionada = tipoCuotas.get(filaSeleccionada);
+
+                    JTanyadirCantidadTipoCuota.setText(String.valueOf(tipoCuotaSeleccionada.getCantidad()));
+                    spinner1.setValue(tipoCuotaSeleccionada.getEdad_limite());
+                    JTanyadirNombreTipoCuota.setText(tipoCuotaSeleccionada.getNombre());
+                }
+            }
+        });
+
+        /////////////Boton que Actualiza tipo de actividad en BD//////////////////
+        JBeditarTipoActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTtipoActividad.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    TipoActividad tipoActividadSeleccionada = tipoActividades.get(filaSeleccionada);
+
+                    JTanyadirTipoActividad.setText(tipoActividadSeleccionada.getTipo());
+                }
+            }
+        });
+
+        /////////////Boton que Actualiza cargo en BD//////////////////
+        JBeditarCargo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTcargos.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+                    Cargo cargoSeleccionado = cargos.get(filaSeleccionada);
+
+                    JTanyadirTipoCargo.setText(cargoSeleccionado.getTipo());
+                }
+            }
+        });
+
+        //////////////////////////////////////BOTONES DE ELIMINAR//////////////////////////////////////
 
         /////////////Boton que Elimina socios en BD//////////////////
         JBeliminarDatosSocio.addActionListener(new ActionListener() {
@@ -518,8 +651,6 @@ public class VentanaPrincipal extends JPanel {
                             "Debes seleccionar una fila de la tabla socios para poder eliminarla",
                             "Aviso",
                             JOptionPane.WARNING_MESSAGE);
-
-
                 } else {
 
                     int confirmacion = JOptionPane.showConfirmDialog(null,
@@ -529,8 +660,7 @@ public class VentanaPrincipal extends JPanel {
 
                     if (confirmacion == 0) {
 
-
-                        boolean eliminado = Sentencias.borrarSocio(socios.get(filaSeleccionada).getId_socio());
+                        boolean eliminado = SocioDB.borrarSocio(socios.get(filaSeleccionada).getId_socio());
 
                         if (eliminado) {
 
@@ -544,20 +674,206 @@ public class VentanaPrincipal extends JPanel {
                             socios.remove(filaSeleccionada);
 
                             JTsocios.setModel(new SocioModel());
-
                         }
-
                     }
-
                 }
+            }
+        });
+
+        /////////////Boton que Elimina Tipo de cuotas en BD//////////////////
+        JBeliminarDatosTipoCuota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = JTtipoCuotas.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla para poder eliminarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                            "Cuota Elegida: " + VentanaPrincipal.tipoCuotas.get(filaSeleccionada).getNombre() +
+                                    " ¿está completamente seguro de borrarlo?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == 0) {
+
+                        boolean eliminado = TipoCuotaDB.borrarTipoCuota(tipoCuotas.get(filaSeleccionada).getId_cuota());
+
+                        if (eliminado) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha eliminado el Tipo de Cuota correctamente",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                            //tipoCuotas.get(filaSeleccionada).getSocios().remove(tipoCuotas.get(filaSeleccionada));
+
+                            tipoCuotas.remove(filaSeleccionada);
+
+                            JTtipoCuotas.setModel(new TipoCuotaModel());
+                        }
+                    }
+                }
+            }
+        });
+
+        /////////////Boton que Elimina Tipo de actividades en BD//////////////////
+        JBeliminarTipoActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTtipoActividad.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla para poder eliminarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                            "Actividad Elegida: " + VentanaPrincipal.tipoActividades.get(filaSeleccionada).getTipo() +
+                                    " \n¿está completamente seguro de borrarlo?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == 0) {
+
+                        boolean eliminado = TipoActividadDB.borrarTipoActividad(tipoActividades.get(filaSeleccionada).getId_tipo());
+
+                        if (eliminado) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha eliminado el tipo de actividad correctamente",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                            //tipoCuotas.get(filaSeleccionada).getSocios().remove(tipoCuotas.get(filaSeleccionada));
+
+                            tipoActividades.remove(filaSeleccionada);
+
+                            JTtipoActividad.setModel(new TipoActividadModel());
+                        }
+                    }
+                }
+            }
+        });
+
+        /////////////Boton que Elimina Cargos en BD//////////////////
+        JBeliminarCargo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTcargos.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla para poder eliminarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                            "Cargo Elegido: " + VentanaPrincipal.cargos.get(filaSeleccionada).getTipo() +
+                                    " \n¿está completamente seguro de borrarlo?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == 0) {
+
+                        boolean eliminado = CargoDB.borrarCargos(cargos.get(filaSeleccionada).getIdCargo());
+
+                        if (eliminado) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha eliminado el cargo correctamente",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                            //tipoCuotas.get(filaSeleccionada).getSocios().remove(tipoCuotas.get(filaSeleccionada));
+
+                            cargos.remove(filaSeleccionada);
+
+                            JTcargos.setModel(new CargoModel());
+                        }
+                    }
+                }
+            }
+        });
+
+        //////////////////////////////////////BOTONES DE ELIMINAR//////////////////////////////////////
+
+        /////////////Boton que limpia los TextField de Socios//////////////////
+        JBlimpiarDatosSocio.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JTnombreSocio.setText("");
+                JTapellidoSocio.setText("");
+                JTdniSocios.setText("");
+                DPfechaNacimientoSocio.setText("");
+                JTtelefonoSocio.setText("");
+                JTemailSocio.setText("");
+                DPfechaAltaSocio.setText("");
+                DPfechaBajaSocio.setText("");
+            }
+        });
+
+        /////////////Boton que limpia el TextField de Cargos//////////////////
+        JBlimpiarCargo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JTanyadirTipoCargo.setText("");
+            }
+        });
+
+        /////////////Boton que limpia los TextField de TipoCuotas//////////////////
+        JBlimpiarDatosTipoCuota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JTanyadirCantidadTipoCuota.setText("");
+                spinner1.setValue(4);
+                JTanyadirNombreTipoCuota.setText("");
+            }
+        });
+
+        /////////////Boton que limpia el TextField de TipoActividad//////////////////
+        JBlimpiarTipoActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                JTanyadirTipoActividad.setText("");
+            }
+        });
+
+        /////////////Boton que limpia los TextField de Junta//////////////////
+        JBlimpiarDatosCargoJunta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //todo: falta campos de ComboBox
+                //JCBseleccionarCargoJunta.setSelectedIndex(Integer.parseInt(""));
+                DPfechaAltaCargoJunta.setText("");
+                DPfechaBajaCargoJunta.setText("");
 
             }
         });
 
+        JBlimpiarDatosOrganizarActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //todo: falta campos de ComboBox
+                JTprecioCrearActividad.setText("");
+
+            }
+        });
 
         /*
         JCBpagadoCuota.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -565,9 +881,7 @@ public class VentanaPrincipal extends JPanel {
                     JDPfechaPagadoCuota.isEnabled();
 
                 } else {
-
                 }
-
             }
         });
         */
@@ -613,10 +927,11 @@ public class VentanaPrincipal extends JPanel {
                     case 8:
                         JTtipoActividad.setModel(new TipoActividadModel());
                         break;
-
                 }
             }
         });
+
+
 
     }
 }

@@ -52,4 +52,8 @@ public class TipoCuota {
     public List<Socio> getSocios() {
         return socios;
     }
+
+    public void setId_cuota(int id_cuota) {
+        this.id_cuota = id_cuota;
+    }
 }

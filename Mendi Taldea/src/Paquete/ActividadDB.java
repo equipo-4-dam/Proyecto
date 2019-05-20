@@ -1,9 +1,6 @@
 package Paquete;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,5 +47,30 @@ public class ActividadDB {
         }
 
         return actividades;
+    }
+
+    public static boolean guardarActividad(Actividad actividad) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            PreparedStatement st = conn.prepareStatement("INSERT INTO ACTIVIDADES(FECHA, DESCRIPCION, DIFICULTAD, " +
+                    "PRECIO) VALUES (?, ?, ?, ?)");
+
+            st.setObject(1, actividad.getFecha());
+            st.setString(2, actividad.getDescripcion());
+            st.setString(3, actividad.getDificultad());
+            st.setInt(4, actividad.getPrecio());
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
     }
 }

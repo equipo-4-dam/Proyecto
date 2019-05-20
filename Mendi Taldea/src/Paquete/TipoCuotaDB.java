@@ -1,9 +1,6 @@
 package Paquete;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +41,84 @@ public class TipoCuotaDB {
         }
 
         return tipoCuotas;
+    }
+
+    public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            PreparedStatement st = conn.prepareStatement(
+                    "INSERT INTO TIPO_CUOTAS (CANTIDAD, EDAD_LIMITE, NOMBRE) VALUES (?, ?, ?)");
+
+            st.setInt(1, tipoCuota.getCantidad());
+            st.setInt(2, tipoCuota.getEdad_limite());
+            st.setString(3, tipoCuota.getNombre());
+
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean editarTipoCuota(TipoCuota tipoCuota) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            String sql = "UPDATE TIPO_CUOTAS SET CANTIDAD = ?, EDAD_LIMITE = ?, NOMBRE = ? WHERE ID_CUOTA = ?";
+
+           // sql += "WHERE ID_CUOTA = ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            //prepara la insert
+            st.setInt(1, tipoCuota.getCantidad());
+            st.setInt(2, tipoCuota.getEdad_limite());
+            st.setString(3,tipoCuota.getNombre());
+            st.setInt(4, tipoCuota.getId_cuota());
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean borrarTipoCuota(int id_cuota) {
+
+        Connection conn = Conexion.conecta();
+
+        try {
+
+            String sql = "DELETE FROM TIPO_CUOTAS WHERE ID_CUOTA = ?";
+
+            PreparedStatement st = conn.prepareStatement(sql);
+
+            //prepara la insert
+            st.setInt(1, id_cuota);
+
+            //aqui se inserta la fila
+            int filas = st.executeUpdate();
+            System.out.println("Filas afectadas: " + filas);
+
+
+            return true;
+
+        } catch (SQLException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return false;
+        }
     }
 }

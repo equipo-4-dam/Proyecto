@@ -25,4 +25,12 @@ public class Cargo {
     public int getIdCargo() {
         return idCargo;
     }
+
+    public void setIdCargo(int idCargo) {
+        this.idCargo = idCargo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 }

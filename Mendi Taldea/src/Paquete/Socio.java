@@ -45,8 +45,6 @@ public class Socio {
         this.pagado = pagado == 1;
 
         this.tipoCuota = obtenerCuota(Period.between(fecha, LocalDate.now()).getYears());
-
-
     }
 
     //Constructor para el boton guardar

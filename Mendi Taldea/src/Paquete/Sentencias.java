@@ -10,7 +10,7 @@ public class Sentencias {
 
     /////////////////////////////VENTANA CARGO/////////////////////////////
 
-    public static boolean guardarCargo(Cargo cargo) {
+    /*public static boolean guardarCargo(Cargo cargo) {
 
         //me conecto a la base de datos para obeter los datos para el modelo
         Connection conn = Conexion.conecta();
@@ -33,8 +33,10 @@ public class Sentencias {
         }
     }
 
+
+
     /////////////////////////////VENTANA TIPO_CUOTA/////////////////////////////
-/*
+
         //creo un arraylist para pasar los datos del resulset al arraylist
         List<Cargo> cargos = new ArrayList<>();
 
@@ -62,7 +64,7 @@ public class Sentencias {
 
         return cargos;
     }
-    */
+
 
 
     public static boolean guardarTipoCuota(TipoCuota tipoCuota) {
@@ -87,6 +89,9 @@ public class Sentencias {
             return false;
         }
     }
+
+
+
 
     /////////////////////////////VENTANA TIPO_ACTIVIDAD/////////////////////////////
 
@@ -113,6 +118,8 @@ public class Sentencias {
 
 
     }
+
+
 
     /////////////////////////////VENTANA Socios/////////////////////////////
     public static boolean guardarSocio(Socio socio) {
@@ -164,6 +171,8 @@ public class Sentencias {
         }
     }
 
+     */
+
 
     //////////////////////////////////////MARCAR CUOTA COMO PAGADA////////////////////////////////////////
     //TODO:update
@@ -194,7 +203,7 @@ public class Sentencias {
             System.out.println("ERROR: " + e.getMessage());
             return false;
         }
-    }*/
+    }
 
     /////////////////////////////VENTANA ACTIVIDADES/////////////////////////////
     public static boolean guardarActividad(Actividad actividad) {
@@ -221,6 +230,8 @@ public class Sentencias {
             return false;
         }
     }
+
+
 
 
     public static boolean editarSocio(Socio socio) {
@@ -270,6 +281,8 @@ public class Sentencias {
 
     }
 
+
+
     ////////////////////////borrraar/////////////////7
     public static boolean borrarSocio(int id_socio) {
 
@@ -296,6 +309,8 @@ public class Sentencias {
             return false;
         }
     }
+
+
 
     public static int hacerLogin(Login login) {
 
@@ -324,6 +339,8 @@ public class Sentencias {
             return -1;
         }
     }
+
+   */
 }
 
 

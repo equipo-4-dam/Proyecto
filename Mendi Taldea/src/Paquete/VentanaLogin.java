@@ -33,14 +33,21 @@ public class VentanaLogin {
                 String user = JTdatosUsuarioLogin.getText();
                 String pass = JTdatosPassLogin.getText();
 
-                int idSocio = Sentencias.hacerLogin(new Login(user,pass));
+                int idSocio = Login.hacerLogin(new Login(user, pass));
 
                 if (idSocio == -2)
-                    JOptionPane.showMessageDialog(null,"Login incorrecto","AVISO",JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Login incorrecto",
+                            "AVISO",
+                            JOptionPane.ERROR_MESSAGE);
                 else if (idSocio == -1)
-                    JOptionPane.showMessageDialog(null,"Ha ocurrido un error con la base de datos","AVISO",JOptionPane.ERROR_MESSAGE);
-                else{
-
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Ha ocurrido un error con la base de datos",
+                            "AVISO",
+                            JOptionPane.ERROR_MESSAGE);
+                else {
                     JFrame frame = new JFrame("VentanaPrincipal");
                     VentanaPrincipal v = new VentanaPrincipal();
                     frame.setContentPane(v.getPanel());
@@ -51,10 +58,7 @@ public class VentanaLogin {
                     v.setIdSocio(idSocio);
                     v.getJPmodificarLogin().setVisible(false);
                     framelogin.dispose();
-
                 }
-
-
             }
         });
     }
@@ -66,12 +70,12 @@ public class VentanaLogin {
         framelogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         framelogin.pack();
         framelogin.setVisible(true);
-        framelogin.setSize(450,420);
+        //framelogin.setSize(450,420);
+        framelogin.setBounds(550, 200, 450, 420);
     }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
-
         JLtituloUsuario = new JLabel(new ImageIcon("usuario.png"));
         JLtituloPass = new JLabel(new ImageIcon("pass.png"));
         JLencabezadoLogin = new JLabel(new ImageIcon("encabezadoLogin.png"));
