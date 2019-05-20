@@ -1275,7 +1275,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="86f31" class="javax.swing.JTable" binding="JTpanelInferiorActividades">
+                  <component id="86f31" class="javax.swing.JTable" binding="JTpanelInferiorActividades" custom-create="true">
                     <constraints/>
                     <properties/>
                   </component>

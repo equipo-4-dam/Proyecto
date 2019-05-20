@@ -240,6 +240,9 @@ public class VentanaPrincipal extends JPanel {
 
         JTmostrarCargosJunta = new JTable();
 
+        JTactividadesOrganizadas = new JTable();
+
+        JTpanelInferiorActividades = new JTable();
     }
 
     //Getters y Setters
@@ -954,40 +957,49 @@ public class VentanaPrincipal extends JPanel {
                 switch (tabbedPane.getSelectedIndex()) {
                     case 0:
                         //pestaña principal
-
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
+
                     case 1:
                         //modificar login
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 2:
                         JTestadoCuotas.setModel(new CuotaModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
 
                         break;
 
                     case 3:
                         JTtipoCuotas.setModel(new TipoCuotaModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 4:
                         JTmostrarDatosJunta.setModel(new SocioModel());
                         JTmostrarCargosJunta.setModel(new JuntaModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 5:
                         JTcargos.setModel(new CargoModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 6:
                         JTsocios.setModel(new SocioModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 7:
-
+                        JTactividadesOrganizadas.setModel(new ActividadModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
 
                     case 8:
                         JTtipoActividad.setModel(new TipoActividadModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
                         break;
                 }
             }
