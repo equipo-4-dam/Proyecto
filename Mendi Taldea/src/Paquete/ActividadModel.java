@@ -6,6 +6,7 @@ public class ActividadModel extends AbstractTableModel {
 
     private String[] columnas = {
             "Tipo de actividad",
+            "Organizador",
             "Fecha",
             "Dificultad",
             "Precio",
@@ -37,12 +38,14 @@ public class ActividadModel extends AbstractTableModel {
             case 0:
                 return actividad.getTipoActividad();
             case 1:
-                return actividad.getFecha();
+                return actividad.getOrganizador();
             case 2:
-                return actividad.getDificultad();
+                return actividad.getFecha();
             case 3:
-                return actividad.getPrecio();
+                return actividad.getDificultad();
             case 4:
+                return actividad.getPrecio();
+            case 5:
                 return actividad.getDescripcion();
         }
         return null;

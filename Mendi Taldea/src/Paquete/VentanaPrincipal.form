@@ -19,7 +19,28 @@
             </constraints>
             <properties/>
             <border type="none"/>
-            <children/>
+            <children>
+              <grid id="79942" binding="JPimagenPrincipal" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="20" left="20" bottom="100" right="20"/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="d8f5d" class="javax.swing.JLabel" binding="JLimagenPrincipal" custom-create="true">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                        <minimum-size width="-1" height="50"/>
+                      </grid>
+                    </constraints>
+                    <properties>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+            </children>
           </grid>
           <grid id="f6325" binding="JPmodificarLogin" layout-manager="GridLayoutManager" row-count="6" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
@@ -188,7 +209,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="CUOTAS" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="82de4" class="javax.swing.JTable" binding="JTestadoCuotas" custom-create="true">
                         <constraints/>
@@ -311,7 +334,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="TIPO DE CUOTAS" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="2bb36" class="javax.swing.JTable" binding="JTtipoCuotas" custom-create="true">
                         <constraints/>
@@ -344,7 +369,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="SOCIOS" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="186d6" class="javax.swing.JTable" binding="JTmostrarDatosJunta" custom-create="true">
                         <constraints/>
@@ -463,7 +490,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="JUNTA" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="b57d9" class="javax.swing.JTable" binding="JTmostrarCargosJunta" custom-create="true">
                         <constraints/>
@@ -498,7 +527,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="CARGOS" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="359c5" class="javax.swing.JTable" binding="JTcargos" custom-create="true">
                         <constraints/>
@@ -843,7 +874,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="SOCIOS" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="7d104" class="javax.swing.JTable" binding="JTsocios" custom-create="true">
                         <constraints/>
@@ -1021,7 +1054,9 @@
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties/>
-                        <border type="none"/>
+                        <border type="line" title="ACTIVIDADES" title-justification="2">
+                          <color color="-4473925"/>
+                        </border>
                         <children>
                           <component id="95f87" class="javax.swing.JTable" binding="JTactividadesOrganizadas" custom-create="true">
                             <constraints/>
@@ -1096,7 +1131,9 @@
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties/>
-                    <border type="none"/>
+                    <border type="line" title="TIPO DE ACTIVIDADES" title-justification="2">
+                      <color color="-4473925"/>
+                    </border>
                     <children>
                       <component id="f5ac2" class="javax.swing.JTable" binding="JTtipoActividad" custom-create="true">
                         <constraints/>
@@ -1214,7 +1251,9 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-                <border type="none"/>
+                <border type="line" title="JUNTA" title-justification="2">
+                  <color color="-4473925"/>
+                </border>
                 <children>
                   <component id="b1588" class="javax.swing.JTable" binding="JTpanelInferiorMiembrosJunta" custom-create="true">
                     <constraints/>
@@ -1273,7 +1312,9 @@
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-                <border type="none"/>
+                <border type="line" title="ACTIVIDADES" title-justification="2">
+                  <color color="-4473925"/>
+                </border>
                 <children>
                   <component id="86f31" class="javax.swing.JTable" binding="JTpanelInferiorActividades" custom-create="true">
                     <constraints/>

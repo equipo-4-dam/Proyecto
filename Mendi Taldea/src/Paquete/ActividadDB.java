@@ -21,13 +21,12 @@ public class ActividadDB {
 
             ResultSet resultado = statement.executeQuery("SELECT * FROM ACTIVIDADES");
 
-
             //Bucle para guardar en la lista el resultado para la tabla
             while (resultado.next()) {
 
                 Actividad actividad = new Actividad(
                         resultado.getInt("ID_ACTIVIDAD"),
-                        LocalDate.parse(resultado.getString("FECHA")),
+                        LocalDate.parse(resultado.getString("FECHA").substring(0,10)),
                         resultado.getString("DESCRIPCION"),
                         resultado.getString("DIFICULTAD"),
                         resultado.getInt("PRECIO"),
@@ -39,7 +38,6 @@ public class ActividadDB {
 
                 //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
                 actividades.add(actividad);
-
             }
 
         } catch (SQLException e) {

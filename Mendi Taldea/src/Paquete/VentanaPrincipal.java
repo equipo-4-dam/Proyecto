@@ -177,6 +177,8 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaPagoCuota;
     private DatePicker JDPfechaPagadoCuota;
     private JPanel JPmodificarLogin;
+    private JLabel JLimagenPrincipal;
+    private JPanel JPimagenPrincipal;
 
     //Listas
     private static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
@@ -215,6 +217,10 @@ public class VentanaPrincipal extends JPanel {
      */
     private void createUIComponents() {
 
+        //Carga una imagen en la ventana principal
+        JLimagenPrincipal = new JLabel(new ImageIcon("imagenPrincipal.png"));
+
+
         //Se modela un spinner para marcar la edad mínima al insertar un nuevo Tipo de Cuota
         SpinnerModel sm = new SpinnerNumberModel(4, 4, 60, 1);
         spinner1 = new JSpinner(sm);
@@ -243,6 +249,11 @@ public class VentanaPrincipal extends JPanel {
         JTactividadesOrganizadas = new JTable();
 
         JTpanelInferiorActividades = new JTable();
+        JTpanelInferiorActividades.setModel(new ActividadModel());
+
+        JTpanelInferiorMiembrosJunta = new JTable();
+        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
     }
 
     //Getters y Setters
@@ -959,55 +970,61 @@ public class VentanaPrincipal extends JPanel {
                     case 0:
                         //pestaña principal
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 1:
                         //modificar login
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 2:
                         JTestadoCuotas.setModel(new CuotaModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
 
                         break;
 
                     case 3:
                         JTtipoCuotas.setModel(new TipoCuotaModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 4:
                         JTmostrarDatosJunta.setModel(new SocioModel());
                         JTmostrarCargosJunta.setModel(new JuntaModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 5:
                         JTcargos.setModel(new CargoModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 6:
                         JTsocios.setModel(new SocioModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 7:
                         JTactividadesOrganizadas.setModel(new ActividadModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
 
                     case 8:
                         JTtipoActividad.setModel(new TipoActividadModel());
                         JTpanelInferiorActividades.setModel(new ActividadModel());
+                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
                 }
             }
         });
-
-
-
     }
 }
 
