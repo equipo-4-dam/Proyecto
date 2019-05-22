@@ -21,7 +21,7 @@ public class SocioDB {
 
             String sql = "SELECT S.ID_SOCIO, S.NOMBRE, S.APELLIDOS, S.FECHA_NAC, S.DNI, S.TELEFONO, S.EMAIL, " +
                     "S.RESPONSABLE, S.PERFIL, S.FECHA_ALTA, S.FECHA_BAJA, C.FECHA_PAGO, C.PAGADO " +
-                    "FROM SOCIOS S LEFT JOIN CUOTAS C ON S.ID_SOCIO = C.ID_SOCIO";
+                    "FROM SOCIOS S LEFT JOIN CUOTAS C ON S.ID_SOCIO = C.ID_SOCIO ORDER BY ID_SOCIO ";
 
             ResultSet resultado = statement.executeQuery(sql);
 
@@ -65,75 +65,6 @@ public class SocioDB {
 
         return socios;
     }
-
-    public static List<Socio> recogidaSociosVentanaJunta() {
-        List<Socio> socios = new ArrayList<>();
-
-        //me conecto a la base de datos para obeter los datos para el modelo
-        Connection conectionBD = Conexion.conecta();
-
-        try {
-            //Consulta simple
-            Statement statement = conectionBD.createStatement();
-
-            String sql = "SELECT P.TIPO, S.NOMBRE, S.APELLIDOS, S.DNI, S.TELEFONO, S.FECHA_ALTA,N.FECHA_INI \n" +
-                    "FROM SOCIOS S RIGHT JOIN NOMBRAMIENTOS N ON N.ID_SOCIO = S.ID_SOCIO\n" +
-                    "LEFT JOIN CARGOS P ON P.ID_CARGO = N.ID_CARGO";
-
-            ResultSet resultado = statement.executeQuery(sql);
-
-            //Bucle para guardar en la lista el resultado para la tabla
-            while (resultado.next()) {
-
-                LocalDate fechaInicioNombramiento = null;
-                LocalDate fechaAlta = null;
-
-                if (resultado.getString("FECHA_INI") != null)
-                    fechaInicioNombramiento = LocalDate.parse(resultado.getString("FECHA_INI").substring(0, 10));
-
-                if (resultado.getString("FECHA_ALTA") != null)
-                    fechaAlta = LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10));
-
-                Socio socio = new Socio();
-
-                socio.setTipoCargo(new Cargo(resultado.getString("TIPO")));
-                socio.setNombre(resultado.getString("NOMBRE"));
-                socio.setApellidos(resultado.getString("APELLIDOS"));
-                socio.setDni(resultado.getString("DNI"));
-                socio.setTelefono(resultado.getInt("TELEFONO"));
-                socio.setFechaAlta(fechaAlta);
-                socio.setFechaInicioNombramiento(fechaInicioNombramiento);
-
-
-              /*  Socio socio = new Socio(
-                        resultado.getInt("ID_SOCIO"),
-                        resultado.getString("NOMBRE"),
-                        resultado.getString("APELLIDOS"),
-                        LocalDate.parse(resultado.getString("FECHA_NAC").substring(0, 10)),
-                        resultado.getString("DNI"),
-                        resultado.getInt("TELEFONO"),
-                        resultado.getString("EMAIL"),
-                        new Socio(resultado.getInt("RESPONSABLE")),
-                        resultado.getString("PERFIL"),
-                        LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10)),
-                        fechaBaja,
-                        fechaPago,
-                        resultado.getInt("PAGADO"),
-                        fechaInicioNombramiento,
-                        fechaFinNombramiento
-                );*/
-
-              socios.add(socio);
-            }
-
-            return socios;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return socios;
-    }
-
 
     public static boolean guardarSocio(Socio socio) {
 
@@ -184,7 +115,6 @@ public class SocioDB {
         }
     }
 
-
     public static boolean editarSocio(Socio socio) {
 
         Connection conn = Conexion.conecta();
@@ -221,7 +151,6 @@ public class SocioDB {
             //aqui se inserta la fila
             int filas = st.executeUpdate();
             System.out.println("Filas afectadas: " + filas);
-
 
             return true;
 

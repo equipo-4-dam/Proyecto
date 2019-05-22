@@ -22,7 +22,6 @@ public class Actividad {
 
     //Constructores
 
-
     public Actividad(int id_actividad, LocalDate fecha, String descripcion, String dificultad, int precio,
                      String motivoCancelacion, boolean realizacion, int id_tipo, int organizador) {
         this.id_actividad = id_actividad;
@@ -36,11 +35,13 @@ public class Actividad {
         this.organizador = organizador;
     }
 
-    public Actividad(LocalDate fecha, String descripcion, String dificultad, int precio, TipoActividad tipoActividad) {
+    public Actividad(LocalDate fecha, String descripcion, String dificultad, int precio, int organizador,
+                     TipoActividad tipoActividad) {
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.dificultad = dificultad;
         this.precio = precio;
+        this.organizador = organizador;
         this.tipoActividad = tipoActividad;
     }
 

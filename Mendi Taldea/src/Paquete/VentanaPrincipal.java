@@ -120,7 +120,7 @@ public class VentanaPrincipal extends JPanel {
     private JLabel JLtituloFechaAltaCargoJunta;
     private JLabel JLtituloFechaBajaCargoJunta;
     private JButton JBlimpiarDatosCargoJunta;
-    private JButton JbactualizarDatosCargoJunta;
+    private JButton JBactualizarDatosCargoJunta;
     private JButton JBeliminarDatosCargoJunta;
     private JButton JBguardarDatosCargoJunta;
     private JPanel JPbotonesDatosCargoJunta;
@@ -186,7 +186,7 @@ public class VentanaPrincipal extends JPanel {
     private static List<Cargo> cargos = new ArrayList<>();
     private static List<TipoActividad> tipoActividades = new ArrayList<>();
     private static List<Actividad> actividades = new ArrayList<>();
-    private static List<Socio> miembrosJunta = SocioDB.recogidaSociosVentanaJunta();
+    private static List<Socio> miembrosJunta = JuntaDB.recogidaSociosVentanaJunta();
 
     //obejtos temporales editar
     private int idSocio = -1;
@@ -194,7 +194,7 @@ public class VentanaPrincipal extends JPanel {
     private int idTipoActividad = -1;
     private int idCargo = -1;
     private int idJunta = -1;
-
+    private int idCuota;
 
     public static void main(String[] args) {
 
@@ -330,6 +330,8 @@ public class VentanaPrincipal extends JPanel {
      * los usuarios y administradores
      */
     public VentanaPrincipal() {
+
+        //tabbedPane.setEnabledAt(5, false);
 
         ///////////////////////////////BOTONES DE GUARDAR/////////////////////////////////////
 
@@ -546,21 +548,58 @@ public class VentanaPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if (JTanyadirTipoActividad.getText().equals("")) {
+                int filaSeleccionada = JTestadoCuotas.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
                     JOptionPane.showMessageDialog(
                             null,
-                            "Es necesario rellenar los campos",
-                            "Error",
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
                             JOptionPane.WARNING_MESSAGE);
 
                 } else {
-                    //todo hay que realizar el update table
-                    // boolean guardado = Sentencias.guardarCuota(new Cuota
-                    //)
 
-                    JTestadoCuotas.setModel(new CuotaModel());
+                    Socio cuotaSeleccionada = socios.get(filaSeleccionada);
+
+                    JDPfechaPagadoCuota.setDate(cuotaSeleccionada.getFechaPago());
+
+                    idCuota = cuotaSeleccionada.getId_socio();
+                    /*
+                    JTanyadirCantidadTipoCuota.setText(String.valueOf(tipoCuotaSeleccionada.getCantidad()));
+                    spinner1.setValue(tipoCuotaSeleccionada.getEdad_limite());
+                    JTanyadirNombreTipoCuota.setText(tipoCuotaSeleccionada.getNombre());
+
+                    idTipoCuota = tipoCuotaSeleccionada.getId_cuota();
+
+                     */
                 }
+                //todo hay que realizar el update table
+                // boolean guardado = Sentencias.guardarCuota(new Cuota
+
+
+                   /* JOptionPane.showMessageDialog(null, "Seleccionado" + filaSeleccionada);
+
+                    boolean guardado = CuotaDB.editarCuotas(new Socio(JDPfechaPagadoCuota.getDate()));
+
+                    //boolean guardado;
+
+                    //Socio cuota = new Socio(JDPfechaPagadoCuota.getDate());
+
+                   //guardado = CuotaDB.guardarCuotas(cuota);
+
+                    if (guardado) {
+                        JOptionPane.showMessageDialog(null,
+                                "Se ha guardado correctamente",
+                                "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        JTestadoCuotas.setModel(new CuotaModel());
+                    }
+
+                    */
             }
+
         });
 
         JBguardarDatosCargoJunta.addActionListener(new ActionListener() {
@@ -577,15 +616,28 @@ public class VentanaPrincipal extends JPanel {
                 } else {
 
                     boolean guardado;
-/*
-                    Junta junta = new Junta();
 
-                    if (idTipoActividad != -1) {
+                    int filaSeleccionada = JTmostrarDatosJunta.getSelectedRow() + 1;
 
-                        tipoActividad.setId_tipo(idTipoActividad);
-                        guardado = TipoActividadDB.editarTipoActividad(tipoActividad);
+                    if(idJunta != -1){
+                        filaSeleccionada--;
+                    }
+                    
+                    Socio junta = new Socio(
+                            filaSeleccionada,
+                            cargos.get(JCBseleccionarCargoJunta.getSelectedIndex()),
+                            DPfechaAltaCargoJunta.getDate(),
+                            DPfechaBajaCargoJunta.getDate());
+
+                    if (idJunta != -1) {
+
+                        junta.setId_socio(idJunta);
+                        junta.setFechaFinNombramiento(DPfechaBajaCargoJunta.getDate());
+
+                        guardado = JuntaDB.editarCargosJunta(junta);
+
                     } else {
-                        guardado = TipoActividadDB.guardarTipoActividad(tipoActividad);
+                        guardado = JuntaDB.guardarCargosJunta(junta);
                     }
 
                     if (guardado) {
@@ -595,13 +647,9 @@ public class VentanaPrincipal extends JPanel {
                                 "Aviso",
                                 JOptionPane.INFORMATION_MESSAGE);
 
-                        JTtipoActividad.setModel(new TipoActividadModel());
+                        JTmostrarCargosJunta.setModel(new JuntaModel());
                     }
-
- */
-                    JTmostrarCargosJunta.setModel(new JuntaModel());
                 }
-
             }
         });
 
@@ -707,7 +755,35 @@ public class VentanaPrincipal extends JPanel {
                     JTanyadirTipoCargo.setText(cargoSeleccionado.getTipo());
 
                     idCargo = cargoSeleccionado.getIdCargo();
-               }
+                }
+            }
+        });
+
+        JBactualizarDatosCargoJunta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTmostrarCargosJunta.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    Socio cargoJuntaSeleccionado = miembrosJunta.get(filaSeleccionada);
+
+                    //JOptionPane.showMessageDialog(null, "Has seleccionado " + cargoJuntaSeleccionado.getTipoCargo().getTipo());
+
+                    JCBseleccionarCargoJunta.setSelectedItem(cargoJuntaSeleccionado.getTipoCargo().getTipo());
+                    DPfechaAltaCargoJunta.setDate(cargoJuntaSeleccionado.getFechaInicioNombramiento());
+
+                    idJunta = cargoJuntaSeleccionado.getId_socio();
+
+                    JOptionPane.showMessageDialog(null, "Has seleccionado " + idJunta);
+                }
             }
         });
 
@@ -877,6 +953,46 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
+        JBeliminarDatosCargoJunta.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTmostrarCargosJunta.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una fila de la tabla para poder eliminarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    int confirmacion = JOptionPane.showConfirmDialog(null,
+                            "Miembro de la junta elegido: " + VentanaPrincipal.miembrosJunta.get(filaSeleccionada).getId_socio() +
+                                    " \n¿está completamente seguro de borrarlo?", "AVISO", JOptionPane.YES_NO_OPTION);
+
+                    if (confirmacion == 0) {
+
+                        boolean eliminado = JuntaDB.borrarCargoJunta(miembrosJunta.get(filaSeleccionada).getId_socio());
+
+                        if (eliminado) {
+
+                            JOptionPane.showMessageDialog(null,
+                                    "Se ha eliminado el cargo correctamente",
+                                    "Aviso",
+                                    JOptionPane.WARNING_MESSAGE);
+
+                            //tipoCuotas.get(filaSeleccionada).getSocios().remove(tipoCuotas.get(filaSeleccionada));
+
+                            miembrosJunta.remove(filaSeleccionada);
+
+                            JTmostrarCargosJunta.setModel(new JuntaModel());
+                        }
+                    }
+                }
+            }
+        });
+
         //////////////////////////////////////BOTONES DE ELIMINAR//////////////////////////////////////
 
         /////////////Boton que limpia los TextField de Socios//////////////////
@@ -969,62 +1085,60 @@ public class VentanaPrincipal extends JPanel {
                 switch (tabbedPane.getSelectedIndex()) {
                     case 0:
                         //pestaña principal
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 1:
                         //modificar login
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 2:
                         JTestadoCuotas.setModel(new CuotaModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
 
                         break;
 
                     case 3:
                         JTtipoCuotas.setModel(new TipoCuotaModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 4:
                         JTmostrarDatosJunta.setModel(new SocioModel());
                         JTmostrarCargosJunta.setModel(new JuntaModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
+                        cargos.addAll(CargoDB.recogidaCargos());
+
+                        for (Cargo recogidaCargo : cargos) {
+
+                            JCBseleccionarCargoJunta.addItem(recogidaCargo.getTipo());
+                        }
+
                         break;
 
                     case 5:
                         JTcargos.setModel(new CargoModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 6:
                         JTsocios.setModel(new SocioModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 7:
                         JTactividadesOrganizadas.setModel(new ActividadModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
+
                         break;
 
                     case 8:
                         JTtipoActividad.setModel(new TipoActividadModel());
-                        JTpanelInferiorActividades.setModel(new ActividadModel());
-                        JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
                         break;
                 }
             }
         });
+
     }
 }
 

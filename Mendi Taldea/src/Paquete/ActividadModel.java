@@ -36,7 +36,7 @@ public class ActividadModel extends AbstractTableModel {
 
         switch (columnIndex){
             case 0:
-                return actividad.getTipoActividad();
+                return actividad.getTipoActividad().getTipo();
             case 1:
                 return actividad.getOrganizador();
             case 2:

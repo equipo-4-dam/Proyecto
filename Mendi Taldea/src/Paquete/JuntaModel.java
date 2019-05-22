@@ -9,14 +9,13 @@ public class JuntaModel extends AbstractTableModel {
             "Nombre",
             "Apellido",
             "DNI",
-            "Teléfono",
-            "Fecha de alta",
-            "Fecha de nombramiento"};
+            "Fecha de nombramiento",
+            "Fecha de cese"};
 
     public JuntaModel() {
         //cargamos datos
 
-        VentanaPrincipal.setMiembrosJunta(SocioDB.recogidaSociosVentanaJunta());
+        VentanaPrincipal.setMiembrosJunta(JuntaDB.recogidaSociosVentanaJunta());
     }
 
     @Override
@@ -44,9 +43,9 @@ public class JuntaModel extends AbstractTableModel {
             case 3:
                 return s.getDni();
             case 4:
-                return s.getFechaAlta();
-            case 5:
                 return s.getFechaInicioNombramiento();
+            case 5:
+                return s.getFechaFinNombramiento();
         }
         return null;
     }

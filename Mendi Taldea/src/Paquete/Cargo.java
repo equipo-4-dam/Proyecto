@@ -6,9 +6,9 @@ public class Cargo {
     private int idCargo;
     private String tipo;
 
-    //relaciones
 
 
+    //constructores
     public Cargo(int idCargo, String tipo) {
         this.idCargo = idCargo;
         this.tipo = tipo;
@@ -33,4 +33,5 @@ public class Cargo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
 }

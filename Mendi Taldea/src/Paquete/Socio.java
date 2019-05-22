@@ -2,8 +2,6 @@ package Paquete;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Socio {
 
@@ -32,6 +30,14 @@ public class Socio {
 
     //constructores
     public Socio() {
+    }
+
+    public Socio(int responsable) {
+        this.id_socio = responsable;
+    }
+
+    public Socio(LocalDate fechaPago) {
+        this.fechaPago = fechaPago;
     }
 
     //constructor de ventana
@@ -71,16 +77,18 @@ public class Socio {
         tipoCuota = obtenerCuota(Period.between(fecha, LocalDate.now()).getYears());
 
         tipoCuota.getSocios().add(this);
-
     }
 
-    //constructor socio solo con id
-    public Socio(int id_socio) {
+    //constructor socio con datos de un cargo de la junta
+    public Socio(int id_socio, Cargo id_cargo, LocalDate fechaInicioNombramiento, LocalDate fechaFinNombramiento) {
+
         this.id_socio = id_socio;
+        this.tipoCargo = id_cargo;
+        this.fechaInicioNombramiento = fechaInicioNombramiento;
+        this.fechaFinNombramiento = fechaFinNombramiento;
     }
 
     public TipoCuota obtenerCuota(int edad) {
-
 
         int controlEdad = -1;
 
@@ -91,7 +99,6 @@ public class Socio {
         }
 
         return controlEdad == -1 ? null : VentanaPrincipal.getTipoCuotas().get(controlEdad);
-
     }
 
     //Getters y Setters
