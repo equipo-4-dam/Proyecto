@@ -184,9 +184,11 @@ public class VentanaPrincipal extends JPanel {
     private static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
     private static List<Socio> socios = SocioDB.recogidaSocios();
     private static List<Cargo> cargos = new ArrayList<>();
-    private static List<TipoActividad> tipoActividades = new ArrayList<>();
-    private static List<Actividad> actividades = new ArrayList<>();
+    private static List<TipoActividad> tipoActividades = TipoActividadDB.recogidaTipoActividad();
+    private static List<Actividad> actividades = ActividadDB.recogidaActividad();
+    private static List<Actividad> actividadesPersonales = ActividadDB.recogidaActividadPersonal();
     private static List<Socio> miembrosJunta = JuntaDB.recogidaSociosVentanaJunta();
+    private static List<Actividad> actividadesVacias = ActividadDB.recogidaFechas();
 
     //obejtos temporales editar
     private int idSocio = -1;
@@ -195,6 +197,7 @@ public class VentanaPrincipal extends JPanel {
     private int idCargo = -1;
     private int idJunta = -1;
     private int idCuota;
+    private int idSociologeado = -1;
 
     public static void main(String[] args) {
 
@@ -249,7 +252,7 @@ public class VentanaPrincipal extends JPanel {
         JTactividadesOrganizadas = new JTable();
 
         JTpanelInferiorActividades = new JTable();
-        JTpanelInferiorActividades.setModel(new ActividadModel());
+        JTpanelInferiorActividades.setModel(new PersonalActividadesModel());
 
         JTpanelInferiorMiembrosJunta = new JTable();
         JTpanelInferiorMiembrosJunta.setModel(new JuntaModel());
@@ -301,9 +304,6 @@ public class VentanaPrincipal extends JPanel {
         return idSocio;
     }
 
-    public void setIdSocio(int idSocio) {
-        this.idSocio = idSocio;
-    }
 
     public JPanel getPanel() {
         return panel;
@@ -323,6 +323,18 @@ public class VentanaPrincipal extends JPanel {
 
     public static void setMiembrosJunta(List<Socio> miembrosJunta) {
         VentanaPrincipal.miembrosJunta = miembrosJunta;
+    }
+
+    public void setIdSociologeado(int idSociologeado) {
+        this.idSociologeado = idSociologeado;
+    }
+
+    public static List<Actividad> getActividadesPersonales() {
+        return actividadesPersonales;
+    }
+
+    public static void setActividadesPersonales(List<Actividad> actividadesPersonales) {
+        VentanaPrincipal.actividadesPersonales = actividadesPersonales;
     }
 
     /**
@@ -619,10 +631,10 @@ public class VentanaPrincipal extends JPanel {
 
                     int filaSeleccionada = JTmostrarDatosJunta.getSelectedRow() + 1;
 
-                    if(idJunta != -1){
+                    if (idJunta != -1) {
                         filaSeleccionada--;
                     }
-                    
+
                     Socio junta = new Socio(
                             filaSeleccionada,
                             cargos.get(JCBseleccionarCargoJunta.getSelectedIndex()),
@@ -650,6 +662,59 @@ public class VentanaPrincipal extends JPanel {
                         JTmostrarCargosJunta.setModel(new JuntaModel());
                     }
                 }
+            }
+        });
+
+        JBguardarDatosOrganizarActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int fechasDisponibles = actividadesVacias.size();
+
+                if (fechasDisponibles == 0) {
+
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Solo se puede Organizar una Actividad si hay fechas disponibles",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+
+                } else {
+                    int posicionElegida = JCBfechaCrearActividad.getSelectedIndex();
+
+                    Actividad actividadNueva = actividadesVacias.get(posicionElegida);
+
+                    actividadNueva.setTipoActividad(tipoActividades.get(JCBcrearTipoActividad.getSelectedIndex()));
+                    actividadNueva.setDificultad(JCBdificultadCrearActividad.getSelectedItem().toString());
+                    actividadNueva.setPrecio(Integer.parseInt(JTprecioCrearActividad.getText()));
+                    actividadNueva.setDescripcion(JTAdescripcionCrearActividad.getText());
+                    actividadNueva.setOrganizador(idSociologeado);
+
+                    boolean guardado = ActividadDB.guardarActividad(actividadNueva);
+
+                    if (guardado) {
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Se ha guardado correctamente",
+                                "Aviso",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                        actividadesVacias = ActividadDB.recogidaFechas();
+
+                        JCBfechaCrearActividad.removeAllItems();
+
+                        for (Actividad actividadesVacia : actividadesVacias) {
+
+                            JCBfechaCrearActividad.addItem(actividadesVacia.getFecha());
+
+                        }
+
+                        JTactividadesOrganizadas.setModel(new ActividadModel());
+                        JTpanelInferiorActividades.setModel(new ActividadModel());
+                    }
+                }
+
             }
         });
 
@@ -1076,6 +1141,60 @@ public class VentanaPrincipal extends JPanel {
             }
         });
         */
+        JBapuntarseActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTactividadesOrganizadas.getSelectedRow();
+
+                if (filaSeleccionada < 0){
+
+                    JOptionPane.showMessageDialog(null,
+                            "Debes seleccionar una Actividad para poder apuntarte",
+                            "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }else{
+
+                    boolean guardado = ActividadDB.apuntarse(idSociologeado,actividades.get(filaSeleccionada));
+
+                    if (guardado)
+                        JTpanelInferiorActividades.setModel(new PersonalActividadesModel());
+                }
+            }
+        });
+
+        JBproponerFechaAdmin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                LocalDate fechaPropuesta = JCpanelInferiorCalendario.getSelectedDate();
+
+                Actividad actividad = new Actividad(fechaPropuesta);
+
+                boolean guardado = ActividadDB.guardarActVacia(actividad);
+
+                if (guardado) {
+
+                    JOptionPane.showMessageDialog(null,
+                            "Fecha " + fechaPropuesta + " propuesta correctamente",
+                            "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+
+                    actividadesVacias = ActividadDB.recogidaFechas();
+
+                    JCBfechaCrearActividad.removeAllItems();
+
+                    for (Actividad actividadesVacia : actividadesVacias) {
+
+                        JCBfechaCrearActividad.addItem(actividadesVacia.getFecha());
+
+                    }
+
+                }
+            }
+        });
 
         /////////////////Cada una de las pestañas de la parte superior//////////////////////
         tabbedPane.addChangeListener(new ChangeListener() {
@@ -1130,6 +1249,18 @@ public class VentanaPrincipal extends JPanel {
                     case 7:
                         JTactividadesOrganizadas.setModel(new ActividadModel());
 
+                        for (TipoActividad ta : tipoActividades) {
+
+                            JCBcrearTipoActividad.addItem(ta.getTipo());
+
+                        }
+
+                        for (Actividad actividadesVacia : actividadesVacias) {
+
+                            JCBfechaCrearActividad.addItem(actividadesVacia.getFecha());
+
+                        }
+
                         break;
 
                     case 8:
@@ -1138,7 +1269,6 @@ public class VentanaPrincipal extends JPanel {
                 }
             }
         });
-
     }
 }
 
