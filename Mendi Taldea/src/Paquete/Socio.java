@@ -194,6 +194,10 @@ public class Socio {
         return tipoCuota;
     }
 
+    public void setTipoCuota(TipoCuota tipoCuota) {
+        this.tipoCuota = tipoCuota;
+    }
+
     public LocalDate getFechaPago() {
         return fechaPago;
     }

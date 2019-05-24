@@ -21,8 +21,7 @@ public class Actividad {
     private TipoActividad tipoActividad;
 
     //ConstructoreS
-    public Actividad(LocalDate fecha) {
-        this.fecha = fecha;
+    public Actividad(LocalDate fechaPropuesta) {
     }
 
     public Actividad(int id_actividad, LocalDate fecha) {
@@ -53,9 +52,7 @@ public class Actividad {
         this.tipoActividad = tipoActividad;
     }
 
-    public Actividad(LocalDate fecha) {
-        this.fecha = fecha;
-    }
+
 
     //Getters & Setters
     public int getId_actividad() {

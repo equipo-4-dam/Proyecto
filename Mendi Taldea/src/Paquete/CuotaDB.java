@@ -92,6 +92,7 @@ public class CuotaDB {
 
             st.setObject(1, socio.getFechaPago());
             st.setInt(2, socio.getId_socio());
+            //st.setInt(3, socio.getTipoCuota().getId_cuota());
 
             //aqui se inserta la fila
             int filas = st.executeUpdate();

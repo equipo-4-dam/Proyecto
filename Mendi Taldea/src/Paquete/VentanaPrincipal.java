@@ -198,7 +198,7 @@ public class VentanaPrincipal extends JPanel {
     private int idTipoActividad = -1;
     private int idCargo = -1;
     private int idJunta = -1;
-    private int idCuota;
+    private int idCuota = -1;
     private int idSociologeado = -1;
 
     public static void main(String[] args) {
@@ -574,58 +574,67 @@ public class VentanaPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                int filaSeleccionada = JTestadoCuotas.getSelectedRow();
+               /* boolean guardado;
 
-                if (filaSeleccionada < 0) {
+                TipoActividad tipoActividad = new TipoActividad(JTanyadirTipoActividad.getText());
 
+                if (idTipoActividad != -1) {
+
+                    tipoActividad.setId_tipo(idTipoActividad);
+                    guardado = TipoActividadDB.editarTipoActividad(tipoActividad);
+                } else {
+                    guardado = TipoActividadDB.guardarTipoActividad(tipoActividad);
+                }
+
+                if (guardado) {
                     JOptionPane.showMessageDialog(
                             null,
-                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Se ha guardado correctamente",
                             "Aviso",
-                            JOptionPane.WARNING_MESSAGE);
+                            JOptionPane.INFORMATION_MESSAGE);
 
-                } else {
-
-                    Socio cuotaSeleccionada = socios.get(filaSeleccionada);
-
-                    JDPfechaPagadoCuota.setDate(cuotaSeleccionada.getFechaPago());
-
-                    idCuota = cuotaSeleccionada.getId_socio();
-                    /*
-                    JTanyadirCantidadTipoCuota.setText(String.valueOf(tipoCuotaSeleccionada.getCantidad()));
-                    spinner1.setValue(tipoCuotaSeleccionada.getEdad_limite());
-                    JTanyadirNombreTipoCuota.setText(tipoCuotaSeleccionada.getNombre());
-
-                    idTipoCuota = tipoCuotaSeleccionada.getId_cuota();
-
-                     */
+                    JTtipoActividad.setModel(new TipoActividadModel());
                 }
-                //todo hay que realizar el update table
-                // boolean guardado = Sentencias.guardarCuota(new Cuota
+                
+                */
+
+                boolean guardado = false;
+
+                int filaSeleccionada = JTestadoCuotas.getSelectedRow();
+
+                Socio cuotaSeleccionada = socios.get(filaSeleccionada);
 
 
-                   /* JOptionPane.showMessageDialog(null, "Seleccionado" + filaSeleccionada);
+                //Recojo la Id de ese socio en concreto y luego la guardo
+                idSocio = cuotaSeleccionada.getId_socio();
+                idCuota = cuotaSeleccionada.getTipoCuota().getId_cuota();
 
-                    boolean guardado = CuotaDB.editarCuotas(new Socio(JDPfechaPagadoCuota.getDate()));
 
-                    //boolean guardado;
+                JOptionPane.showMessageDialog(null, "Seleccionado " + idSocio);
+                //cuota.setId_socio(idCuota);
 
-                    //Socio cuota = new Socio(JDPfechaPagadoCuota.getDate());
+                if(idSocio != -1){
+                    Socio cuota = new Socio(JDPfechaPagadoCuota.getDate());
 
-                   //guardado = CuotaDB.guardarCuotas(cuota);
+                    cuota.getTipoCuota().setId_cuota(idCuota);
+                    cuota.setId_socio(idCuota);
+                    cuota.setFechaPago(JDPfechaPagadoCuota.getDate());
 
-                    if (guardado) {
-                        JOptionPane.showMessageDialog(null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
+                    guardado = CuotaDB.editarCuotas(cuota);
+                }
 
-                        JTestadoCuotas.setModel(new CuotaModel());
-                    }
+                if(guardado){
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Se ha guardado correctamente",
+                            "Aviso",
+                            JOptionPane.INFORMATION_MESSAGE);
 
-                    */
+                    JTestadoCuotas.setModel(new CuotaModel());
+                }
+                
+                //boolean guardado = CuotaDB.editarCuotas(new Socio(JDPfechaPagadoCuota.getDate()));
             }
-
         });
 
         JBguardarDatosCargoJunta.addActionListener(new ActionListener() {
@@ -866,6 +875,31 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
+        JBeditarDatosOrganizarActividad.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int filaSeleccionada = JTactividadesOrganizadas.getSelectedRow();
+
+                if (filaSeleccionada < 0) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Debes seleccionar una fila de la tabla para poder editarla",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE);
+                } else {
+
+                    Actividad actividadSeleccionada = actividades.get(filaSeleccionada);
+
+                    JCBcrearTipoActividad.setSelectedItem(actividadSeleccionada.getTipoActividad());
+                    JCBfechaCrearActividad.setSelectedItem(actividadSeleccionada.getFecha());
+                    JCBdificultadCrearActividad.setSelectedItem(actividadSeleccionada.getDificultad());
+                    JTprecioCrearActividad.setText(String.valueOf(actividadSeleccionada.getPrecio()));
+                    JTAdescripcionCrearActividad.setText(actividadSeleccionada.getDescripcion());
+                }
+            }
+        });
+
         //////////////////////////////////////BOTONES DE ELIMINAR//////////////////////////////////////
 
         /////////////Boton que Elimina socios en BD//////////////////
@@ -1095,7 +1129,6 @@ public class VentanaPrincipal extends JPanel {
                 DPfechaNacimientoSocio.getSettings().getDateRangeLimits();
 
 
-
             }
         });
 
@@ -1140,7 +1173,6 @@ public class VentanaPrincipal extends JPanel {
                 DPfechaBajaCargoJunta.setText("");
 
 
-
             }
         });
 
@@ -1157,28 +1189,6 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
-        /**
-         * Cuando se propone una fecha, se guarda en una lista de Actividades, donde solo se guardará la fecha.
-         * El usuario podrá seleccionar la fecha propuesta y crear una Actividad completa, pasandole el resto de campos
-         */
-        JBproponerFechaAdmin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                Actividad proponerActividad = new Actividad(
-                        JCpanelInferiorCalendario.getSelectedDate());
-
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "La fecha ha sido propuesta",
-                        "Aviso",
-                        JOptionPane.INFORMATION_MESSAGE);
-
-                organizarActividades.add(proponerActividad);
-
-            }
-        });
 
 
         /*
@@ -1200,16 +1210,16 @@ public class VentanaPrincipal extends JPanel {
 
                 int filaSeleccionada = JTactividadesOrganizadas.getSelectedRow();
 
-                if (filaSeleccionada < 0){
+                if (filaSeleccionada < 0) {
 
                     JOptionPane.showMessageDialog(null,
                             "Debes seleccionar una Actividad para poder apuntarte",
                             "Aviso",
                             JOptionPane.INFORMATION_MESSAGE);
 
-                }else{
+                } else {
 
-                    boolean guardado = ActividadDB.apuntarse(idSociologeado,actividades.get(filaSeleccionada));
+                    boolean guardado = ActividadDB.apuntarse(idSociologeado, actividades.get(filaSeleccionada));
 
                     if (guardado)
                         JTpanelInferiorActividades.setModel(new PersonalActividadesModel());
@@ -1217,6 +1227,10 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
+        /**
+         * Cuando se propone una fecha, se guarda en una lista de Actividades, donde solo se guardará la fecha.
+         * El usuario podrá seleccionar la fecha propuesta y crear una Actividad completa, pasandole el resto de campos
+         */
         JBproponerFechaAdmin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -1244,7 +1258,6 @@ public class VentanaPrincipal extends JPanel {
                         JCBfechaCrearActividad.addItem(actividadesVacia.getFecha());
 
                     }
-
                 }
             }
         });
@@ -1331,8 +1344,83 @@ public class VentanaPrincipal extends JPanel {
 
                 super.mouseClicked(e);
 
+                JDPfechaPagadoCuota.setEnabled(true);
                 JBguardarDatosCuota.setEnabled(true);
                 JBeliminarDatosCuota.setEnabled(true);
+            }
+        });
+
+        JTtipoCuotas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBlimpiarDatosTipoCuota.setEnabled(true);
+                JBeditarDatosTipoCuota.setEnabled(true);
+                JBeliminarDatosTipoCuota.setEnabled(true);
+                JBguardarDatosTipoCuota.setEnabled(true);
+            }
+        });
+
+        JTmostrarDatosJunta.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBlimpiarDatosCargoJunta.setEnabled(true);
+                JBguardarDatosCargoJunta.setEnabled(true);
+            }
+        });
+
+        JTmostrarCargosJunta.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBlimpiarDatosCargoJunta.setEnabled(true);
+                JBactualizarDatosCargoJunta.setEnabled(true);
+                JBeliminarDatosCargoJunta.setEnabled(true);
+                JBguardarDatosCargoJunta.setEnabled(true);
+            }
+        });
+        JTcargos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBeditarCargo.setEnabled(true);
+                JBeliminarCargo.setEnabled(true);
+            }
+        });
+        JTsocios.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBeditarDatosSocio.setEnabled(true);
+                JBeliminarDatosSocio.setEnabled(true);
+            }
+        });
+        JTactividadesOrganizadas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBapuntarseActividad.setEnabled(true);
+                //todo --> solo podra cancelarla el que es organizador
+                JBcancelarActividadCreada.setEnabled(true);
+                JBeditarDatosOrganizarActividad.setEnabled(true);
+                JBeliminarDatosOrganiarActividad.setEnabled(true);
+            }
+        });
+        JTtipoActividad.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                JBeditarTipoActividad.setEnabled(true);
+                JBeliminarTipoActividad.setEnabled(true);
+
             }
         });
     }
