@@ -2,6 +2,11 @@ package Paquete;
 
 import javax.swing.table.AbstractTableModel;
 
+/**
+ * Clase que pinta las los titulos de las columnas de una tabla y luego carga los datos
+ *
+ */
+
 public class ActividadModel extends AbstractTableModel {
 
     private String[] columnas = {

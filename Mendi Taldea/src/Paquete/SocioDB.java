@@ -187,6 +187,13 @@ public class SocioDB {
         }
     }
 
+    /**
+     * Función que recoge los nombres y apellidos de los socios al logearse un usuario, para luego mostrarlos
+     * en la tabla de Socios
+     *
+     * @return Lista de socios
+     */
+
     public static List<Socio> recogidaSocioUsuario() {
 
         //creo un arraylist para pasar los datos del resulset al arraylist

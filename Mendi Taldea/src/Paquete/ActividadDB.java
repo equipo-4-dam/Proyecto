@@ -5,8 +5,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class ActividadDB {
 
+    /**
+     * Funcion que recoge los campos especificados de la tabla Actividades de la base de datos para luego mostrarlos
+     *
+     * @return Lista de actividades
+     */
     public static List<Actividad> recogidaActividad() {
 
         //creo un arraylist para pasar los datos del resulset al arraylist
@@ -72,6 +79,12 @@ public class ActividadDB {
         }
     }
 
+    /**
+     * Función que rellena una lista de tipo Actividad con la fecha propuesta por el Administrador, teniendo el resto
+     * de campos a null
+     *
+     * @return Lista de actividades
+     */
     public static List<Actividad> recogidaFechas() {
 
         Connection conn = Conexion.conecta();
@@ -101,9 +114,14 @@ public class ActividadDB {
         }
 
         return actividades;
-
     }
 
+    /**
+     * Función que inserta en Actividades la fecha propuesta por el Administrador
+     *
+     * @param actividad
+     * @return
+     */
     public static boolean guardarActVacia(Actividad actividad) {
 
         Connection conn = Conexion.conecta();
@@ -127,6 +145,14 @@ public class ActividadDB {
 
     }
 
+    /**
+     * Función para apuntarse a una actividad que ya ha sido organizada por un Usuario, guarda en la tabla Participantes
+     * el id del socio que se ha apuntado, y el id de actividad (claves primarias de la tabla)
+     *
+     * @param idSociologeado
+     * @param actividad
+     * @return
+     */
     public static boolean apuntarse(int idSociologeado, Actividad actividad) {
 
         Connection conn = Conexion.conecta();
@@ -149,6 +175,11 @@ public class ActividadDB {
 
     }
 
+    /**
+     * Función que recoge los datos de las actividades a las que el usuario está apuntado
+     *
+     * @return Lista actividades
+     */
     public static List<Actividad> recogidaActividadPersonal() {
 
         List<Actividad> actividades = new ArrayList<>();
