@@ -55,10 +55,16 @@ public class VentanaLogin {
                     frame.pack();
                     frame.setVisible(true);
                     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    v.setIdSocio(idSocio);
+                    v.setIdSociologeado(idSocio);
                     v.getJPmodificarLogin().setVisible(false);
                     framelogin.dispose();
                 }
+            }
+        });
+        JTdatosPassLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JBiniciarSesion.doClick();
             }
         });
     }

@@ -17,8 +17,8 @@ public class JuntaDB {
             //Consulta simple
             Statement statement = conectionBD.createStatement();
 
-            String sql = "SELECT S.ID_SOCIO, P.TIPO, S.NOMBRE, S.APELLIDOS, S.DNI, S.TELEFONO, S.FECHA_ALTA,N.FECHA_INI \n" +
-                    "FROM SOCIOS S RIGHT JOIN NOMBRAMIENTOS N ON N.ID_SOCIO = S.ID_SOCIO\n" +
+            String sql = "SELECT S.ID_SOCIO, P.TIPO, S.NOMBRE, S.APELLIDOS, S.DNI, S.TELEFONO,N.FECHA_INI, " +
+                    "N.FECHA_FIN FROM SOCIOS S RIGHT JOIN NOMBRAMIENTOS N ON N.ID_SOCIO = S.ID_SOCIO\n" +
                     "LEFT JOIN CARGOS P ON P.ID_CARGO = N.ID_CARGO";
 
             ResultSet resultado = statement.executeQuery(sql);
@@ -28,12 +28,13 @@ public class JuntaDB {
 
                 LocalDate fechaInicioNombramiento = null;
                 LocalDate fechaAlta = null;
+                LocalDate fechaCese = null;
 
                 if (resultado.getString("FECHA_INI") != null)
                     fechaInicioNombramiento = LocalDate.parse(resultado.getString("FECHA_INI").substring(0, 10));
 
-                if (resultado.getString("FECHA_ALTA") != null)
-                    fechaAlta = LocalDate.parse(resultado.getString("FECHA_ALTA").substring(0, 10));
+                if (resultado.getString("FECHA_FIN") != null)
+                    fechaCese = LocalDate.parse(resultado.getString("FECHA_FIN").substring(0, 10));
 
                 Socio socio = new Socio();
 
@@ -43,8 +44,8 @@ public class JuntaDB {
                 socio.setApellidos(resultado.getString("APELLIDOS"));
                 socio.setDni(resultado.getString("DNI"));
                 socio.setTelefono(resultado.getInt("TELEFONO"));
-                socio.setFechaAlta(fechaAlta);
                 socio.setFechaInicioNombramiento(fechaInicioNombramiento);
+                socio.setFechaFinNombramiento(fechaCese);
 
                 socios.add(socio);
             }

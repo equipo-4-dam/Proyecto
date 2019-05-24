@@ -20,7 +20,15 @@ public class Actividad {
     //Relaciones
     private TipoActividad tipoActividad;
 
-    //Constructores
+    //ConstructoreS
+    public Actividad(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
+    public Actividad(int id_actividad, LocalDate fecha) {
+        this.id_actividad = id_actividad;
+        this.fecha = fecha;
+    }
 
     public Actividad(int id_actividad, LocalDate fecha, String descripcion, String dificultad, int precio,
                      String motivoCancelacion, boolean realizacion, int id_tipo, int organizador) {
@@ -124,5 +132,9 @@ public class Actividad {
 
     public TipoActividad getTipoActividad() {
         return tipoActividad;
+    }
+
+    public void setTipoActividad(TipoActividad tipoActividad) {
+        this.tipoActividad = tipoActividad;
     }
 }
