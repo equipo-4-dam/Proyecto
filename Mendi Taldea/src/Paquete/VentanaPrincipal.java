@@ -188,7 +188,6 @@ public class VentanaPrincipal extends JPanel {
     private static List<TipoActividad> tipoActividades = TipoActividadDB.recogidaTipoActividad();
     private static List<Actividad> actividades = ActividadDB.recogidaActividad();
     private static List<Actividad> actividadesPersonales = ActividadDB.recogidaActividadPersonal();
-    private static final List<Actividad> organizarActividades = new ArrayList<>();
     private static List<Socio> miembrosJunta = JuntaDB.recogidaSociosVentanaJunta();
     private static List<Actividad> actividadesVacias = ActividadDB.recogidaFechas();
 
@@ -610,17 +609,17 @@ public class VentanaPrincipal extends JPanel {
                 idCuota = cuotaSeleccionada.getTipoCuota().getId_cuota();
 
 
-                JOptionPane.showMessageDialog(null, "Seleccionado " + idSocio);
+                JOptionPane.showMessageDialog(null, "Seleccionado " + idCuota);
                 //cuota.setId_socio(idCuota);
 
                 if(idSocio != -1){
                     Socio cuota = new Socio(JDPfechaPagadoCuota.getDate());
 
-                    cuota.getTipoCuota().setId_cuota(idCuota);
+                    //cuota.getTipoCuota().setId_cuota(idCuota);
                     cuota.setId_socio(idCuota);
                     cuota.setFechaPago(JDPfechaPagadoCuota.getDate());
 
-                    guardado = CuotaDB.editarCuotas(cuota);
+                    guardado = CuotaDB.guardarCuotas(cuota);
                 }
 
                 if(guardado){
