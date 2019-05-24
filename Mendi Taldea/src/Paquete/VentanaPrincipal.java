@@ -188,7 +188,6 @@ public class VentanaPrincipal extends JPanel {
     private static List<TipoActividad> tipoActividades = TipoActividadDB.recogidaTipoActividad();
     private static List<Actividad> actividades = ActividadDB.recogidaActividad();
     private static List<Actividad> actividadesPersonales = ActividadDB.recogidaActividadPersonal();
-    private static final List<Actividad> organizarActividades = new ArrayList<>();
     private static List<Socio> miembrosJunta = JuntaDB.recogidaSociosVentanaJunta();
     private static List<Actividad> actividadesVacias = ActividadDB.recogidaFechas();
 
