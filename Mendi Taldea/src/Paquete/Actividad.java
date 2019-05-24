@@ -45,6 +45,10 @@ public class Actividad {
         this.tipoActividad = tipoActividad;
     }
 
+    public Actividad(LocalDate fecha) {
+        this.fecha = fecha;
+    }
+
     //Getters & Setters
     public int getId_actividad() {
         return id_actividad;

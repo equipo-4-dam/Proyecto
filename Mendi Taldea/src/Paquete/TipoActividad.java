@@ -11,6 +11,7 @@ public class TipoActividad {
 
     //Relaciones
     private static final List<Actividad> actividades = new ArrayList<>();
+    //private static final List<Actividad> organizarActividades = new ArrayList<>();
 
     //Constructores
     public TipoActividad(int id_tipo, String tipo) {

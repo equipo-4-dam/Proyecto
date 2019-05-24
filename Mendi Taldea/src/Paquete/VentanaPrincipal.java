@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -186,6 +187,7 @@ public class VentanaPrincipal extends JPanel {
     private static List<Cargo> cargos = new ArrayList<>();
     private static List<TipoActividad> tipoActividades = new ArrayList<>();
     private static List<Actividad> actividades = new ArrayList<>();
+    private static final List<Actividad> organizarActividades = new ArrayList<>();
     private static List<Socio> miembrosJunta = JuntaDB.recogidaSociosVentanaJunta();
 
     //obejtos temporales editar
@@ -331,7 +333,19 @@ public class VentanaPrincipal extends JPanel {
      */
     public VentanaPrincipal() {
 
-        //tabbedPane.setEnabledAt(5, false);
+        //Bloquea las pestañas para que no se pueda cliclar sobre ellas, dependiendo de si eres Admin o Usuario
+        /*
+        tabbedPane.setEnabledAt(0, false);
+        tabbedPane.setEnabledAt(1, false);
+        tabbedPane.setEnabledAt(2, false);
+        tabbedPane.setEnabledAt(3, false);
+        tabbedPane.setEnabledAt(4, false);
+        tabbedPane.setEnabledAt(5, false);
+        tabbedPane.setEnabledAt(6, false);
+        tabbedPane.setEnabledAt(7, false);
+        tabbedPane.setEnabledAt(8, false);
+
+         */
 
         ///////////////////////////////BOTONES DE GUARDAR/////////////////////////////////////
 
@@ -619,10 +633,10 @@ public class VentanaPrincipal extends JPanel {
 
                     int filaSeleccionada = JTmostrarDatosJunta.getSelectedRow() + 1;
 
-                    if(idJunta != -1){
+                    if (idJunta != -1) {
                         filaSeleccionada--;
                     }
-                    
+
                     Socio junta = new Socio(
                             filaSeleccionada,
                             cargos.get(JCBseleccionarCargoJunta.getSelectedIndex()),
@@ -1008,6 +1022,15 @@ public class VentanaPrincipal extends JPanel {
                 JTemailSocio.setText("");
                 DPfechaAltaSocio.setText("");
                 DPfechaBajaSocio.setText("");
+
+                //DPfechaNacimientoSocio
+                //Obtiene la misma fecha de hoy, pero le resta 4 años.
+                LocalDate edadMinima4 = LocalDate.now().minus(4, ChronoUnit.YEARS);
+
+                DPfechaNacimientoSocio.getSettings().getDateRangeLimits();
+
+
+
             }
         });
 
@@ -1047,8 +1070,11 @@ public class VentanaPrincipal extends JPanel {
 
                 //todo: falta campos de ComboBox
                 //JCBseleccionarCargoJunta.setSelectedIndex(Integer.parseInt(""));
+                JCBseleccionarCargoJunta.setSelectedItem("");
                 DPfechaAltaCargoJunta.setText("");
                 DPfechaBajaCargoJunta.setText("");
+
+
 
             }
         });
@@ -1058,10 +1084,37 @@ public class VentanaPrincipal extends JPanel {
             public void actionPerformed(ActionEvent e) {
 
                 //todo: falta campos de ComboBox
+                JCBcrearTipoActividad.setSelectedItem("");
+                JCBfechaCrearActividad.setSelectedItem("");
+                JCBdificultadCrearActividad.setSelectedItem("");
                 JTprecioCrearActividad.setText("");
 
             }
         });
+
+        /**
+         * Cuando se propone una fecha, se guarda en una lista de Actividades, donde solo se guardará la fecha.
+         * El usuario podrá seleccionar la fecha propuesta y crear una Actividad completa, pasandole el resto de campos
+         */
+        JBproponerFechaAdmin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Actividad proponerActividad = new Actividad(
+                        JCpanelInferiorCalendario.getSelectedDate());
+
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "La fecha ha sido propuesta",
+                        "Aviso",
+                        JOptionPane.INFORMATION_MESSAGE);
+
+                organizarActividades.add(proponerActividad);
+
+            }
+        });
+
 
         /*
         JCBpagadoCuota.addActionListener(new ActionListener() {
@@ -1096,7 +1149,6 @@ public class VentanaPrincipal extends JPanel {
                     case 2:
                         JTestadoCuotas.setModel(new CuotaModel());
 
-
                         break;
 
                     case 3:
@@ -1130,6 +1182,21 @@ public class VentanaPrincipal extends JPanel {
                     case 7:
                         JTactividadesOrganizadas.setModel(new ActividadModel());
 
+                        //Rellena el ComboBox del tipo de actividad
+                        for (Actividad actividadesTipo : actividades) {
+                            JCBcrearTipoActividad.addItem(actividadesTipo.getTipoActividad());
+                        }
+
+                        //Rellena el ComboBox de las fechas de las actividades propuestas por el Admin
+                        for (Actividad organizarActividades : organizarActividades) {
+                            JCBfechaCrearActividad.addItem(organizarActividades.getFecha());
+                        }
+
+                        //Rellena el ComboBox con la dificultad de la actividad
+                        for (Actividad actividadesDificultad : actividades) {
+                            JCBdificultadCrearActividad.addItem(actividadesDificultad.getDificultad());
+                        }
+
                         break;
 
                     case 8:
@@ -1139,8 +1206,24 @@ public class VentanaPrincipal extends JPanel {
             }
         });
 
+        ////////////////////////////////////////HABILITAR BOTONES//////////////////////////////////////////////
+
+        //Cuando se selecciona una fila de la tabla Cuotas, los botones de guardar y eliminar quedan habilitados
+        JTestadoCuotas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                super.mouseClicked(e);
+
+                JBguardarDatosCuota.setEnabled(true);
+                JBeliminarDatosCuota.setEnabled(true);
+            }
+        });
     }
 }
+
+
+
 
 
 
