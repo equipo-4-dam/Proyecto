@@ -187,4 +187,41 @@ public class SocioDB {
         }
     }
 
+    public static List<Socio> recogidaSocioUsuario() {
+
+        //creo un arraylist para pasar los datos del resulset al arraylist
+        List<Socio> socios = new ArrayList<>();
+
+        //me conecto a la base de datos para obeter los datos para el modelo
+        Connection conectionBD = Conexion.conecta();
+
+        try {
+            //Consulta simple
+            Statement statement = conectionBD.createStatement();
+
+            String sql = "SELECT ID_SOCIO, NOMBRE, APELLIDOS " +
+                    "FROM SOCIOS";
+
+            ResultSet resultado = statement.executeQuery(sql);
+
+            //Bucle para guardar en la lista el resultado para la tabla
+            while (resultado.next()) {
+
+                Socio socio = new Socio();
+
+                socio.setId_socio(resultado.getInt("ID_SOCIO"));
+                socio.setNombre(resultado.getString("NOMBRE"));
+                socio.setApellidos(resultado.getString("APELLIDOS"));
+
+
+                //Al recorrer el resulset se va cargando la lista de objetos cargo que iran en la tabla
+                socios.add(socio);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return socios;
+    }
 }

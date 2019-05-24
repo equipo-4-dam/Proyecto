@@ -25,6 +25,7 @@ public class VentanaLogin {
     private static VentanaLogin ventanaLogin;
     private static JFrame framelogin;
 
+
     public VentanaLogin() {
         JBiniciarSesion.addActionListener(new ActionListener() {
             @Override
@@ -49,13 +50,13 @@ public class VentanaLogin {
                             JOptionPane.ERROR_MESSAGE);
                 else {
                     JFrame frame = new JFrame("VentanaPrincipal");
-                    VentanaPrincipal v = new VentanaPrincipal();
+                    VentanaPrincipal v = new VentanaPrincipal(idSocio);
                     frame.setContentPane(v.getPanel());
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     frame.pack();
                     frame.setVisible(true);
                     frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    v.setIdSociologeado(idSocio);
+                    //v.setIdSociologeado(idSocio);
                     v.getJPmodificarLogin().setVisible(false);
                     framelogin.dispose();
                 }

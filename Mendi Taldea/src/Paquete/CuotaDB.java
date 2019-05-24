@@ -62,11 +62,13 @@ public class CuotaDB {
 
         try {
 
-            String sql = "INSERT INTO CUOTAS(FECHA_PAGO) VALUES (?)";
+            String sql = "INSERT INTO CUOTAS (ID_SOCIO,ID_CUOTA,FECHA_PAGO,PAGADO) VALUES (?,?,?,1)";
 
             PreparedStatement st = conn.prepareStatement(sql);
 
-            st.setObject(1, socio.getFechaPago());
+            st.setObject(1, socio.getId_socio());
+            st.setObject(2, socio.getTipoCuota().getId_cuota());
+            st.setObject(3, socio.getFechaPago());
 
             //aqui se inserta la fila
             int filas = st.executeUpdate();

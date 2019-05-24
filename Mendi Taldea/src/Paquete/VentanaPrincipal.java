@@ -183,7 +183,7 @@ public class VentanaPrincipal extends JPanel {
 
     //Listas
     private static List<TipoCuota> tipoCuotas = TipoCuotaDB.recogidaTipoCuota();
-    private static List<Socio> socios = SocioDB.recogidaSocios();
+    private static List<Socio> socios;
     private static List<Cargo> cargos = new ArrayList<>();
     private static List<TipoActividad> tipoActividades = TipoActividadDB.recogidaTipoActividad();
     private static List<Actividad> actividades = ActividadDB.recogidaActividad();
@@ -199,16 +199,19 @@ public class VentanaPrincipal extends JPanel {
     private int idCargo = -1;
     private int idJunta = -1;
     private int idCuota = -1;
-    private int idSociologeado = -1;
+    private static Socio socioLogeado = null;
+    private static int idSociologeado = -1;
 
     public static void main(String[] args) {
 
         JFrame frame = new JFrame("VentanaPrincipal");
-        frame.setContentPane(new VentanaPrincipal().panel);
+        //frame.setContentPane(new VentanaPrincipal().panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        //Bloquea las pestañas para que no se pueda clicar sobre ellas, dependiendo de si eres Admin o Usuario
 
     }
 
@@ -343,22 +346,52 @@ public class VentanaPrincipal extends JPanel {
      * Se utiliza para escribir el codigo que ejecutan los elementos con los que interactuan
      * los usuarios y administradores
      */
-    public VentanaPrincipal() {
+    public VentanaPrincipal(int idSociolog) {
 
-        //Bloquea las pestañas para que no se pueda cliclar sobre ellas, dependiendo de si eres Admin o Usuario
-        /*
-        tabbedPane.setEnabledAt(0, false);
-        tabbedPane.setEnabledAt(1, false);
-        tabbedPane.setEnabledAt(2, false);
-        tabbedPane.setEnabledAt(3, false);
-        tabbedPane.setEnabledAt(4, false);
-        tabbedPane.setEnabledAt(5, false);
-        tabbedPane.setEnabledAt(6, false);
-        tabbedPane.setEnabledAt(7, false);
-        tabbedPane.setEnabledAt(8, false);
+        socios = SocioDB.recogidaSocios();
 
-         */
+        idSociologeado = idSociolog;
+        for (Socio socio : socios) {
 
+            if (socio.getId_socio() == idSociologeado) {
+
+                socioLogeado = socio;
+            }
+        }
+        if (socioLogeado.getPerfil().toUpperCase().equals("USUARIO")) {
+
+
+            //tabbedPane.setEnabledAt(0, false);
+            //tabbedPane.setEnabledAt(1, false);
+            tabbedPane.setEnabledAt(2, false);
+            tabbedPane.setEnabledAt(3, false);
+            tabbedPane.setEnabledAt(4, false);
+            tabbedPane.setEnabledAt(5, false);
+            //tabbedPane.setEnabledAt(6, false);
+            //tabbedPane.setEnabledAt(7, false);
+            tabbedPane.setEnabledAt(8, false);
+
+            JBproponerFechaAdmin.setEnabled(false);
+            JBeditarDatosSocio.setEnabled(false);
+
+            //carga de datos que solo puede ver el socio logeado
+            JTnombreSocio.setText(socioLogeado.getNombre());
+            JTapellidoSocio.setText(socioLogeado.getApellidos());
+            JTdniSocios.setText(socioLogeado.getDni());
+            DPfechaNacimientoSocio.setDate(socioLogeado.getFecha());
+            JTtelefonoSocio.setText(String.valueOf(socioLogeado.getTelefono()));
+            JTemailSocio.setText(socioLogeado.getEmail());
+            DPfechaAltaSocio.setDate(socioLogeado.getFechaAlta());
+            DPfechaBajaSocio.setDate(socioLogeado.getFechaBaja());
+
+            JTnombreSocio.setEnabled(false);
+            JTapellidoSocio.setEnabled(false);
+            JTdniSocios.setEnabled(false);
+            DPfechaNacimientoSocio.setEnabled(false);
+            DPfechaAltaSocio.setEnabled(false);
+            DPfechaBajaSocio.setEnabled(false);
+
+        }
         ///////////////////////////////BOTONES DE GUARDAR/////////////////////////////////////
 
         /////////////////Boton que guarda el nuevo cargo en BD////////////////////////
@@ -387,12 +420,6 @@ public class VentanaPrincipal extends JPanel {
                     }
 
                     if (guardado) {
-
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
 
                         JTcargos.setModel(new CargoModel());
                     }
@@ -431,10 +458,6 @@ public class VentanaPrincipal extends JPanel {
                     }
 
                     if (guardado) {
-                        JOptionPane.showMessageDialog(null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
 
                         JTtipoCuotas.setModel(new TipoCuotaModel());
                     }
@@ -476,11 +499,6 @@ public class VentanaPrincipal extends JPanel {
                     }
 
                     if (guardado) {
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
 
                         JTtipoActividad.setModel(new TipoActividadModel());
                     }
@@ -557,10 +575,6 @@ public class VentanaPrincipal extends JPanel {
                         }
 
                         if (guardado) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Se ha guardado correctamente",
-                                    "Aviso",
-                                    JOptionPane.INFORMATION_MESSAGE);
 
                             JTsocios.setModel(new SocioModel());
                         }
@@ -574,30 +588,6 @@ public class VentanaPrincipal extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-               /* boolean guardado;
-
-                TipoActividad tipoActividad = new TipoActividad(JTanyadirTipoActividad.getText());
-
-                if (idTipoActividad != -1) {
-
-                    tipoActividad.setId_tipo(idTipoActividad);
-                    guardado = TipoActividadDB.editarTipoActividad(tipoActividad);
-                } else {
-                    guardado = TipoActividadDB.guardarTipoActividad(tipoActividad);
-                }
-
-                if (guardado) {
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Se ha guardado correctamente",
-                            "Aviso",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                    JTtipoActividad.setModel(new TipoActividadModel());
-                }
-                
-                */
-
                 boolean guardado = false;
 
                 int filaSeleccionada = JTestadoCuotas.getSelectedRow();
@@ -607,32 +597,24 @@ public class VentanaPrincipal extends JPanel {
 
                 //Recojo la Id de ese socio en concreto y luego la guardo
                 idSocio = cuotaSeleccionada.getId_socio();
-                idCuota = cuotaSeleccionada.getTipoCuota().getId_cuota();
-
 
                 JOptionPane.showMessageDialog(null, "Seleccionado " + idSocio);
                 //cuota.setId_socio(idCuota);
 
-                if(idSocio != -1){
-                    Socio cuota = new Socio(JDPfechaPagadoCuota.getDate());
+                if (idSocio != -1) {
 
-                    cuota.getTipoCuota().setId_cuota(idCuota);
-                    cuota.setId_socio(idCuota);
-                    cuota.setFechaPago(JDPfechaPagadoCuota.getDate());
+                    cuotaSeleccionada.setFechaPago(JDPfechaPagadoCuota.getDate());
+                    cuotaSeleccionada.setPagado(true);
 
-                    guardado = CuotaDB.editarCuotas(cuota);
+                    guardado = CuotaDB.guardarCuotas(cuotaSeleccionada);
                 }
 
-                if(guardado){
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Se ha guardado correctamente",
-                            "Aviso",
-                            JOptionPane.INFORMATION_MESSAGE);
+                if (guardado) {
 
                     JTestadoCuotas.setModel(new CuotaModel());
+
                 }
-                
+
                 //boolean guardado = CuotaDB.editarCuotas(new Socio(JDPfechaPagadoCuota.getDate()));
             }
         });
@@ -676,11 +658,6 @@ public class VentanaPrincipal extends JPanel {
                     }
 
                     if (guardado) {
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
 
                         JTmostrarCargosJunta.setModel(new JuntaModel());
                     }
@@ -716,12 +693,6 @@ public class VentanaPrincipal extends JPanel {
                     boolean guardado = ActividadDB.guardarActividad(actividadNueva);
 
                     if (guardado) {
-
-                        JOptionPane.showMessageDialog(
-                                null,
-                                "Se ha guardado correctamente",
-                                "Aviso",
-                                JOptionPane.INFORMATION_MESSAGE);
 
                         actividadesVacias = ActividadDB.recogidaFechas();
 
@@ -863,14 +834,13 @@ public class VentanaPrincipal extends JPanel {
 
                     Socio cargoJuntaSeleccionado = miembrosJunta.get(filaSeleccionada);
 
-                    //JOptionPane.showMessageDialog(null, "Has seleccionado " + cargoJuntaSeleccionado.getTipoCargo().getTipo());
+
 
                     JCBseleccionarCargoJunta.setSelectedItem(cargoJuntaSeleccionado.getTipoCargo().getTipo());
                     DPfechaAltaCargoJunta.setDate(cargoJuntaSeleccionado.getFechaInicioNombramiento());
 
                     idJunta = cargoJuntaSeleccionado.getId_socio();
 
-                    JOptionPane.showMessageDialog(null, "Has seleccionado " + idJunta);
                 }
             }
         });
@@ -1307,7 +1277,10 @@ public class VentanaPrincipal extends JPanel {
                         break;
 
                     case 6:
-                        JTsocios.setModel(new SocioModel());
+                        if (socioLogeado.getPerfil().toUpperCase().equals("ADMINISTRADOR"))
+                            JTsocios.setModel(new SocioModel());
+                        else
+                            JTsocios.setModel(new SocioUsuarioModel());
 
                         break;
 

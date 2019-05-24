@@ -22,6 +22,7 @@ public class Actividad {
 
     //ConstructoreS
     public Actividad(LocalDate fechaPropuesta) {
+        this.fecha = fechaPropuesta;
     }
 
     public Actividad(int id_actividad, LocalDate fecha) {
